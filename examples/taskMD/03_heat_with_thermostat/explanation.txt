@@ -1,0 +1,7 @@
+new:
+MDthermostat           1
+
+the same temperature evolution as before but temperature control done by Nosé-Hoover thermostat instead of direct velocity scaling
+-> temperature varies a bit around the desired value but it is more like a real physical behaviour
+
+worked on 28.11.2016

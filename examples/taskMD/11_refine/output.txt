@@ -1,0 +1,154 @@
+
+  |-----------------------------------------------------|
+  |                                                     |
+  |  //////////   //////////   //////////   //////////  |
+  |  //           //      //   //               //      |
+  |  //           //      //   //               //      |
+  |  //           //      //   //////////       //      |
+  |  //           //////////           //       //      |
+  |  //           //      //           //       //      |
+  |  //           //      //           //       //      |
+  |  //////////   //      //   //////////       //      |
+  |                                                     |
+  |       conformational analysis and search tool       |
+  |                                                     |
+  |-----------------------------------------------------|
+
+
+-------------------------------------------------------
+Configuration ('CAST.txt')
+-------------------------------------------------------
+Reading structure(s) from 'tridecaalanin.arc' (type: TINKER) and parameters from 'oplsaa_mod.prm'.
+Energy calculations will be performed using 'OPLSAA'.
+The torsional rotation of a hydrogen atom will not be considered as main torsion.
+Cutoff radius of 12 Angstroms (switching to zero starting at 10 Angstroms) applied.
+Default (force field) interface choosen for energy calculations.
+Illegal Energy interface.
+Identified 38 main torsions.
+-------------------------------------------------
+Initialization
+-------------------------------------------------
+Loaded 1 structure. (133 atoms and 942.028 g/mol)
+-------------------------------------------------
+Initialization done after 0.0425666 s (42566603 ticks)
+-------------------------------------------------
+Task 'MD' (7) computation:
+-------------------------------------------------
+Molecular dynamics simulation, limited to 50000 steps (representing a time step of 0.001 ps each) started, simulating 50 picoseconds.
+Nose-Hoover thermostat is inactive.
+Degrees of freedom: 399
+Saving 1000 snapshots (1000 in config)
+500 of 50000 steps completed
+1000 of 50000 steps completed
+1500 of 50000 steps completed
+2000 of 50000 steps completed
+2500 of 50000 steps completed
+3000 of 50000 steps completed
+3500 of 50000 steps completed
+4000 of 50000 steps completed
+4500 of 50000 steps completed
+Refining structure/nonbondeds.
+5000 of 50000 steps completed
+5500 of 50000 steps completed
+6000 of 50000 steps completed
+6500 of 50000 steps completed
+7000 of 50000 steps completed
+7500 of 50000 steps completed
+8000 of 50000 steps completed
+8500 of 50000 steps completed
+9000 of 50000 steps completed
+9500 of 50000 steps completed
+Refining structure/nonbondeds.
+10000 of 50000 steps completed
+10500 of 50000 steps completed
+11000 of 50000 steps completed
+11500 of 50000 steps completed
+12000 of 50000 steps completed
+12500 of 50000 steps completed
+13000 of 50000 steps completed
+13500 of 50000 steps completed
+14000 of 50000 steps completed
+14500 of 50000 steps completed
+Refining structure/nonbondeds.
+15000 of 50000 steps completed
+15500 of 50000 steps completed
+16000 of 50000 steps completed
+16500 of 50000 steps completed
+17000 of 50000 steps completed
+17500 of 50000 steps completed
+18000 of 50000 steps completed
+18500 of 50000 steps completed
+19000 of 50000 steps completed
+19500 of 50000 steps completed
+Refining structure/nonbondeds.
+20000 of 50000 steps completed
+20500 of 50000 steps completed
+21000 of 50000 steps completed
+21500 of 50000 steps completed
+22000 of 50000 steps completed
+22500 of 50000 steps completed
+23000 of 50000 steps completed
+23500 of 50000 steps completed
+24000 of 50000 steps completed
+24500 of 50000 steps completed
+Refining structure/nonbondeds.
+25000 of 50000 steps completed
+25500 of 50000 steps completed
+26000 of 50000 steps completed
+26500 of 50000 steps completed
+27000 of 50000 steps completed
+27500 of 50000 steps completed
+28000 of 50000 steps completed
+28500 of 50000 steps completed
+29000 of 50000 steps completed
+29500 of 50000 steps completed
+Refining structure/nonbondeds.
+30000 of 50000 steps completed
+30500 of 50000 steps completed
+31000 of 50000 steps completed
+31500 of 50000 steps completed
+32000 of 50000 steps completed
+32500 of 50000 steps completed
+33000 of 50000 steps completed
+33500 of 50000 steps completed
+34000 of 50000 steps completed
+34500 of 50000 steps completed
+Refining structure/nonbondeds.
+35000 of 50000 steps completed
+35500 of 50000 steps completed
+36000 of 50000 steps completed
+36500 of 50000 steps completed
+37000 of 50000 steps completed
+37500 of 50000 steps completed
+38000 of 50000 steps completed
+38500 of 50000 steps completed
+39000 of 50000 steps completed
+39500 of 50000 steps completed
+Refining structure/nonbondeds.
+40000 of 50000 steps completed
+40500 of 50000 steps completed
+41000 of 50000 steps completed
+41500 of 50000 steps completed
+42000 of 50000 steps completed
+42500 of 50000 steps completed
+43000 of 50000 steps completed
+43500 of 50000 steps completed
+44000 of 50000 steps completed
+44500 of 50000 steps completed
+Refining structure/nonbondeds.
+45000 of 50000 steps completed
+45500 of 50000 steps completed
+46000 of 50000 steps completed
+46500 of 50000 steps completed
+47000 of 50000 steps completed
+47500 of 50000 steps completed
+48000 of 50000 steps completed
+48500 of 50000 steps completed
+49000 of 50000 steps completed
+49500 of 50000 steps completed
+Refining structure/nonbondeds.
+Average pressure: 0
+Velocity-Verlet integration took 35.8383 s (35838329821 ticks)
+
+Task MD took 35.9064 s (35906421774 ticks) to complete.
+Execution of CAST (3.2.0.2dev) ended after 35.949 s (35949024541 ticks)

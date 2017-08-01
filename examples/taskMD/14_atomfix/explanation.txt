@@ -1,0 +1,9 @@
+new:
+ATOMFIX                27
+
+atom 27 (atom number from tinkerfile) stays at the same place during the whole simulation
+(see atomfix_MD_SNAP.arc)
+
+more than one atom can be fixed if this option is applied multiple times
+
+worked on: 14.12.2016

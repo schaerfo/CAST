@@ -1,0 +1,10 @@
+new:
+MDsnap_buffer          100
+
+number of snapshots that are saved before they are written into file
+
+see: snap_buffer_MD_SNAP_break.arc
+consists of 199 snapshots (actually 200 because first snapshot is file before simulation starts)
+if simulation was broken at other points, number of snapshots would be 99, 199, 299,...
+
+worked: 29.11.2016

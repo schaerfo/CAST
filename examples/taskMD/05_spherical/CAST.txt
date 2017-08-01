@@ -1,0 +1,105 @@
+####################################
+#                                  #
+#                                  #
+#         CAST CONFIGFILE          #
+#                                  #
+#                                  #
+#################################### 
+
+# Verbosity 
+# Amount of output information from CAST [0-5] (do not use verbosity > 4 :-)
+
+verbosity              4
+
+
+####################################
+#                                  #
+#                                  #
+#        I/O: FILES & TYPES        #
+#                                  #
+#                                  #
+####################################
+
+# Input file name
+
+name                   argon_tinker.arc
+
+# Output file name
+
+outname                spherical
+
+# Input file type
+
+inputtype              TINKER
+
+
+
+#################################### 
+#                                  #
+#          PROGRAM TASK            #
+#                                  #
+####################################
+
+task                  MD
+
+
+####################################
+#                                  #
+#        ENERGY INTERFACES         #
+#                                  #
+####################################
+
+
+interface              OPLSAA
+
+
+# PARAMETER FILE FOR FF
+# paramfile            amber.prm, amoeba.prm, oplsaa.prm, charmm22.prm
+
+paramfile              oplsaa_mod.prm
+
+
+
+####################################
+#                                  #
+#          CUTOFF RADIUS           #
+#                                  #
+####################################
+
+cutoff                 12.0
+switchdist             10.0
+
+####################################
+#                                  #
+#            MD OPTIONS            #
+#                                  #
+####################################
+
+# Number of Steps
+
+MDsteps                50000
+ 
+# Integrator
+#
+# 0                    Velocity-Verlet
+# 1                    Beeman
+
+MDintegrator           0
+
+MDspherical            1   10.0  15.0   10.0 20.0   2.0 4.0       
+
+
+# Timestep in picoseconds
+
+MDtimestep             0.001
+
+# Activate Tracking (Log and Snapshots)
+
+MDtrack                1
+
+
+#
+#   Snapshots
+#
+
+MDsnap                 1000

@@ -1,0 +1,18 @@
+This is an example to show the reason for the use of a softcore potential. Here the free energy for a mutation in the protein ubiquitin is calculated and
+the softcore potential is switched off (FEPvshift = 0.0 and FEPcshift = 0.0).
+
+If you look at the file "alchemical.txt" you see that for the runs where lambda = 0 and dlamda = 0.1 the energies do fluctuate very strongly.
+The reason is that the conformation is found by simulating the molecule with lambda = 0 which means that the atoms that are appearing during the mutation
+are not taken into account. So there is nothing to prevent them from crashing with other atoms. However for the calculation of the free energies the 
+potential energy for the conformation with lamda = 0.1 where these atoms are (partly) present is also taken into account. Since the potential energy 
+function has a singularity at r=0 it gets very big if atoms are crashing and that's the reason for the big fluctuations that have a bad influence on the 
+calculation of the free energy.
+
+Another thing that might happen is the explosion of the molecule when the appearing atoms are finally switched on for the conformational search 
+(i.e. in the equilibration of the next step).
+
+To avoid these things it is recommended to use a softcore potential that has no singularity at r = 0 instead of the normal Lennard-Jones Potential.
+It is not so important to use a softcore potential for the electrostatic interactions because they are normally switched on later (by FEPeleccouple)
+when the van der Waals interactions already prevent the atoms from crashing.
+
+worked on: 01.03.2017

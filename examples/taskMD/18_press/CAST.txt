@@ -1,0 +1,131 @@
+####################################
+#                                  #
+#                                  #
+#         CAST CONFIGFILE          #
+#                                  #
+#                                  #
+#################################### 
+
+# Verbosity 
+# Amount of output information from CAST [0-5] (do not use verbosity > 4 :-)
+
+verbosity              3
+
+
+####################################
+#                                  #
+#                                  #
+#        I/O: FILES & TYPES        #
+#                                  #
+#                                  #
+####################################
+
+# Input file name
+
+name                   water.arc
+
+# Output file name
+
+outname                press
+
+# Input file type
+
+inputtype              TINKER
+
+
+
+#################################### 
+#                                  #
+#          PROGRAM TASK            #
+#                                  #
+####################################
+
+task                  MD
+
+
+####################################
+#                                  #
+#        ENERGY INTERFACES         #
+#                                  #
+####################################
+
+
+interface              OPLSAA
+
+
+# PARAMETER FILE FOR FF
+# paramfile            amber.prm, amoeba.prm, oplsaa.prm, charmm22.prm
+
+paramfile              oplsaa_mod2.prm
+
+
+
+####################################
+#                                  #
+#          CUTOFF RADIUS           #
+#                                  #
+####################################
+
+cutoff                 12.0
+switchdist             10.0
+
+
+####################################
+#                                  #
+#       Periodic Boundaries        #
+#                                  #
+####################################
+
+#Periodics            <Active 1(on)/0(off)> <box-x> <box-y> <box-z>
+Periodics              1 21.0 21.0 21.0
+
+# Print periodic boundary dummy atoms to output?
+#Periodicp            <Active 1(on)/0(off)> 
+
+Periodicp              1
+
+
+####################################
+#                                  #
+#            MD OPTIONS            #
+#                                  #
+####################################
+
+# Number of Steps
+
+MDsteps                1000
+ 
+# Integrator
+#
+# 0                    Velocity-Verlet
+# 1                    Beeman
+
+MDintegrator           0
+
+MDthermostat           1
+
+MDheat                 0  300
+
+# Timestep in picoseconds
+
+MDtimestep             0.001
+
+# Activate Tracking (Log and Snapshots)
+
+MDtrack                1
+
+#
+#   Snapshots
+#
+
+MDsnap                 1000
+
+# pressure input
+
+MDpress                1
+
+MDptarget              1.0
+
+MDpcompress            0.000046
+
+MDpdelay               2.0

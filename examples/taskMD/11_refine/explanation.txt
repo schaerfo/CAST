@@ -1,0 +1,14 @@
+new:
+MDrefine_offset        5000
+
+builds every 5000 steps new non-bonded matrix (see output.txt)
+
+As the atoms and bonds should stay the same during a MD simulation, 
+I guess it is only of use if there is a cutoff radius because the distances between atoms change during the simulation
+and so the pairs between which the non-bonded interaction is calculated might also change.
+
+worked on 28.11.2016
+
+
+NEW since 12.01.2017 !!!
+Always set this option to 0 because refinement only makes sense with the linked cell algorithm that is currently deactivated.

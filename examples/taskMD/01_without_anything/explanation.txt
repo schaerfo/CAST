@@ -1,0 +1,16 @@
+Inputfile needs:
+- general information (verbosity, name of structure file, type of structure file, energy interface, name of forcefield parameter file)
+- task: MD (molecular dynamics)
+- cutoff (maximum distance where non-bonding energy terms are calculated)
+- MD options:
+  * number of MD steps
+  * integrator (Velocity-Verlet of Beeman)
+  * timestep (time of one MD-step)
+  * track: activate tracking (should normally be switched on)
+  * MDsnap: number of snapshots (here: 50000)
+
+Output:
+- without_all_MD_TRACE.txt: table with timestep, temperature, pressure (not calculated), kinetic, potential, total energy and snapshot number
+- without_all_MD_SNP.txt: file with all structures that are snapshots, can be viewed in VMD
+
+worked on 28.11.2016

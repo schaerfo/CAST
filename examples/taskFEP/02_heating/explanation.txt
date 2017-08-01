@@ -1,0 +1,9 @@
+new: a temperature gradient is applied
+MDheat                 0   0.1
+MDheat                 500 300
+
+This is only relevant for the initialisation run. So during the first 500 steps the temperature is gradually raised from 0.1 to 300K.
+After that the temperature is kept constant at 300K for the rest of the FEP run (see fep_heating_MD_TRACE.txt)
+
+worked on 01.03.2017
+ 

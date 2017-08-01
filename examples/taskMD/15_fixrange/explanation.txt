@@ -1,0 +1,6 @@
+new:
+FIXrange               1 9
+
+has the same effect as ATOMFIX but for a range of atoms (here 1 to 9) instead of single atoms 
+
+worked on: 14.12.2016

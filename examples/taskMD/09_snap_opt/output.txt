@@ -1,0 +1,1745 @@
+
+  |-----------------------------------------------------|
+  |                                                     |
+  |  //////////   //////////   //////////   //////////  |
+  |  //           //      //   //               //      |
+  |  //           //      //   //               //      |
+  |  //           //      //   //////////       //      |
+  |  //           //////////           //       //      |
+  |  //           //      //           //       //      |
+  |  //           //      //           //       //      |
+  |  //////////   //      //   //////////       //      |
+  |                                                     |
+  |       conformational analysis and search tool       |
+  |                                                     |
+  |-----------------------------------------------------|
+
+
+-------------------------------------------------------
+Configuration ('CAST.txt')
+-------------------------------------------------------
+Reading structure(s) from 'tridecaalanin.arc' (type: TINKER) and parameters from 'oplsaa_mod.prm'.
+Energy calculations will be performed using 'OPLSAA'.
+The torsional rotation of a hydrogen atom will not be considered as main torsion.
+Cutoff radius of 12 Angstroms (switching to zero starting at 10 Angstroms) applied.
+Default (force field) interface choosen for energy calculations.
+Illegal Energy interface.
+Identified 38 main torsions.
+-------------------------------------------------
+Initialization
+-------------------------------------------------
+Loaded 1 structure. (133 atoms and 942.028 g/mol)
+-------------------------------------------------
+Initialization done after 0.0445833 s (44583321 ticks)
+-------------------------------------------------
+Task 'MD' (7) computation:
+-------------------------------------------------
+Molecular dynamics simulation, limited to 5000 steps (representing a time step of 0.001 ps each) started, simulating 5 picoseconds.
+Nose-Hoover thermostat is inactive.
+Degrees of freedom: 399
+Saving 10 snapshots (10 in config)
+100 of 5000 steps completed
+200 of 5000 steps completed
+300 of 5000 steps completed
+400 of 5000 steps completed
+500 of 5000 steps completed
+600 of 5000 steps completed
+700 of 5000 steps completed
+800 of 5000 steps completed
+900 of 5000 steps completed
+1000 of 5000 steps completed
+Optimization: Energy of step 0 is -418.521 integrity true
+Optimization: Energy of step 1 is -35.3898 integrity false
+Optimization: Energy of step 1 is -418.58 integrity true
+Optimization: Energy of step 2 is -418.677 integrity true
+Optimization: Energy of step 3 is -418.687 integrity true
+Optimization: Energy of step 4 is -418.696 integrity true
+Optimization: Energy of step 5 is -418.708 integrity true
+Optimization: Energy of step 6 is -418.726 integrity true
+Optimization: Energy of step 7 is -418.726 integrity true
+Optimization: Energy of step 7 is -418.737 integrity true
+Optimization: Energy of step 8 is -418.751 integrity true
+Optimization: Energy of step 9 is -418.767 integrity true
+Optimization: Energy of step 10 is -418.773 integrity true
+Optimization: Energy of step 11 is -418.78 integrity true
+Optimization: Energy of step 12 is -418.788 integrity true
+Optimization: Energy of step 13 is -418.789 integrity true
+Optimization: Energy of step 14 is -418.785 integrity true
+Optimization: Energy of step 14 is -418.792 integrity true
+Optimization: Energy of step 15 is -418.793 integrity true
+Optimization: Energy of step 16 is -418.786 integrity true
+Optimization: Energy of step 16 is -418.793 integrity true
+Optimization: Energy of step 17 is -418.793 integrity true
+Optimization: Energy of step 18 is -418.792 integrity true
+Optimization: Energy of step 18 is -418.796 integrity true
+Optimization: Energy of step 19 is -418.801 integrity true
+Optimization: Energy of step 20 is -418.8 integrity true
+Optimization: Energy of step 20 is -418.803 integrity true
+Optimization: Energy of step 21 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.802 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization: Energy of step 22 is -418.807 integrity true
+Optimization: Energy of step 22 is -418.808 integrity true
+Optimization done (status -97). Evaluations:21
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.94973499             15.49863625              0.00000000              0.00000000              1.56865146
+             27.84802844              5.19947358           -471.87203536              0.00000000                       -       -418.807510642738
+           SubSystem IA:       -466.672561782016
+Total energy: -418.807495117188
+
+Optimization: Energy of step 0 is -420.513183593750 integrity true
+Optimization: Energy of step 1 is 91.605155944824 integrity false
+Optimization: Energy of step 1 is -420.592559814453 integrity true
+Optimization: Energy of step 2 is -420.619720458984 integrity true
+Optimization: Energy of step 3 is -420.637023925781 integrity true
+Optimization: Energy of step 4 is -420.678649902344 integrity true
+Optimization: Energy of step 5 is -420.701599121094 integrity true
+Optimization: Energy of step 6 is -420.724182128906 integrity true
+Optimization: Energy of step 7 is -420.741546630859 integrity true
+Optimization: Energy of step 8 is -420.759857177734 integrity true
+Optimization: Energy of step 9 is -420.774749755859 integrity true
+Optimization: Energy of step 10 is -420.798217773438 integrity true
+Optimization: Energy of step 11 is -420.816436767578 integrity true
+Optimization: Energy of step 12 is -420.839996337891 integrity true
+Optimization: Energy of step 13 is -420.846954345703 integrity true
+Optimization: Energy of step 14 is -420.856231689453 integrity true
+Optimization: Energy of step 15 is -420.869812011719 integrity true
+Optimization: Energy of step 16 is -420.894775390625 integrity true
+Optimization: Energy of step 17 is -420.921936035156 integrity true
+Optimization: Energy of step 18 is -420.935821533203 integrity true
+Optimization: Energy of step 19 is -420.951568603516 integrity true
+Optimization: Energy of step 20 is -420.963012695313 integrity true
+Optimization: Energy of step 21 is -420.975219726563 integrity true
+Optimization: Energy of step 22 is -421.009979248047 integrity true
+Optimization: Energy of step 23 is -421.017150878906 integrity true
+Optimization: Energy of step 24 is -421.025451660156 integrity true
+Optimization: Energy of step 25 is -421.038726806641 integrity true
+Optimization: Energy of step 26 is -421.048736572266 integrity true
+Optimization: Energy of step 27 is -421.057128906250 integrity true
+Optimization: Energy of step 28 is -421.070556640625 integrity true
+Optimization: Energy of step 29 is -421.081573486328 integrity true
+Optimization: Energy of step 30 is -421.083984375000 integrity true
+Optimization: Energy of step 31 is -421.091583251953 integrity true
+Optimization: Energy of step 32 is -421.095733642578 integrity true
+Optimization: Energy of step 33 is -421.095397949219 integrity true
+Optimization: Energy of step 33 is -421.098663330078 integrity true
+Optimization: Energy of step 34 is -421.104034423828 integrity true
+Optimization: Energy of step 35 is -421.105346679688 integrity true
+Optimization: Energy of step 36 is -421.112457275391 integrity true
+Optimization: Energy of step 37 is -421.127899169922 integrity true
+Optimization: Energy of step 38 is -421.120727539063 integrity true
+Optimization: Energy of step 38 is -421.130554199219 integrity true
+Optimization: Energy of step 39 is -421.139923095703 integrity true
+Optimization: Energy of step 40 is -421.148895263672 integrity true
+Optimization: Energy of step 41 is -421.125274658203 integrity true
+Optimization: Energy of step 41 is -421.153991699219 integrity true
+Optimization: Energy of step 42 is -421.160095214844 integrity true
+Optimization: Energy of step 43 is -421.168365478516 integrity true
+Optimization: Energy of step 44 is -421.178039550781 integrity true
+Optimization: Energy of step 45 is -421.204681396484 integrity true
+Optimization: Energy of step 46 is -421.236389160156 integrity true
+Optimization: Energy of step 47 is -421.269622802734 integrity true
+Optimization: Energy of step 48 is -421.315948486328 integrity true
+Optimization: Energy of step 49 is -421.349578857422 integrity true
+Optimization: Energy of step 50 is -421.378509521484 integrity true
+Optimization: Energy of step 51 is -421.411315917969 integrity true
+Optimization: Energy of step 52 is -421.458984375000 integrity true
+Optimization: Energy of step 53 is -421.489349365234 integrity true
+Optimization: Energy of step 54 is -421.545959472656 integrity true
+Optimization: Energy of step 55 is -421.604858398438 integrity true
+Optimization: Energy of step 56 is -421.638153076172 integrity true
+Optimization: Energy of step 57 is -421.716430664063 integrity true
+Optimization: Energy of step 58 is -421.752349853516 integrity true
+Optimization: Energy of step 59 is -421.788299560547 integrity true
+Optimization: Energy of step 60 is -421.857025146484 integrity true
+Optimization: Energy of step 61 is -421.915222167969 integrity true
+Optimization: Energy of step 62 is -422.007080078125 integrity true
+Optimization: Energy of step 63 is -422.071289062500 integrity true
+Optimization: Energy of step 64 is -422.109130859375 integrity true
+Optimization: Energy of step 65 is -422.171661376953 integrity true
+Optimization: Energy of step 66 is -422.234741210938 integrity true
+Optimization: Energy of step 67 is -422.291931152344 integrity true
+Optimization: Energy of step 68 is -422.374145507813 integrity true
+Optimization: Energy of step 69 is -422.426055908203 integrity true
+Optimization: Energy of step 70 is -422.483276367188 integrity true
+Optimization: Energy of step 71 is -422.525634765625 integrity true
+Optimization: Energy of step 72 is -422.572448730469 integrity true
+Optimization: Energy of step 73 is -422.598144531250 integrity true
+Optimization: Energy of step 74 is -422.658416748047 integrity true
+Optimization: Energy of step 75 is -422.653839111328 integrity true
+Optimization: Energy of step 75 is -422.687927246094 integrity true
+Optimization: Energy of step 76 is -422.733612060547 integrity true
+Optimization: Energy of step 77 is -422.788513183594 integrity true
+Optimization: Energy of step 78 is -422.830841064453 integrity true
+Optimization: Energy of step 79 is -422.868377685547 integrity true
+Optimization: Energy of step 80 is -422.885070800781 integrity true
+Optimization: Energy of step 81 is -422.903533935547 integrity true
+Optimization: Energy of step 82 is -422.884429931641 integrity true
+Optimization: Energy of step 82 is -422.913452148438 integrity true
+Optimization: Energy of step 83 is -422.934143066406 integrity true
+Optimization: Energy of step 84 is -422.957000732422 integrity true
+Optimization: Energy of step 85 is -422.985046386719 integrity true
+Optimization: Energy of step 86 is -423.006500244141 integrity true
+Optimization: Energy of step 87 is -423.020111083984 integrity true
+Optimization: Energy of step 88 is -423.049896240234 integrity true
+Optimization: Energy of step 89 is -423.062316894531 integrity true
+Optimization: Energy of step 90 is -423.055145263672 integrity true
+Optimization: Energy of step 90 is -423.068145751953 integrity true
+Optimization: Energy of step 91 is -423.064514160156 integrity true
+Optimization: Energy of step 91 is -423.075500488281 integrity true
+Optimization: Energy of step 92 is -423.070129394531 integrity true
+Optimization: Energy of step 92 is -423.080566406250 integrity true
+Optimization: Energy of step 93 is -423.067138671875 integrity true
+Optimization: Energy of step 93 is -423.086517333984 integrity true
+Optimization: Energy of step 94 is -423.082153320313 integrity true
+Optimization: Energy of step 94 is -423.091857910156 integrity true
+Optimization: Energy of step 95 is -423.077880859375 integrity true
+Optimization: Energy of step 95 is -423.096771240234 integrity true
+Optimization: Energy of step 96 is -423.098999023438 integrity true
+Optimization: Energy of step 97 is -423.092620849609 integrity true
+Optimization: Energy of step 97 is -423.102569580078 integrity true
+Optimization: Energy of step 98 is -423.123748779297 integrity true
+Optimization: Energy of step 99 is -423.154602050781 integrity true
+Optimization: Energy of step 100 is -423.151428222656 integrity true
+Optimization: Energy of step 100 is -423.164978027344 integrity true
+Optimization: Energy of step 101 is -423.188110351563 integrity true
+Optimization: Energy of step 102 is -423.198181152344 integrity true
+Optimization: Energy of step 103 is -423.207702636719 integrity true
+Optimization: Energy of step 104 is -423.213134765625 integrity true
+Optimization: Energy of step 105 is -423.230895996094 integrity true
+Optimization: Energy of step 106 is -423.232055664063 integrity true
+Optimization: Energy of step 107 is -423.262359619141 integrity true
+Optimization: Energy of step 108 is -423.283172607422 integrity true
+Optimization: Energy of step 109 is -423.298370361328 integrity true
+Optimization: Energy of step 110 is -423.319091796875 integrity true
+Optimization: Energy of step 111 is -423.337799072266 integrity true
+Optimization: Energy of step 112 is -423.347259521484 integrity true
+Optimization: Energy of step 113 is -423.362182617188 integrity true
+Optimization: Energy of step 114 is -423.375823974609 integrity true
+Optimization: Energy of step 115 is -423.389801025391 integrity true
+Optimization: Energy of step 116 is -423.416931152344 integrity true
+Optimization: Energy of step 117 is -423.425720214844 integrity true
+Optimization: Energy of step 118 is -423.438232421875 integrity true
+Optimization: Energy of step 119 is -423.428924560547 integrity true
+Optimization: Energy of step 119 is -423.445159912109 integrity true
+Optimization: Energy of step 120 is -423.451782226563 integrity true
+Optimization: Energy of step 121 is -423.457794189453 integrity true
+Optimization: Energy of step 122 is -423.464813232422 integrity true
+Optimization: Energy of step 123 is -423.473419189453 integrity true
+Optimization: Energy of step 124 is -423.480773925781 integrity true
+Optimization: Energy of step 125 is -423.488372802734 integrity true
+Optimization: Energy of step 126 is -423.497253417969 integrity true
+Optimization: Energy of step 127 is -423.495178222656 integrity true
+Optimization: Energy of step 127 is -423.499176025391 integrity true
+Optimization: Energy of step 128 is -423.500976562500 integrity true
+Optimization: Energy of step 129 is -423.502471923828 integrity true
+Optimization: Energy of step 130 is -423.505706787109 integrity true
+Optimization: Energy of step 131 is -423.514129638672 integrity true
+Optimization: Energy of step 132 is -423.520782470703 integrity true
+Optimization: Energy of step 133 is -423.529083251953 integrity true
+Optimization: Energy of step 134 is -423.536651611328 integrity true
+Optimization: Energy of step 135 is -423.539825439453 integrity true
+Optimization: Energy of step 136 is -423.544189453125 integrity true
+Optimization: Energy of step 137 is -423.544555664063 integrity true
+Optimization: Energy of step 138 is -423.546905517578 integrity true
+Optimization: Energy of step 139 is -423.545379638672 integrity true
+Optimization: Energy of step 139 is -423.549835205078 integrity true
+Optimization: Energy of step 140 is -423.557800292969 integrity true
+Optimization: Energy of step 141 is -423.570526123047 integrity true
+Optimization: Energy of step 142 is -423.581604003906 integrity true
+Optimization: Energy of step 143 is -423.595825195313 integrity true
+Optimization: Energy of step 144 is -423.598693847656 integrity true
+Optimization: Energy of step 145 is -423.603302001953 integrity true
+Optimization: Energy of step 146 is -423.611206054688 integrity true
+Optimization: Energy of step 147 is -423.619750976563 integrity true
+Optimization: Energy of step 148 is -423.624328613281 integrity true
+Optimization: Energy of step 149 is -423.630554199219 integrity true
+Optimization: Energy of step 150 is -423.636596679688 integrity true
+Optimization: Energy of step 151 is -423.646148681641 integrity true
+Optimization: Energy of step 152 is -423.657409667969 integrity true
+Optimization: Energy of step 153 is -423.666503906250 integrity true
+Optimization: Energy of step 154 is -423.676879882813 integrity true
+Optimization: Energy of step 155 is -423.684478759766 integrity true
+Optimization: Energy of step 156 is -423.686767578125 integrity true
+Optimization: Energy of step 157 is -423.687347412109 integrity true
+Optimization: Energy of step 158 is -423.691040039063 integrity true
+Optimization: Energy of step 159 is -423.697753906250 integrity true
+Optimization: Energy of step 160 is -423.706085205078 integrity true
+Optimization: Energy of step 161 is -423.712646484375 integrity true
+Optimization: Energy of step 162 is -423.728668212891 integrity true
+Optimization: Energy of step 163 is -423.729339599609 integrity true
+Optimization: Energy of step 164 is -423.736389160156 integrity true
+Optimization: Energy of step 165 is -423.742675781250 integrity true
+Optimization: Energy of step 166 is -423.746887207031 integrity true
+Optimization: Energy of step 167 is -423.747741699219 integrity true
+Optimization: Energy of step 168 is -423.755584716797 integrity true
+Optimization: Energy of step 169 is -423.762786865234 integrity true
+Optimization: Energy of step 170 is -423.771270751953 integrity true
+Optimization: Energy of step 171 is -423.787322998047 integrity true
+Optimization: Energy of step 172 is -423.795898437500 integrity true
+Optimization: Energy of step 173 is -423.804809570313 integrity true
+Optimization: Energy of step 174 is -423.811706542969 integrity true
+Optimization: Energy of step 175 is -423.816955566406 integrity true
+Optimization: Energy of step 175 is -423.820617675781 integrity true
+Optimization: Energy of step 176 is -423.827117919922 integrity true
+Optimization: Energy of step 177 is -423.832550048828 integrity true
+Optimization: Energy of step 178 is -423.841308593750 integrity true
+Optimization: Energy of step 179 is -423.853332519531 integrity true
+Optimization: Energy of step 180 is -423.862915039063 integrity true
+Optimization: Energy of step 181 is -423.872589111328 integrity true
+Optimization: Energy of step 182 is -423.884948730469 integrity true
+Optimization: Energy of step 183 is -423.890869140625 integrity true
+Optimization: Energy of step 184 is -423.902221679688 integrity true
+Optimization: Energy of step 185 is -423.903717041016 integrity true
+Optimization: Energy of step 186 is -423.904357910156 integrity true
+Optimization: Energy of step 187 is -423.907806396484 integrity true
+Optimization: Energy of step 188 is -423.913818359375 integrity true
+Optimization: Energy of step 189 is -423.931060791016 integrity true
+Optimization: Energy of step 190 is -423.934997558594 integrity true
+Optimization: Energy of step 190 is -423.935852050781 integrity true
+Optimization: Energy of step 191 is -423.936889648438 integrity true
+Optimization: Energy of step 192 is -423.935058593750 integrity true
+Optimization: Energy of step 192 is -423.938171386719 integrity true
+Optimization: Energy of step 193 is -423.936889648438 integrity true
+Optimization: Energy of step 193 is -423.939514160156 integrity true
+Optimization: Energy of step 194 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.933471679688 integrity true
+Optimization: Energy of step 195 is -423.939453125000 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization: Energy of step 195 is -423.939697265625 integrity true
+Optimization: Energy of step 195 is -423.939727783203 integrity true
+Optimization done (status -97). Evaluations:194
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.53661224             14.96021640              0.00000000              0.00000000              1.68555901
+             26.41085801              3.52036018           -473.05331844              0.00000000                       -       -423.939712600830
+           SubSystem IA:       -469.532958263389
+Total energy: -423.939727783203
+
+1100 of 5000 steps completed
+1200 of 5000 steps completed
+1300 of 5000 steps completed
+1400 of 5000 steps completed
+1500 of 5000 steps completed
+1600 of 5000 steps completed
+1700 of 5000 steps completed
+1800 of 5000 steps completed
+1900 of 5000 steps completed
+2000 of 5000 steps completed
+Optimization: Energy of step 0 is -420.826721191406 integrity true
+Optimization: Energy of step 1 is 14.828110694885 integrity true
+Optimization: Energy of step 1 is -420.903625488281 integrity true
+Optimization: Energy of step 2 is -420.923919677734 integrity true
+Optimization: Energy of step 3 is -420.942779541016 integrity true
+Optimization: Energy of step 4 is -420.977966308594 integrity true
+Optimization: Energy of step 5 is -421.007385253906 integrity true
+Optimization: Energy of step 6 is -421.070587158203 integrity true
+Optimization: Energy of step 7 is -421.018157958984 integrity true
+Optimization: Energy of step 7 is -421.109405517578 integrity true
+Optimization: Energy of step 8 is -421.171783447266 integrity true
+Optimization: Energy of step 9 is -421.221710205078 integrity true
+Optimization: Energy of step 10 is -421.281982421875 integrity true
+Optimization: Energy of step 11 is -421.357574462891 integrity true
+Optimization: Energy of step 12 is -421.424194335938 integrity true
+Optimization: Energy of step 13 is -421.493652343750 integrity true
+Optimization: Energy of step 14 is -421.526977539063 integrity true
+Optimization: Energy of step 15 is -421.597747802734 integrity true
+Optimization: Energy of step 16 is -421.655487060547 integrity true
+Optimization: Energy of step 17 is -421.707275390625 integrity true
+Optimization: Energy of step 18 is -421.780883789063 integrity true
+Optimization: Energy of step 19 is -421.818420410156 integrity true
+Optimization: Energy of step 20 is -421.894439697266 integrity true
+Optimization: Energy of step 21 is -421.875396728516 integrity true
+Optimization: Energy of step 21 is -421.921508789063 integrity true
+Optimization: Energy of step 22 is -421.956909179688 integrity true
+Optimization: Energy of step 23 is -422.020660400391 integrity true
+Optimization: Energy of step 24 is -422.029083251953 integrity true
+Optimization: Energy of step 25 is -422.097412109375 integrity true
+Optimization: Energy of step 26 is -422.131561279297 integrity true
+Optimization: Energy of step 27 is -422.181854248047 integrity true
+Optimization: Energy of step 28 is -422.234680175781 integrity true
+Optimization: Energy of step 29 is -422.293243408203 integrity true
+Optimization: Energy of step 30 is -422.315155029297 integrity true
+Optimization: Energy of step 31 is -422.345123291016 integrity true
+Optimization: Energy of step 32 is -422.378601074219 integrity true
+Optimization: Energy of step 33 is -422.423492431641 integrity true
+Optimization: Energy of step 34 is -422.466613769531 integrity true
+Optimization: Energy of step 35 is -422.512878417969 integrity true
+Optimization: Energy of step 36 is -422.544372558594 integrity true
+Optimization: Energy of step 37 is -422.595642089844 integrity true
+Optimization: Energy of step 38 is -422.638000488281 integrity true
+Optimization: Energy of step 39 is -422.675964355469 integrity true
+Optimization: Energy of step 40 is -422.701934814453 integrity true
+Optimization: Energy of step 41 is -422.728027343750 integrity true
+Optimization: Energy of step 42 is -422.760070800781 integrity true
+Optimization: Energy of step 43 is -422.778015136719 integrity true
+Optimization: Energy of step 44 is -422.797637939453 integrity true
+Optimization: Energy of step 45 is -422.816375732422 integrity true
+Optimization: Energy of step 46 is -422.837005615234 integrity true
+Optimization: Energy of step 47 is -422.863677978516 integrity true
+Optimization: Energy of step 48 is -422.875701904297 integrity true
+Optimization: Energy of step 49 is -422.901397705078 integrity true
+Optimization: Energy of step 50 is -422.908050537109 integrity true
+Optimization: Energy of step 51 is -422.931915283203 integrity true
+Optimization: Energy of step 52 is -422.941070556641 integrity true
+Optimization: Energy of step 53 is -422.952148437500 integrity true
+Optimization: Energy of step 54 is -422.973205566406 integrity true
+Optimization: Energy of step 55 is -422.993988037109 integrity true
+Optimization: Energy of step 55 is -422.998748779297 integrity true
+Optimization: Energy of step 56 is -423.021057128906 integrity true
+Optimization: Energy of step 57 is -423.039520263672 integrity true
+Optimization: Energy of step 58 is -423.080902099609 integrity true
+Optimization: Energy of step 59 is -423.107360839844 integrity true
+Optimization: Energy of step 60 is -423.125946044922 integrity true
+Optimization: Energy of step 61 is -423.141723632813 integrity true
+Optimization: Energy of step 62 is -423.160614013672 integrity true
+Optimization: Energy of step 63 is -423.204132080078 integrity true
+Optimization: Energy of step 64 is -423.264221191406 integrity true
+Optimization: Energy of step 65 is -423.289886474609 integrity true
+Optimization: Energy of step 66 is -423.325927734375 integrity true
+Optimization: Energy of step 67 is -423.353881835938 integrity true
+Optimization: Energy of step 68 is -423.411254882813 integrity true
+Optimization: Energy of step 69 is -423.462768554688 integrity true
+Optimization: Energy of step 70 is -423.497894287109 integrity true
+Optimization: Energy of step 71 is -423.520721435547 integrity true
+Optimization: Energy of step 72 is -423.537963867188 integrity true
+Optimization: Energy of step 73 is -423.567932128906 integrity true
+Optimization: Energy of step 74 is -423.591918945313 integrity true
+Optimization: Energy of step 75 is -423.612609863281 integrity true
+Optimization: Energy of step 76 is -423.614562988281 integrity true
+Optimization: Energy of step 77 is -423.622711181641 integrity true
+Optimization: Energy of step 78 is -423.626617431641 integrity true
+Optimization: Energy of step 79 is -423.632141113281 integrity true
+Optimization: Energy of step 80 is -423.648803710938 integrity true
+Optimization: Energy of step 81 is -423.661376953125 integrity true
+Optimization: Energy of step 82 is -423.677429199219 integrity true
+Optimization: Energy of step 83 is -423.689544677734 integrity true
+Optimization: Energy of step 84 is -423.704406738281 integrity true
+Optimization: Energy of step 85 is -423.717285156250 integrity true
+Optimization: Energy of step 86 is -423.736267089844 integrity true
+Optimization: Energy of step 87 is -423.748138427734 integrity true
+Optimization: Energy of step 88 is -423.778747558594 integrity true
+Optimization: Energy of step 89 is -423.792480468750 integrity true
+Optimization: Energy of step 90 is -423.806365966797 integrity true
+Optimization: Energy of step 91 is -423.832000732422 integrity true
+Optimization: Energy of step 92 is -423.840484619141 integrity true
+Optimization: Energy of step 93 is -423.853607177734 integrity true
+Optimization: Energy of step 94 is -423.857727050781 integrity true
+Optimization: Energy of step 95 is -423.861206054688 integrity true
+Optimization: Energy of step 96 is -423.870544433594 integrity true
+Optimization: Energy of step 97 is -423.878662109375 integrity true
+Optimization: Energy of step 98 is -423.895965576172 integrity true
+Optimization: Energy of step 99 is -423.901763916016 integrity true
+Optimization: Energy of step 100 is -423.907775878906 integrity true
+Optimization: Energy of step 101 is -423.915740966797 integrity true
+Optimization: Energy of step 102 is -423.914367675781 integrity true
+Optimization: Energy of step 102 is -423.919311523438 integrity true
+Optimization: Energy of step 103 is -423.924255371094 integrity true
+Optimization: Energy of step 104 is -423.927703857422 integrity true
+Optimization: Energy of step 105 is -423.928741455078 integrity true
+Optimization: Energy of step 106 is -423.939270019531 integrity true
+Optimization: Energy of step 107 is -423.945190429688 integrity true
+Optimization: Energy of step 108 is -423.955230712891 integrity true
+Optimization: Energy of step 109 is -423.964569091797 integrity true
+Optimization: Energy of step 110 is -423.980560302734 integrity true
+Optimization: Energy of step 111 is -423.987976074219 integrity true
+Optimization: Energy of step 112 is -423.994995117188 integrity true
+Optimization: Energy of step 113 is -424.008636474609 integrity true
+Optimization: Energy of step 114 is -424.023406982422 integrity true
+Optimization: Energy of step 115 is -424.032104492188 integrity true
+Optimization: Energy of step 116 is -424.041992187500 integrity true
+Optimization: Energy of step 117 is -424.054077148438 integrity true
+Optimization: Energy of step 118 is -424.061492919922 integrity true
+Optimization: Energy of step 119 is -424.070129394531 integrity true
+Optimization: Energy of step 120 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.079498291016 integrity true
+Optimization: Energy of step 121 is -424.080200195313 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080230712891 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080230712891 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080230712891 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080230712891 integrity true
+Optimization: Energy of step 121 is -424.080230712891 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization: Energy of step 121 is -424.080261230469 integrity true
+Optimization done (status -97). Evaluations:120
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.44578359             13.88268148              0.00000000              0.00000000              1.54431296
+             25.94368713              3.93640939           -471.83312086              0.00000000                       -       -424.080246311759
+           SubSystem IA:       -467.896711472282
+Total energy: -424.080261230469
+
+Optimization: Energy of step 0 is -420.513397216797 integrity true
+Optimization: Energy of step 1 is 55.989887237549 integrity false
+Optimization: Energy of step 1 is -420.594512939453 integrity true
+Optimization: Energy of step 2 is -420.632324218750 integrity true
+Optimization: Energy of step 3 is -420.652465820313 integrity true
+Optimization: Energy of step 4 is -420.727081298828 integrity true
+Optimization: Energy of step 5 is -420.766418457031 integrity true
+Optimization: Energy of step 6 is -420.825103759766 integrity true
+Optimization: Energy of step 7 is -420.899475097656 integrity true
+Optimization: Energy of step 8 is -420.951202392578 integrity true
+Optimization: Energy of step 9 is -421.000030517578 integrity true
+Optimization: Energy of step 10 is -421.078674316406 integrity true
+Optimization: Energy of step 11 is -421.151245117188 integrity true
+Optimization: Energy of step 12 is -421.249114990234 integrity true
+Optimization: Energy of step 13 is -421.380310058594 integrity true
+Optimization: Energy of step 14 is -421.447662353516 integrity true
+Optimization: Energy of step 15 is -421.539184570313 integrity true
+Optimization: Energy of step 16 is -421.603637695313 integrity true
+Optimization: Energy of step 17 is -421.684844970703 integrity true
+Optimization: Energy of step 18 is -421.762817382813 integrity true
+Optimization: Energy of step 19 is -421.811462402344 integrity true
+Optimization: Energy of step 20 is -421.842163085938 integrity true
+Optimization: Energy of step 21 is -421.887451171875 integrity true
+Optimization: Energy of step 22 is -421.927124023438 integrity true
+Optimization: Energy of step 23 is -421.994750976563 integrity true
+Optimization: Energy of step 24 is -422.063323974609 integrity true
+Optimization: Energy of step 25 is -422.097930908203 integrity true
+Optimization: Energy of step 26 is -422.156646728516 integrity true
+Optimization: Energy of step 27 is -422.187011718750 integrity true
+Optimization: Energy of step 28 is -422.227111816406 integrity true
+Optimization: Energy of step 29 is -422.268493652344 integrity true
+Optimization: Energy of step 30 is -422.292510986328 integrity true
+Optimization: Energy of step 31 is -422.314941406250 integrity true
+Optimization: Energy of step 32 is -422.368835449219 integrity true
+Optimization: Energy of step 33 is -422.391082763672 integrity true
+Optimization: Energy of step 34 is -422.414764404297 integrity true
+Optimization: Energy of step 35 is -422.417633056641 integrity true
+Optimization: Energy of step 35 is -422.434173583984 integrity true
+Optimization: Energy of step 36 is -422.448486328125 integrity true
+Optimization: Energy of step 37 is -422.464691162109 integrity true
+Optimization: Energy of step 38 is -422.463989257813 integrity true
+Optimization: Energy of step 38 is -422.471435546875 integrity true
+Optimization: Energy of step 39 is -422.477020263672 integrity true
+Optimization: Energy of step 40 is -422.486938476563 integrity true
+Optimization: Energy of step 41 is -422.428436279297 integrity true
+Optimization: Energy of step 41 is -422.489562988281 integrity true
+Optimization: Energy of step 42 is -422.492309570313 integrity true
+Optimization: Energy of step 43 is -422.495483398438 integrity true
+Optimization: Energy of step 44 is -422.485900878906 integrity true
+Optimization: Energy of step 44 is -422.500640869141 integrity true
+Optimization: Energy of step 45 is -422.508789062500 integrity true
+Optimization: Energy of step 46 is -422.483520507813 integrity true
+Optimization: Energy of step 46 is -422.510101318359 integrity true
+Optimization: Energy of step 47 is -422.521087646484 integrity true
+Optimization: Energy of step 48 is -422.534820556641 integrity true
+Optimization: Energy of step 49 is -422.548309326172 integrity true
+Optimization: Energy of step 50 is -422.567687988281 integrity true
+Optimization: Energy of step 51 is -422.592346191406 integrity true
+Optimization: Energy of step 52 is -422.614868164063 integrity true
+Optimization: Energy of step 53 is -422.627807617188 integrity true
+Optimization: Energy of step 54 is -422.642791748047 integrity true
+Optimization: Energy of step 55 is -422.647338867188 integrity true
+Optimization: Energy of step 56 is -422.665527343750 integrity true
+Optimization: Energy of step 57 is -422.690612792969 integrity true
+Optimization: Energy of step 58 is -422.711059570313 integrity true
+Optimization: Energy of step 59 is -422.725311279297 integrity true
+Optimization: Energy of step 60 is -422.739288330078 integrity true
+Optimization: Energy of step 61 is -422.755462646484 integrity true
+Optimization: Energy of step 62 is -422.772338867188 integrity true
+Optimization: Energy of step 63 is -422.789794921875 integrity true
+Optimization: Energy of step 64 is -422.800781250000 integrity true
+Optimization: Energy of step 65 is -422.815368652344 integrity true
+Optimization: Energy of step 66 is -422.835998535156 integrity true
+Optimization: Energy of step 67 is -422.865661621094 integrity true
+Optimization: Energy of step 68 is -422.883880615234 integrity true
+Optimization: Energy of step 69 is -422.892974853516 integrity true
+Optimization: Energy of step 70 is -422.907440185547 integrity true
+Optimization: Energy of step 71 is -422.898986816406 integrity true
+Optimization: Energy of step 71 is -422.912750244141 integrity true
+Optimization: Energy of step 72 is -422.928283691406 integrity true
+Optimization: Energy of step 73 is -422.941528320313 integrity true
+Optimization: Energy of step 74 is -422.953338623047 integrity true
+Optimization: Energy of step 75 is -422.964904785156 integrity true
+Optimization: Energy of step 76 is -422.967620849609 integrity true
+Optimization: Energy of step 77 is -422.972045898438 integrity true
+Optimization: Energy of step 78 is -422.947174072266 integrity true
+Optimization: Energy of step 78 is -422.972412109375 integrity true
+Optimization: Energy of step 79 is -422.973907470703 integrity true
+Optimization: Energy of step 80 is -422.973388671875 integrity true
+Optimization: Energy of step 80 is -422.975128173828 integrity true
+Optimization: Energy of step 81 is -422.970764160156 integrity true
+Optimization: Energy of step 81 is -422.978393554688 integrity true
+Optimization: Energy of step 82 is -422.972534179688 integrity true
+Optimization: Energy of step 82 is -422.979675292969 integrity true
+Optimization: Energy of step 83 is -422.966644287109 integrity true
+Optimization: Energy of step 83 is -422.980407714844 integrity true
+Optimization: Energy of step 84 is -422.972717285156 integrity true
+Optimization: Energy of step 84 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.968811035156 integrity true
+Optimization: Energy of step 85 is -422.980895996094 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981262207031 integrity true
+Optimization: Energy of step 85 is -422.981292724609 integrity true
+Optimization done (status -97). Evaluations:84
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.51756075             12.97053770              0.00000000              0.00000000              1.88089484
+             26.54646177              4.34954137           -471.24627402              0.00000000                       -       -422.981277592815
+           SubSystem IA:       -466.896732648411
+Total energy: -422.981292724609
+
+2100 of 5000 steps completed
+2200 of 5000 steps completed
+2300 of 5000 steps completed
+2400 of 5000 steps completed
+2500 of 5000 steps completed
+2600 of 5000 steps completed
+2700 of 5000 steps completed
+2800 of 5000 steps completed
+2900 of 5000 steps completed
+3000 of 5000 steps completed
+Optimization: Energy of step 0 is -419.463989257813 integrity true
+Optimization: Energy of step 1 is 23.328521728516 integrity false
+Optimization: Energy of step 1 is -419.595733642578 integrity true
+Optimization: Energy of step 2 is -419.652313232422 integrity true
+Optimization: Energy of step 3 is -419.686798095703 integrity true
+Optimization: Energy of step 4 is -419.838256835938 integrity true
+Optimization: Energy of step 5 is -419.940032958984 integrity true
+Optimization: Energy of step 6 is -420.027038574219 integrity true
+Optimization: Energy of step 7 is -420.080413818359 integrity true
+Optimization: Energy of step 8 is -420.175750732422 integrity true
+Optimization: Energy of step 9 is -420.264343261719 integrity true
+Optimization: Energy of step 10 is -420.378051757813 integrity true
+Optimization: Energy of step 11 is -420.561676025391 integrity true
+Optimization: Energy of step 12 is -420.643096923828 integrity true
+Optimization: Energy of step 13 is -420.674194335938 integrity true
+Optimization: Energy of step 14 is -420.716247558594 integrity true
+Optimization: Energy of step 15 is -420.793273925781 integrity true
+Optimization: Energy of step 16 is -420.884857177734 integrity true
+Optimization: Energy of step 17 is -420.802124023438 integrity true
+Optimization: Energy of step 17 is -420.944183349609 integrity true
+Optimization: Energy of step 18 is -421.024505615234 integrity true
+Optimization: Energy of step 19 is -421.055938720703 integrity true
+Optimization: Energy of step 20 is -421.096496582031 integrity true
+Optimization: Energy of step 21 is -421.158477783203 integrity true
+Optimization: Energy of step 22 is -421.224914550781 integrity true
+Optimization: Energy of step 23 is -421.254516601563 integrity true
+Optimization: Energy of step 24 is -421.290527343750 integrity true
+Optimization: Energy of step 25 is -421.319763183594 integrity true
+Optimization: Energy of step 26 is -421.347442626953 integrity true
+Optimization: Energy of step 27 is -421.395935058594 integrity true
+Optimization: Energy of step 28 is -421.423461914063 integrity true
+Optimization: Energy of step 29 is -421.451232910156 integrity true
+Optimization: Energy of step 30 is -421.510772705078 integrity true
+Optimization: Energy of step 31 is -421.520111083984 integrity true
+Optimization: Energy of step 32 is -421.534545898438 integrity true
+Optimization: Energy of step 33 is -421.556060791016 integrity true
+Optimization: Energy of step 34 is -421.565856933594 integrity true
+Optimization: Energy of step 35 is -421.580963134766 integrity true
+Optimization: Energy of step 36 is -421.603088378906 integrity true
+Optimization: Energy of step 37 is -421.628417968750 integrity true
+Optimization: Energy of step 38 is -421.655853271484 integrity true
+Optimization: Energy of step 39 is -421.674468994141 integrity true
+Optimization: Energy of step 40 is -421.686828613281 integrity true
+Optimization: Energy of step 41 is -421.697387695313 integrity true
+Optimization: Energy of step 42 is -421.702545166016 integrity true
+Optimization: Energy of step 43 is -421.715637207031 integrity true
+Optimization: Energy of step 44 is -421.735412597656 integrity true
+Optimization: Energy of step 45 is -421.741485595703 integrity true
+Optimization: Energy of step 46 is -421.756042480469 integrity true
+Optimization: Energy of step 47 is -421.768920898438 integrity true
+Optimization: Energy of step 48 is -421.778900146484 integrity true
+Optimization: Energy of step 49 is -421.805603027344 integrity true
+Optimization: Energy of step 50 is -421.815277099609 integrity true
+Optimization: Energy of step 51 is -421.843292236328 integrity true
+Optimization: Energy of step 52 is -421.850372314453 integrity true
+Optimization: Energy of step 53 is -421.864501953125 integrity true
+Optimization: Energy of step 54 is -421.872772216797 integrity true
+Optimization: Energy of step 55 is -421.892730712891 integrity true
+Optimization: Energy of step 56 is -421.904205322266 integrity true
+Optimization: Energy of step 57 is -421.919464111328 integrity true
+Optimization: Energy of step 58 is -421.937805175781 integrity true
+Optimization: Energy of step 59 is -421.950012207031 integrity true
+Optimization: Energy of step 60 is -421.959808349609 integrity true
+Optimization: Energy of step 61 is -421.972595214844 integrity true
+Optimization: Energy of step 62 is -421.991851806641 integrity true
+Optimization: Energy of step 63 is -421.999206542969 integrity true
+Optimization: Energy of step 64 is -422.009765625000 integrity true
+Optimization: Energy of step 65 is -422.016723632813 integrity true
+Optimization: Energy of step 66 is -422.029602050781 integrity true
+Optimization: Energy of step 67 is -422.053710937500 integrity true
+Optimization: Energy of step 68 is -422.073669433594 integrity true
+Optimization: Energy of step 69 is -422.085662841797 integrity true
+Optimization: Energy of step 70 is -422.102752685547 integrity true
+Optimization: Energy of step 71 is -422.122253417969 integrity true
+Optimization: Energy of step 72 is -422.141082763672 integrity true
+Optimization: Energy of step 73 is -422.151947021484 integrity true
+Optimization: Energy of step 74 is -422.169616699219 integrity true
+Optimization: Energy of step 75 is -422.185852050781 integrity true
+Optimization: Energy of step 76 is -422.204681396484 integrity true
+Optimization: Energy of step 77 is -422.229614257813 integrity true
+Optimization: Energy of step 78 is -422.245910644531 integrity true
+Optimization: Energy of step 79 is -422.256866455078 integrity true
+Optimization: Energy of step 80 is -422.277343750000 integrity true
+Optimization: Energy of step 81 is -422.290740966797 integrity true
+Optimization: Energy of step 82 is -422.313110351563 integrity true
+Optimization: Energy of step 83 is -422.332580566406 integrity true
+Optimization: Energy of step 84 is -422.335113525391 integrity true
+Optimization: Energy of step 85 is -422.342132568359 integrity true
+Optimization: Energy of step 86 is -422.353118896484 integrity true
+Optimization: Energy of step 87 is -422.362731933594 integrity true
+Optimization: Energy of step 88 is -422.382720947266 integrity true
+Optimization: Energy of step 89 is -422.393005371094 integrity true
+Optimization: Energy of step 90 is -422.406890869141 integrity true
+Optimization: Energy of step 91 is -422.423797607422 integrity true
+Optimization: Energy of step 92 is -422.435394287109 integrity true
+Optimization: Energy of step 92 is -422.438385009766 integrity true
+Optimization: Energy of step 93 is -422.450592041016 integrity true
+Optimization: Energy of step 94 is -422.460418701172 integrity true
+Optimization: Energy of step 95 is -422.468444824219 integrity true
+Optimization: Energy of step 96 is -422.476196289063 integrity true
+Optimization: Energy of step 97 is -422.482086181641 integrity true
+Optimization: Energy of step 98 is -422.489410400391 integrity true
+Optimization: Energy of step 99 is -422.496643066406 integrity true
+Optimization: Energy of step 100 is -422.503295898438 integrity true
+Optimization: Energy of step 101 is -422.514648437500 integrity true
+Optimization: Energy of step 102 is -422.515930175781 integrity true
+Optimization: Energy of step 103 is -422.520294189453 integrity true
+Optimization: Energy of step 104 is -422.527343750000 integrity true
+Optimization: Energy of step 105 is -422.534790039063 integrity true
+Optimization: Energy of step 106 is -422.548278808594 integrity true
+Optimization: Energy of step 107 is -422.557922363281 integrity true
+Optimization: Energy of step 108 is -422.568756103516 integrity true
+Optimization: Energy of step 109 is -422.575469970703 integrity true
+Optimization: Energy of step 110 is -422.583007812500 integrity true
+Optimization: Energy of step 111 is -422.586669921875 integrity true
+Optimization: Energy of step 112 is -422.591735839844 integrity true
+Optimization: Energy of step 113 is -422.596679687500 integrity true
+Optimization: Energy of step 114 is -422.602874755859 integrity true
+Optimization: Energy of step 115 is -422.618011474609 integrity true
+Optimization: Energy of step 116 is -422.626129150391 integrity true
+Optimization: Energy of step 117 is -422.630584716797 integrity true
+Optimization: Energy of step 118 is -422.636962890625 integrity true
+Optimization: Energy of step 119 is -422.642272949219 integrity true
+Optimization: Energy of step 120 is -422.648742675781 integrity true
+Optimization: Energy of step 121 is -422.652862548828 integrity true
+Optimization: Energy of step 122 is -422.657165527344 integrity true
+Optimization: Energy of step 123 is -422.658569335938 integrity true
+Optimization: Energy of step 124 is -422.662322998047 integrity true
+Optimization: Energy of step 125 is -422.666778564453 integrity true
+Optimization: Energy of step 126 is -422.668365478516 integrity true
+Optimization: Energy of step 127 is -422.671752929688 integrity true
+Optimization: Energy of step 128 is -422.672058105469 integrity true
+Optimization: Energy of step 129 is -422.673217773438 integrity true
+Optimization: Energy of step 130 is -422.672546386719 integrity true
+Optimization: Energy of step 130 is -422.673522949219 integrity true
+Optimization: Energy of step 131 is -422.676635742188 integrity true
+Optimization: Energy of step 132 is -422.680877685547 integrity true
+Optimization: Energy of step 133 is -422.688110351563 integrity true
+Optimization: Energy of step 134 is -422.693054199219 integrity true
+Optimization: Energy of step 135 is -422.699737548828 integrity true
+Optimization: Energy of step 136 is -422.704803466797 integrity true
+Optimization: Energy of step 137 is -422.708557128906 integrity true
+Optimization: Energy of step 138 is -422.714874267578 integrity true
+Optimization: Energy of step 139 is -422.715454101563 integrity true
+Optimization: Energy of step 139 is -422.717895507813 integrity true
+Optimization: Energy of step 140 is -422.722320556641 integrity true
+Optimization: Energy of step 141 is -422.727630615234 integrity true
+Optimization: Energy of step 142 is -422.732421875000 integrity true
+Optimization: Energy of step 143 is -422.738342285156 integrity true
+Optimization: Energy of step 144 is -422.740966796875 integrity true
+Optimization: Energy of step 145 is -422.748229980469 integrity true
+Optimization: Energy of step 146 is -422.747955322266 integrity true
+Optimization: Energy of step 146 is -422.748535156250 integrity true
+Optimization: Energy of step 147 is -422.749786376953 integrity true
+Optimization: Energy of step 148 is -422.750091552734 integrity true
+Optimization: Energy of step 149 is -422.753417968750 integrity true
+Optimization: Energy of step 150 is -422.754943847656 integrity true
+Optimization: Energy of step 151 is -422.756286621094 integrity true
+Optimization: Energy of step 152 is -422.758056640625 integrity true
+Optimization: Energy of step 153 is -422.758422851563 integrity true
+Optimization: Energy of step 154 is -422.759002685547 integrity true
+Optimization: Energy of step 155 is -422.759765625000 integrity true
+Optimization: Energy of step 156 is -422.758819580078 integrity true
+Optimization: Energy of step 156 is -422.759979248047 integrity true
+Optimization: Energy of step 157 is -422.759979248047 integrity true
+Optimization: Energy of step 158 is -422.758026123047 integrity true
+Optimization: Energy of step 158 is -422.760131835938 integrity true
+Optimization: Energy of step 159 is -422.760986328125 integrity true
+Optimization: Energy of step 160 is -422.762329101563 integrity true
+Optimization: Energy of step 161 is -422.759979248047 integrity true
+Optimization: Energy of step 161 is -422.762481689453 integrity true
+Optimization: Energy of step 162 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.759735107422 integrity true
+Optimization: Energy of step 163 is -422.762451171875 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization: Energy of step 163 is -422.762603759766 integrity true
+Optimization: Energy of step 163 is -422.762634277344 integrity true
+Optimization done (status -97). Evaluations:162
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.60052060             13.26199936              0.00000000              0.00000000              1.85871774
+             26.88043719              4.46833700           -471.83263141              0.00000000                       -       -422.762619517359
+           SubSystem IA:       -467.364294406827
+Total energy: -422.762634277344
+
+Optimization: Energy of step 0 is -420.934234619141 integrity true
+Optimization: Energy of step 1 is 40.797660827637 integrity false
+Optimization: Energy of step 1 is -421.062835693359 integrity true
+Optimization: Energy of step 2 is -421.089965820313 integrity true
+Optimization: Energy of step 3 is -421.115142822266 integrity true
+Optimization: Energy of step 4 is -421.203613281250 integrity true
+Optimization: Energy of step 5 is -421.241912841797 integrity true
+Optimization: Energy of step 6 is -421.271453857422 integrity true
+Optimization: Energy of step 7 is -421.296447753906 integrity true
+Optimization: Energy of step 8 is -421.315643310547 integrity true
+Optimization: Energy of step 9 is -421.346130371094 integrity true
+Optimization: Energy of step 10 is -421.338073730469 integrity true
+Optimization: Energy of step 10 is -421.369506835938 integrity true
+Optimization: Energy of step 11 is -421.425598144531 integrity true
+Optimization: Energy of step 12 is -421.413055419922 integrity true
+Optimization: Energy of step 12 is -421.444183349609 integrity true
+Optimization: Energy of step 13 is -421.498413085938 integrity true
+Optimization: Energy of step 14 is -421.546508789063 integrity true
+Optimization: Energy of step 15 is -421.611816406250 integrity true
+Optimization: Energy of step 16 is -421.646148681641 integrity true
+Optimization: Energy of step 17 is -421.686431884766 integrity true
+Optimization: Energy of step 18 is -421.706512451172 integrity true
+Optimization: Energy of step 19 is -421.749908447266 integrity true
+Optimization: Energy of step 20 is -421.776824951172 integrity true
+Optimization: Energy of step 21 is -421.798309326172 integrity true
+Optimization: Energy of step 22 is -421.782196044922 integrity true
+Optimization: Energy of step 22 is -421.818450927734 integrity true
+Optimization: Energy of step 23 is -421.843200683594 integrity true
+Optimization: Energy of step 24 is -421.857879638672 integrity true
+Optimization: Energy of step 25 is -421.888580322266 integrity true
+Optimization: Energy of step 26 is -421.910888671875 integrity true
+Optimization: Energy of step 27 is -421.949523925781 integrity true
+Optimization: Energy of step 28 is -421.988677978516 integrity true
+Optimization: Energy of step 29 is -422.024169921875 integrity true
+Optimization: Energy of step 30 is -422.058044433594 integrity true
+Optimization: Energy of step 31 is -422.081451416016 integrity true
+Optimization: Energy of step 32 is -422.088500976563 integrity true
+Optimization: Energy of step 32 is -422.105010986328 integrity true
+Optimization: Energy of step 33 is -422.123321533203 integrity true
+Optimization: Energy of step 34 is -422.141723632813 integrity true
+Optimization: Energy of step 35 is -422.159820556641 integrity true
+Optimization: Energy of step 36 is -422.191223144531 integrity true
+Optimization: Energy of step 37 is -422.231079101563 integrity true
+Optimization: Energy of step 38 is -422.267303466797 integrity true
+Optimization: Energy of step 39 is -422.292510986328 integrity true
+Optimization: Energy of step 40 is -422.312591552734 integrity true
+Optimization: Energy of step 41 is -422.317626953125 integrity true
+Optimization: Energy of step 42 is -422.330108642578 integrity true
+Optimization: Energy of step 43 is -422.340332031250 integrity true
+Optimization: Energy of step 44 is -422.360198974609 integrity true
+Optimization: Energy of step 45 is -422.377593994141 integrity true
+Optimization: Energy of step 46 is -422.401458740234 integrity true
+Optimization: Energy of step 47 is -422.430267333984 integrity true
+Optimization: Energy of step 48 is -422.449035644531 integrity true
+Optimization: Energy of step 49 is -422.454650878906 integrity true
+Optimization: Energy of step 50 is -422.455871582031 integrity true
+Optimization: Energy of step 51 is -422.467224121094 integrity true
+Optimization: Energy of step 52 is -422.480529785156 integrity true
+Optimization: Energy of step 53 is -422.492218017578 integrity true
+Optimization: Energy of step 54 is -422.510772705078 integrity true
+Optimization: Energy of step 55 is -422.538482666016 integrity true
+Optimization: Energy of step 56 is -422.572204589844 integrity true
+Optimization: Energy of step 56 is -422.568328857422 integrity true
+Optimization: Energy of step 57 is -422.595520019531 integrity true
+Optimization: Energy of step 58 is -422.611724853516 integrity true
+Optimization: Energy of step 59 is -422.634338378906 integrity true
+Optimization: Energy of step 60 is -422.648925781250 integrity true
+Optimization: Energy of step 61 is -422.660644531250 integrity true
+Optimization: Energy of step 62 is -422.677307128906 integrity true
+Optimization: Energy of step 63 is -422.696807861328 integrity true
+Optimization: Energy of step 64 is -422.720916748047 integrity true
+Optimization: Energy of step 65 is -422.754486083984 integrity true
+Optimization: Energy of step 66 is -422.775146484375 integrity true
+Optimization: Energy of step 67 is -422.777465820313 integrity true
+Optimization: Energy of step 68 is -422.791351318359 integrity true
+Optimization: Energy of step 69 is -422.801757812500 integrity true
+Optimization: Energy of step 70 is -422.815521240234 integrity true
+Optimization: Energy of step 71 is -422.832122802734 integrity true
+Optimization: Energy of step 72 is -422.843750000000 integrity true
+Optimization: Energy of step 73 is -422.862274169922 integrity true
+Optimization: Energy of step 74 is -422.872467041016 integrity true
+Optimization: Energy of step 75 is -422.874877929688 integrity true
+Optimization: Energy of step 76 is -422.876434326172 integrity true
+Optimization: Energy of step 77 is -422.881042480469 integrity true
+Optimization: Energy of step 78 is -422.886322021484 integrity true
+Optimization: Energy of step 79 is -422.887817382813 integrity true
+Optimization: Energy of step 80 is -422.896697998047 integrity true
+Optimization: Energy of step 81 is -422.899353027344 integrity true
+Optimization: Energy of step 82 is -422.902160644531 integrity true
+Optimization: Energy of step 83 is -422.902404785156 integrity true
+Optimization: Energy of step 84 is -422.907501220703 integrity true
+Optimization: Energy of step 85 is -422.914093017578 integrity true
+Optimization: Energy of step 86 is -422.918365478516 integrity true
+Optimization: Energy of step 87 is -422.924102783203 integrity true
+Optimization: Energy of step 88 is -422.930816650391 integrity true
+Optimization: Energy of step 89 is -422.942474365234 integrity true
+Optimization: Energy of step 90 is -422.952606201172 integrity true
+Optimization: Energy of step 91 is -422.974914550781 integrity true
+Optimization: Energy of step 92 is -422.976806640625 integrity true
+Optimization: Energy of step 93 is -422.979370117188 integrity true
+Optimization: Energy of step 94 is -422.985900878906 integrity true
+Optimization: Energy of step 95 is -422.995269775391 integrity true
+Optimization: Energy of step 96 is -423.002990722656 integrity true
+Optimization: Energy of step 97 is -423.011932373047 integrity true
+Optimization: Energy of step 98 is -423.014953613281 integrity true
+Optimization: Energy of step 99 is -423.014007568359 integrity true
+Optimization: Energy of step 99 is -423.015350341797 integrity true
+Optimization: Energy of step 100 is -423.013153076172 integrity true
+Optimization: Energy of step 100 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.008544921875 integrity true
+Optimization: Energy of step 101 is -423.015075683594 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization: Energy of step 101 is -423.015350341797 integrity true
+Optimization: Energy of step 101 is -423.015380859375 integrity true
+Optimization done (status -97). Evaluations:100
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.57553897             13.47309350              0.00000000              0.00000000              1.68716584
+             26.77012002              4.51385419           -472.03513826              0.00000000                       -       -423.015365733100
+           SubSystem IA:       -467.521284070092
+Total energy: -423.015380859375
+
+3100 of 5000 steps completed
+3200 of 5000 steps completed
+3300 of 5000 steps completed
+3400 of 5000 steps completed
+3500 of 5000 steps completed
+3600 of 5000 steps completed
+3700 of 5000 steps completed
+3800 of 5000 steps completed
+3900 of 5000 steps completed
+4000 of 5000 steps completed
+Optimization: Energy of step 0 is -421.434417724609 integrity true
+Optimization: Energy of step 1 is 48.005020141602 integrity false
+Optimization: Energy of step 1 is -421.567230224609 integrity true
+Optimization: Energy of step 2 is -421.613128662109 integrity true
+Optimization: Energy of step 3 is -421.641693115234 integrity true
+Optimization: Energy of step 4 is -421.735046386719 integrity true
+Optimization: Energy of step 5 is -421.792083740234 integrity true
+Optimization: Energy of step 6 is -421.840545654297 integrity true
+Optimization: Energy of step 7 is -421.889801025391 integrity true
+Optimization: Energy of step 8 is -421.935241699219 integrity true
+Optimization: Energy of step 9 is -421.978790283203 integrity true
+Optimization: Energy of step 10 is -422.054443359375 integrity true
+Optimization: Energy of step 11 is -422.089569091797 integrity true
+Optimization: Energy of step 12 is -422.187500000000 integrity true
+Optimization: Energy of step 13 is -422.231201171875 integrity true
+Optimization: Energy of step 14 is -422.283935546875 integrity true
+Optimization: Energy of step 15 is -422.337707519531 integrity true
+Optimization: Energy of step 16 is -422.419525146484 integrity true
+Optimization: Energy of step 17 is -422.457977294922 integrity true
+Optimization: Energy of step 18 is -422.494293212891 integrity true
+Optimization: Energy of step 19 is -422.562011718750 integrity true
+Optimization: Energy of step 20 is -422.683654785156 integrity true
+Optimization: Energy of step 21 is -422.767700195313 integrity true
+Optimization: Energy of step 22 is -422.815002441406 integrity true
+Optimization: Energy of step 23 is -422.883209228516 integrity true
+Optimization: Energy of step 24 is -422.941223144531 integrity true
+Optimization: Energy of step 25 is -423.008026123047 integrity true
+Optimization: Energy of step 26 is -423.077239990234 integrity true
+Optimization: Energy of step 27 is -423.120880126953 integrity true
+Optimization: Energy of step 28 is -423.190277099609 integrity true
+Optimization: Energy of step 29 is -423.248382568359 integrity true
+Optimization: Energy of step 30 is -423.303649902344 integrity true
+Optimization: Energy of step 31 is -423.326202392578 integrity true
+Optimization: Energy of step 32 is -423.351135253906 integrity true
+Optimization: Energy of step 33 is -423.381072998047 integrity true
+Optimization: Energy of step 34 is -423.407928466797 integrity true
+Optimization: Energy of step 35 is -423.442626953125 integrity true
+Optimization: Energy of step 36 is -423.484741210938 integrity true
+Optimization: Energy of step 37 is -423.505950927734 integrity true
+Optimization: Energy of step 37 is -423.522644042969 integrity true
+Optimization: Energy of step 38 is -423.583679199219 integrity true
+Optimization: Energy of step 39 is -423.610595703125 integrity true
+Optimization: Energy of step 40 is -423.631988525391 integrity true
+Optimization: Energy of step 41 is -423.629669189453 integrity true
+Optimization: Energy of step 41 is -423.636138916016 integrity true
+Optimization: Energy of step 42 is -423.636566162109 integrity true
+Optimization: Energy of step 43 is -423.639739990234 integrity true
+Optimization: Energy of step 44 is -423.647064208984 integrity true
+Optimization: Energy of step 45 is -423.664642333984 integrity true
+Optimization: Energy of step 46 is -423.677795410156 integrity true
+Optimization: Energy of step 47 is -423.698730468750 integrity true
+Optimization: Energy of step 48 is -423.688720703125 integrity true
+Optimization: Energy of step 48 is -423.700927734375 integrity true
+Optimization: Energy of step 49 is -423.706359863281 integrity true
+Optimization: Energy of step 50 is -423.712127685547 integrity true
+Optimization: Energy of step 51 is -423.690734863281 integrity true
+Optimization: Energy of step 51 is -423.712066650391 integrity true
+Optimization: Energy of step 51 is -423.712249755859 integrity true
+Optimization: Energy of step 51 is -423.712219238281 integrity true
+Optimization: Energy of step 52 is -423.704650878906 integrity true
+Optimization: Energy of step 52 is -423.713500976563 integrity true
+Optimization: Energy of step 53 is -423.693756103516 integrity true
+Optimization: Energy of step 53 is -423.714019775391 integrity true
+Optimization: Energy of step 54 is -423.700988769531 integrity true
+Optimization: Energy of step 54 is -423.715728759766 integrity true
+Optimization: Energy of step 55 is -423.708404541016 integrity true
+Optimization: Energy of step 55 is -423.716674804688 integrity true
+Optimization: Energy of step 56 is -423.715789794922 integrity true
+Optimization: Energy of step 56 is -423.720794677734 integrity true
+Optimization: Energy of step 57 is -423.708007812500 integrity true
+Optimization: Energy of step 57 is -423.722198486328 integrity true
+Optimization: Energy of step 58 is -423.727539062500 integrity true
+Optimization: Energy of step 59 is -423.710388183594 integrity true
+Optimization: Energy of step 59 is -423.728302001953 integrity true
+Optimization: Energy of step 60 is -423.740173339844 integrity true
+Optimization: Energy of step 61 is -423.771942138672 integrity true
+Optimization: Energy of step 62 is -423.793579101563 integrity true
+Optimization: Energy of step 62 is -423.789428710938 integrity true
+Optimization: Energy of step 63 is -423.809051513672 integrity true
+Optimization: Energy of step 64 is -423.825500488281 integrity true
+Optimization: Energy of step 65 is -423.834075927734 integrity true
+Optimization: Energy of step 66 is -423.834075927734 integrity true
+Optimization: Energy of step 67 is -423.837921142578 integrity true
+Optimization: Energy of step 68 is -423.841979980469 integrity true
+Optimization: Energy of step 69 is -423.852416992188 integrity true
+Optimization: Energy of step 70 is -423.871185302734 integrity true
+Optimization: Energy of step 71 is -423.882690429688 integrity true
+Optimization: Energy of step 72 is -423.898468017578 integrity true
+Optimization: Energy of step 73 is -423.911712646484 integrity true
+Optimization: Energy of step 74 is -423.928466796875 integrity true
+Optimization: Energy of step 75 is -423.938812255859 integrity true
+Optimization: Energy of step 76 is -423.948974609375 integrity true
+Optimization: Energy of step 77 is -423.964263916016 integrity true
+Optimization: Energy of step 78 is -423.972564697266 integrity true
+Optimization: Energy of step 79 is -423.994232177734 integrity true
+Optimization: Energy of step 80 is -424.009704589844 integrity true
+Optimization: Energy of step 81 is -424.025604248047 integrity true
+Optimization: Energy of step 82 is -424.045745849609 integrity true
+Optimization: Energy of step 83 is -424.056488037109 integrity true
+Optimization: Energy of step 84 is -424.058105468750 integrity true
+Optimization: Energy of step 85 is -424.071258544922 integrity true
+Optimization: Energy of step 86 is -424.068176269531 integrity true
+Optimization: Energy of step 86 is -424.076629638672 integrity true
+Optimization: Energy of step 87 is -424.085906982422 integrity true
+Optimization: Energy of step 88 is -424.097045898438 integrity true
+Optimization: Energy of step 88 is -424.100891113281 integrity true
+Optimization: Energy of step 89 is -424.115509033203 integrity true
+Optimization: Energy of step 90 is -424.120788574219 integrity true
+Optimization: Energy of step 91 is -424.129425048828 integrity true
+Optimization: Energy of step 92 is -424.131134033203 integrity true
+Optimization: Energy of step 93 is -424.139495849609 integrity true
+Optimization: Energy of step 94 is -424.144744873047 integrity true
+Optimization: Energy of step 95 is -424.150115966797 integrity true
+Optimization: Energy of step 96 is -424.157928466797 integrity true
+Optimization: Energy of step 97 is -424.170776367188 integrity true
+Optimization: Energy of step 98 is -424.177825927734 integrity true
+Optimization: Energy of step 99 is -424.187042236328 integrity true
+Optimization: Energy of step 100 is -424.196533203125 integrity true
+Optimization: Energy of step 101 is -424.208831787109 integrity true
+Optimization: Energy of step 102 is -424.220031738281 integrity true
+Optimization: Energy of step 103 is -424.230621337891 integrity true
+Optimization: Energy of step 104 is -424.241638183594 integrity true
+Optimization: Energy of step 105 is -424.247283935547 integrity true
+Optimization: Energy of step 106 is -424.260925292969 integrity true
+Optimization: Energy of step 107 is -424.265899658203 integrity true
+Optimization: Energy of step 108 is -424.273834228516 integrity true
+Optimization: Energy of step 109 is -424.281707763672 integrity true
+Optimization: Energy of step 110 is -424.283569335938 integrity true
+Optimization: Energy of step 111 is -424.288238525391 integrity true
+Optimization: Energy of step 112 is -424.289459228516 integrity true
+Optimization: Energy of step 113 is -424.294128417969 integrity true
+Optimization: Energy of step 114 is -424.294281005859 integrity true
+Optimization: Energy of step 115 is -424.304199218750 integrity true
+Optimization: Energy of step 116 is -424.318420410156 integrity true
+Optimization: Energy of step 117 is -424.326019287109 integrity true
+Optimization: Energy of step 118 is -424.337524414063 integrity true
+Optimization: Energy of step 119 is -424.342651367188 integrity true
+Optimization: Energy of step 120 is -424.346954345703 integrity true
+Optimization: Energy of step 121 is -424.351959228516 integrity true
+Optimization: Energy of step 122 is -424.363067626953 integrity true
+Optimization: Energy of step 123 is -424.373748779297 integrity true
+Optimization: Energy of step 124 is -424.383392333984 integrity true
+Optimization: Energy of step 125 is -424.397308349609 integrity true
+Optimization: Energy of step 126 is -424.397125244141 integrity true
+Optimization: Energy of step 126 is -424.397552490234 integrity true
+Optimization: Energy of step 127 is -424.394927978516 integrity true
+Optimization: Energy of step 127 is -424.397888183594 integrity true
+Optimization: Energy of step 128 is -424.393890380859 integrity true
+Optimization: Energy of step 128 is -424.397888183594 integrity true
+Optimization: Energy of step 129 is -424.393615722656 integrity true
+Optimization: Energy of step 129 is -424.397857666016 integrity true
+Optimization: Energy of step 129 is -424.397918701172 integrity true
+Optimization: Energy of step 129 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.390777587891 integrity true
+Optimization: Energy of step 130 is -424.397644042969 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization: Energy of step 130 is -424.397888183594 integrity true
+Optimization: Energy of step 130 is -424.397918701172 integrity true
+Optimization done (status -97). Evaluations:129
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.43256841             14.50630025              0.00000000              0.00000000              1.61623901
+             27.56572720              4.11256230           -474.63130121              0.00000000                       -       -424.397904052710
+           SubSystem IA:       -470.518738915005
+Total energy: -424.397918701172
+
+Optimization: Energy of step 0 is -421.897674560547 integrity true
+Optimization: Energy of step 1 is 36.456813812256 integrity false
+Optimization: Energy of step 1 is -421.995666503906 integrity true
+Optimization: Energy of step 2 is -422.045593261719 integrity true
+Optimization: Energy of step 3 is -422.074127197266 integrity true
+Optimization: Energy of step 4 is -422.237945556641 integrity true
+Optimization: Energy of step 5 is -422.308197021484 integrity true
+Optimization: Energy of step 6 is -422.390228271484 integrity true
+Optimization: Energy of step 7 is -422.450225830078 integrity true
+Optimization: Energy of step 8 is -422.519836425781 integrity true
+Optimization: Energy of step 9 is -422.606933593750 integrity true
+Optimization: Energy of step 10 is -422.727081298828 integrity true
+Optimization: Energy of step 11 is -422.800872802734 integrity true
+Optimization: Energy of step 12 is -422.913421630859 integrity true
+Optimization: Energy of step 13 is -422.994110107422 integrity true
+Optimization: Energy of step 14 is -423.098419189453 integrity true
+Optimization: Energy of step 15 is -423.220733642578 integrity true
+Optimization: Energy of step 16 is -423.265533447266 integrity true
+Optimization: Energy of step 17 is -423.308074951172 integrity true
+Optimization: Energy of step 18 is -423.350036621094 integrity true
+Optimization: Energy of step 19 is -423.385406494141 integrity true
+Optimization: Energy of step 20 is -423.425598144531 integrity true
+Optimization: Energy of step 21 is -423.497436523438 integrity true
+Optimization: Energy of step 22 is -423.522003173828 integrity true
+Optimization: Energy of step 23 is -423.566497802734 integrity true
+Optimization: Energy of step 24 is -423.596038818359 integrity true
+Optimization: Energy of step 25 is -423.632751464844 integrity true
+Optimization: Energy of step 26 is -423.653198242188 integrity true
+Optimization: Energy of step 27 is -423.672973632813 integrity true
+Optimization: Energy of step 28 is -423.696319580078 integrity true
+Optimization: Energy of step 29 is -423.734649658203 integrity true
+Optimization: Energy of step 30 is -423.760070800781 integrity true
+Optimization: Energy of step 31 is -423.785430908203 integrity true
+Optimization: Energy of step 32 is -423.822540283203 integrity true
+Optimization: Energy of step 33 is -423.833312988281 integrity true
+Optimization: Energy of step 34 is -423.860351562500 integrity true
+Optimization: Energy of step 35 is -423.870849609375 integrity true
+Optimization: Energy of step 36 is -423.884552001953 integrity true
+Optimization: Energy of step 37 is -423.894775390625 integrity true
+Optimization: Energy of step 38 is -423.922790527344 integrity true
+Optimization: Energy of step 39 is -423.935150146484 integrity true
+Optimization: Energy of step 40 is -423.955230712891 integrity true
+Optimization: Energy of step 41 is -423.978881835938 integrity true
+Optimization: Energy of step 42 is -423.915557861328 integrity true
+Optimization: Energy of step 42 is -423.985687255859 integrity true
+Optimization: Energy of step 43 is -424.002441406250 integrity true
+Optimization: Energy of step 44 is -424.015930175781 integrity true
+Optimization: Energy of step 45 is -424.023101806641 integrity true
+Optimization: Energy of step 46 is -424.045806884766 integrity true
+Optimization: Energy of step 47 is -424.054748535156 integrity true
+Optimization: Energy of step 48 is -424.075439453125 integrity true
+Optimization: Energy of step 49 is -424.065948486328 integrity true
+Optimization: Energy of step 49 is -424.081756591797 integrity true
+Optimization: Energy of step 50 is -424.096069335938 integrity true
+Optimization: Energy of step 51 is -424.109436035156 integrity true
+Optimization: Energy of step 52 is -424.118041992188 integrity true
+Optimization: Energy of step 53 is -424.125091552734 integrity true
+Optimization: Energy of step 54 is -424.132019042969 integrity true
+Optimization: Energy of step 55 is -424.144317626953 integrity true
+Optimization: Energy of step 56 is -424.170959472656 integrity true
+Optimization: Energy of step 57 is -424.197387695313 integrity true
+Optimization: Energy of step 58 is -424.216857910156 integrity true
+Optimization: Energy of step 59 is -424.248413085938 integrity true
+Optimization: Energy of step 60 is -424.267700195313 integrity true
+Optimization: Energy of step 61 is -424.295501708984 integrity true
+Optimization: Energy of step 62 is -424.327362060547 integrity true
+Optimization: Energy of step 63 is -424.355743408203 integrity true
+Optimization: Energy of step 64 is -424.363067626953 integrity true
+Optimization: Energy of step 65 is -424.396728515625 integrity true
+Optimization: Energy of step 66 is -424.440429687500 integrity true
+Optimization: Energy of step 67 is -424.484466552734 integrity true
+Optimization: Energy of step 68 is -424.512023925781 integrity true
+Optimization: Energy of step 69 is -424.538909912109 integrity true
+Optimization: Energy of step 70 is -424.557769775391 integrity true
+Optimization: Energy of step 71 is -424.564422607422 integrity true
+Optimization: Energy of step 72 is -424.579071044922 integrity true
+Optimization: Energy of step 73 is -424.589355468750 integrity true
+Optimization: Energy of step 74 is -424.598083496094 integrity true
+Optimization: Energy of step 75 is -424.614898681641 integrity true
+Optimization: Energy of step 76 is -424.630981445313 integrity true
+Optimization: Energy of step 77 is -424.655273437500 integrity true
+Optimization: Energy of step 78 is -424.672821044922 integrity true
+Optimization: Energy of step 79 is -424.681152343750 integrity true
+Optimization: Energy of step 80 is -424.683349609375 integrity true
+Optimization: Energy of step 81 is -424.688934326172 integrity true
+Optimization: Energy of step 82 is -424.695220947266 integrity true
+Optimization: Energy of step 83 is -424.707336425781 integrity true
+Optimization: Energy of step 84 is -424.717437744141 integrity true
+Optimization: Energy of step 85 is -424.729675292969 integrity true
+Optimization: Energy of step 86 is -424.736450195313 integrity true
+Optimization: Energy of step 87 is -424.743682861328 integrity true
+Optimization: Energy of step 88 is -424.742736816406 integrity true
+Optimization: Energy of step 88 is -424.750427246094 integrity true
+Optimization: Energy of step 89 is -424.751281738281 integrity true
+Optimization: Energy of step 90 is -424.754547119141 integrity true
+Optimization: Energy of step 91 is -424.759399414063 integrity true
+Optimization: Energy of step 92 is -424.766143798828 integrity true
+Optimization: Energy of step 93 is -424.772735595703 integrity true
+Optimization: Energy of step 93 is -424.775421142578 integrity true
+Optimization: Energy of step 94 is -424.783325195313 integrity true
+Optimization: Energy of step 95 is -424.801910400391 integrity true
+Optimization: Energy of step 96 is -424.805328369141 integrity true
+Optimization: Energy of step 97 is -424.815032958984 integrity true
+Optimization: Energy of step 98 is -424.822631835938 integrity true
+Optimization: Energy of step 99 is -424.828094482422 integrity true
+Optimization: Energy of step 100 is -424.835479736328 integrity true
+Optimization: Energy of step 101 is -424.847015380859 integrity true
+Optimization: Energy of step 102 is -424.853515625000 integrity true
+Optimization: Energy of step 103 is -424.861328125000 integrity true
+Optimization: Energy of step 104 is -424.871337890625 integrity true
+Optimization: Energy of step 105 is -424.880493164063 integrity true
+Optimization: Energy of step 106 is -424.898651123047 integrity true
+Optimization: Energy of step 107 is -424.903503417969 integrity true
+Optimization: Energy of step 108 is -424.909637451172 integrity true
+Optimization: Energy of step 109 is -424.916839599609 integrity true
+Optimization: Energy of step 110 is -424.920471191406 integrity true
+Optimization: Energy of step 111 is -424.926635742188 integrity true
+Optimization: Energy of step 112 is -424.933715820313 integrity true
+Optimization: Energy of step 113 is -424.940643310547 integrity true
+Optimization: Energy of step 114 is -424.936309814453 integrity true
+Optimization: Energy of step 114 is -424.943084716797 integrity true
+Optimization: Energy of step 115 is -424.946899414063 integrity true
+Optimization: Energy of step 116 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.938110351563 integrity true
+Optimization: Energy of step 117 is -424.948028564453 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948120117188 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948150634766 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization: Energy of step 117 is -424.948181152344 integrity true
+Optimization: Energy of step 117 is -424.948211669922 integrity true
+Optimization done (status -97). Evaluations:116
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.55389766             14.64646286              0.00000000              0.00000000              1.34791708
+             27.33888496              4.89539235           -475.73075148              0.00000000                       -       -424.948196571606
+           SubSystem IA:       -470.835359136723
+Total energy: -424.948211669922
+
+4100 of 5000 steps completed
+4200 of 5000 steps completed
+4300 of 5000 steps completed
+4400 of 5000 steps completed
+4500 of 5000 steps completed
+4600 of 5000 steps completed
+4700 of 5000 steps completed
+4800 of 5000 steps completed
+4900 of 5000 steps completed
+Average pressure: 0.000000000000
+Velocity-Verlet integration took 2.056566396000 s (2056566396 ticks)
+Optimization: Energy of step 0 is -422.240386962891 integrity true
+Optimization: Energy of step 1 is 15.306805610657 integrity false
+Optimization: Energy of step 1 is -422.341766357422 integrity true
+Optimization: Energy of step 2 is -422.405914306641 integrity true
+Optimization: Energy of step 3 is -422.434234619141 integrity true
+Optimization: Energy of step 4 is -422.569305419922 integrity true
+Optimization: Energy of step 5 is -422.640380859375 integrity true
+Optimization: Energy of step 6 is -422.712402343750 integrity true
+Optimization: Energy of step 7 is -422.765899658203 integrity true
+Optimization: Energy of step 8 is -422.885559082031 integrity true
+Optimization: Energy of step 9 is -422.963348388672 integrity true
+Optimization: Energy of step 10 is -423.064758300781 integrity true
+Optimization: Energy of step 11 is -423.154724121094 integrity true
+Optimization: Energy of step 12 is -423.212097167969 integrity true
+Optimization: Energy of step 13 is -423.307525634766 integrity true
+Optimization: Energy of step 14 is -423.388854980469 integrity true
+Optimization: Energy of step 15 is -423.432464599609 integrity true
+Optimization: Energy of step 16 is -423.481231689453 integrity true
+Optimization: Energy of step 17 is -423.534179687500 integrity true
+Optimization: Energy of step 18 is -423.597076416016 integrity true
+Optimization: Energy of step 19 is -423.656250000000 integrity true
+Optimization: Energy of step 20 is -423.694946289063 integrity true
+Optimization: Energy of step 21 is -423.733581542969 integrity true
+Optimization: Energy of step 22 is -423.761596679688 integrity true
+Optimization: Energy of step 23 is -423.800170898438 integrity true
+Optimization: Energy of step 24 is -423.822967529297 integrity true
+Optimization: Energy of step 25 is -423.851806640625 integrity true
+Optimization: Energy of step 26 is -423.848052978516 integrity true
+Optimization: Energy of step 26 is -423.875457763672 integrity true
+Optimization: Energy of step 27 is -423.910064697266 integrity true
+Optimization: Energy of step 28 is -423.945831298828 integrity true
+Optimization: Energy of step 29 is -423.986816406250 integrity true
+Optimization: Energy of step 30 is -424.014770507813 integrity true
+Optimization: Energy of step 31 is -424.042938232422 integrity true
+Optimization: Energy of step 32 is -424.078094482422 integrity true
+Optimization: Energy of step 33 is -424.116088867188 integrity true
+Optimization: Energy of step 34 is -424.145599365234 integrity true
+Optimization: Energy of step 35 is -424.164550781250 integrity true
+Optimization: Energy of step 36 is -424.186523437500 integrity true
+Optimization: Energy of step 37 is -424.217559814453 integrity true
+Optimization: Energy of step 38 is -424.259460449219 integrity true
+Optimization: Energy of step 39 is -424.268554687500 integrity true
+Optimization: Energy of step 40 is -424.281555175781 integrity true
+Optimization: Energy of step 41 is -424.293914794922 integrity true
+Optimization: Energy of step 42 is -424.317321777344 integrity true
+Optimization: Energy of step 43 is -424.332519531250 integrity true
+Optimization: Energy of step 44 is -424.342132568359 integrity true
+Optimization: Energy of step 45 is -424.355224609375 integrity true
+Optimization: Energy of step 46 is -424.376647949219 integrity true
+Optimization: Energy of step 47 is -424.388854980469 integrity true
+Optimization: Energy of step 48 is -424.400268554688 integrity true
+Optimization: Energy of step 49 is -424.415649414063 integrity true
+Optimization: Energy of step 50 is -424.426635742188 integrity true
+Optimization: Energy of step 51 is -424.447326660156 integrity true
+Optimization: Energy of step 52 is -424.451629638672 integrity true
+Optimization: Energy of step 53 is -424.455841064453 integrity true
+Optimization: Energy of step 54 is -424.463897705078 integrity true
+Optimization: Energy of step 55 is -424.470520019531 integrity true
+Optimization: Energy of step 56 is -424.484802246094 integrity true
+Optimization: Energy of step 57 is -424.491699218750 integrity true
+Optimization: Energy of step 58 is -424.501403808594 integrity true
+Optimization: Energy of step 59 is -424.512176513672 integrity true
+Optimization: Energy of step 60 is -424.522369384766 integrity true
+Optimization: Energy of step 61 is -424.532226562500 integrity true
+Optimization: Energy of step 62 is -424.544677734375 integrity true
+Optimization: Energy of step 63 is -424.560455322266 integrity true
+Optimization: Energy of step 64 is -424.569458007813 integrity true
+Optimization: Energy of step 65 is -424.586059570313 integrity true
+Optimization: Energy of step 66 is -424.597106933594 integrity true
+Optimization: Energy of step 67 is -424.623779296875 integrity true
+Optimization: Energy of step 68 is -424.634521484375 integrity true
+Optimization: Energy of step 69 is -424.638977050781 integrity true
+Optimization: Energy of step 70 is -424.649475097656 integrity true
+Optimization: Energy of step 71 is -424.649688720703 integrity true
+Optimization: Energy of step 72 is -424.657623291016 integrity true
+Optimization: Energy of step 73 is -424.663513183594 integrity true
+Optimization: Energy of step 74 is -424.667083740234 integrity true
+Optimization: Energy of step 75 is -424.667755126953 integrity true
+Optimization: Energy of step 76 is -424.669677734375 integrity true
+Optimization: Energy of step 77 is -424.672546386719 integrity true
+Optimization: Energy of step 78 is -424.675872802734 integrity true
+Optimization: Energy of step 79 is -424.669403076172 integrity true
+Optimization: Energy of step 79 is -424.679504394531 integrity true
+Optimization: Energy of step 80 is -424.683471679688 integrity true
+Optimization: Energy of step 81 is -424.685882568359 integrity true
+Optimization: Energy of step 82 is -424.694549560547 integrity true
+Optimization: Energy of step 83 is -424.700256347656 integrity true
+Optimization: Energy of step 84 is -424.705993652344 integrity true
+Optimization: Energy of step 85 is -424.714935302734 integrity true
+Optimization: Energy of step 86 is -424.723693847656 integrity true
+Optimization: Energy of step 87 is -424.733276367188 integrity true
+Optimization: Energy of step 88 is -424.738830566406 integrity true
+Optimization: Energy of step 89 is -424.744293212891 integrity true
+Optimization: Energy of step 90 is -424.753417968750 integrity true
+Optimization: Energy of step 91 is -424.762298583984 integrity true
+Optimization: Energy of step 91 is -424.762939453125 integrity true
+Optimization: Energy of step 92 is -424.771270751953 integrity true
+Optimization: Energy of step 93 is -424.780151367188 integrity true
+Optimization: Energy of step 94 is -424.784759521484 integrity true
+Optimization: Energy of step 95 is -424.787628173828 integrity true
+Optimization: Energy of step 96 is -424.790771484375 integrity true
+Optimization: Energy of step 97 is -424.793457031250 integrity true
+Optimization: Energy of step 98 is -424.802246093750 integrity true
+Optimization: Energy of step 99 is -424.806488037109 integrity true
+Optimization: Energy of step 100 is -424.812713623047 integrity true
+Optimization: Energy of step 101 is -424.817962646484 integrity true
+Optimization: Energy of step 102 is -424.820373535156 integrity true
+Optimization: Energy of step 103 is -424.826416015625 integrity true
+Optimization: Energy of step 104 is -424.830322265625 integrity true
+Optimization: Energy of step 105 is -424.831970214844 integrity true
+Optimization: Energy of step 106 is -424.839508056641 integrity true
+Optimization: Energy of step 107 is -424.840484619141 integrity true
+Optimization: Energy of step 108 is -424.846008300781 integrity true
+Optimization: Energy of step 109 is -424.849090576172 integrity true
+Optimization: Energy of step 110 is -424.854675292969 integrity true
+Optimization: Energy of step 111 is -424.859375000000 integrity true
+Optimization: Energy of step 112 is -424.867126464844 integrity true
+Optimization: Energy of step 113 is -424.870544433594 integrity true
+Optimization: Energy of step 114 is -424.873046875000 integrity true
+Optimization: Energy of step 115 is -424.877258300781 integrity true
+Optimization: Energy of step 116 is -424.882904052734 integrity true
+Optimization: Energy of step 117 is -424.887634277344 integrity true
+Optimization: Energy of step 118 is -424.889404296875 integrity true
+Optimization: Energy of step 119 is -424.890899658203 integrity true
+Optimization: Energy of step 120 is -424.892883300781 integrity true
+Optimization: Energy of step 121 is -424.883575439453 integrity true
+Optimization: Energy of step 121 is -424.896148681641 integrity true
+Optimization: Energy of step 122 is -424.898834228516 integrity true
+Optimization: Energy of step 123 is -424.903198242188 integrity true
+Optimization: Energy of step 124 is -424.912780761719 integrity true
+Optimization: Energy of step 125 is -424.913787841797 integrity true
+Optimization: Energy of step 126 is -424.922790527344 integrity true
+Optimization: Energy of step 127 is -424.927459716797 integrity true
+Optimization: Energy of step 128 is -424.932861328125 integrity true
+Optimization: Energy of step 129 is -424.938262939453 integrity true
+Optimization: Energy of step 130 is -424.946533203125 integrity true
+Optimization: Energy of step 130 is -424.944641113281 integrity true
+Optimization: Energy of step 131 is -424.947753906250 integrity true
+Optimization: Energy of step 132 is -424.951232910156 integrity true
+Optimization: Energy of step 133 is -424.954589843750 integrity true
+Optimization: Energy of step 134 is -424.960327148438 integrity true
+Optimization: Energy of step 135 is -424.962371826172 integrity true
+Optimization: Energy of step 136 is -424.962554931641 integrity true
+Optimization: Energy of step 137 is -424.962371826172 integrity true
+Optimization: Energy of step 137 is -424.962677001953 integrity true
+Optimization: Energy of step 138 is -424.962677001953 integrity true
+Optimization: Energy of step 139 is -424.945556640625 integrity true
+Optimization: Energy of step 139 is -424.962493896484 integrity true
+Optimization: Energy of step 139 is -424.962677001953 integrity true
+Optimization: Energy of step 139 is -424.962585449219 integrity true
+Optimization: Energy of step 139 is -424.962677001953 integrity true
+Optimization: Energy of step 140 is -424.962677001953 integrity true
+Optimization: Energy of step 141 is -424.965484619141 integrity true
+Optimization: Energy of step 142 is -424.965911865234 integrity true
+Optimization: Energy of step 142 is -424.969879150391 integrity true
+Optimization: Energy of step 143 is -424.976226806641 integrity true
+Optimization: Energy of step 144 is -424.979156494141 integrity true
+Optimization: Energy of step 145 is -424.987213134766 integrity true
+Optimization: Energy of step 146 is -424.986785888672 integrity true
+Optimization: Energy of step 146 is -424.987487792969 integrity true
+Optimization: Energy of step 147 is -424.986053466797 integrity true
+Optimization: Energy of step 147 is -424.987792968750 integrity true
+Optimization: Energy of step 148 is -424.985931396484 integrity true
+Optimization: Energy of step 148 is -424.988159179688 integrity true
+Optimization: Energy of step 149 is -424.984161376953 integrity true
+Optimization: Energy of step 149 is -424.988372802734 integrity true
+Optimization: Energy of step 150 is -424.978668212891 integrity true
+Optimization: Energy of step 150 is -424.988403320313 integrity true
+Optimization: Energy of step 151 is -424.984771728516 integrity true
+Optimization: Energy of step 151 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.979370117188 integrity true
+Optimization: Energy of step 152 is -424.988342285156 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization: Energy of step 152 is -424.988708496094 integrity true
+Optimization: Energy of step 152 is -424.988739013672 integrity true
+Optimization done (status -97). Evaluations:151
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.46992553             14.30750948              0.00000000              0.00000000              1.39397502
+             26.44978258              4.78557969           -474.39549662              0.00000000                       -       -424.988724318688
+           SubSystem IA:       -469.609916930698
+Total energy: -424.988739013672
+
+Optimization: Energy of step 0 is -421.429748535156 integrity true
+Optimization: Energy of step 1 is -24.410537719727 integrity false
+Optimization: Energy of step 1 is -421.580108642578 integrity true
+Optimization: Energy of step 2 is -421.641448974609 integrity true
+Optimization: Energy of step 3 is -421.683197021484 integrity true
+Optimization: Energy of step 4 is -421.858001708984 integrity true
+Optimization: Energy of step 5 is -421.978149414063 integrity true
+Optimization: Energy of step 6 is -422.020446777344 integrity true
+Optimization: Energy of step 7 is -422.165679931641 integrity true
+Optimization: Energy of step 8 is -422.225769042969 integrity true
+Optimization: Energy of step 9 is -422.335357666016 integrity true
+Optimization: Energy of step 10 is -422.448120117188 integrity true
+Optimization: Energy of step 11 is -422.537597656250 integrity true
+Optimization: Energy of step 12 is -422.614959716797 integrity true
+Optimization: Energy of step 13 is -422.660430908203 integrity true
+Optimization: Energy of step 14 is -422.705474853516 integrity true
+Optimization: Energy of step 15 is -422.771270751953 integrity true
+Optimization: Energy of step 16 is -422.837677001953 integrity true
+Optimization: Energy of step 17 is -422.897949218750 integrity true
+Optimization: Energy of step 18 is -422.948699951172 integrity true
+Optimization: Energy of step 19 is -423.003326416016 integrity true
+Optimization: Energy of step 20 is -423.074279785156 integrity true
+Optimization: Energy of step 21 is -423.129882812500 integrity true
+Optimization: Energy of step 22 is -423.184844970703 integrity true
+Optimization: Energy of step 23 is -423.248443603516 integrity true
+Optimization: Energy of step 24 is -423.312927246094 integrity true
+Optimization: Energy of step 25 is -423.338378906250 integrity true
+Optimization: Energy of step 26 is -423.401245117188 integrity true
+Optimization: Energy of step 27 is -423.426605224609 integrity true
+Optimization: Energy of step 28 is -423.458648681641 integrity true
+Optimization: Energy of step 29 is -423.492767333984 integrity true
+Optimization: Energy of step 30 is -423.518432617188 integrity true
+Optimization: Energy of step 31 is -423.538940429688 integrity true
+Optimization: Energy of step 32 is -423.566345214844 integrity true
+Optimization: Energy of step 33 is -423.586669921875 integrity true
+Optimization: Energy of step 34 is -423.608886718750 integrity true
+Optimization: Energy of step 35 is -423.642211914063 integrity true
+Optimization: Energy of step 36 is -423.670288085938 integrity true
+Optimization: Energy of step 37 is -423.684295654297 integrity true
+Optimization: Energy of step 38 is -423.699279785156 integrity true
+Optimization: Energy of step 39 is -423.712310791016 integrity true
+Optimization: Energy of step 40 is -423.743164062500 integrity true
+Optimization: Energy of step 41 is -423.742492675781 integrity true
+Optimization: Energy of step 41 is -423.761108398438 integrity true
+Optimization: Energy of step 42 is -423.788391113281 integrity true
+Optimization: Energy of step 43 is -423.814910888672 integrity true
+Optimization: Energy of step 44 is -423.841949462891 integrity true
+Optimization: Energy of step 45 is -423.855560302734 integrity true
+Optimization: Energy of step 46 is -423.870056152344 integrity true
+Optimization: Energy of step 47 is -423.877075195313 integrity true
+Optimization: Energy of step 48 is -423.885864257813 integrity true
+Optimization: Energy of step 49 is -423.897003173828 integrity true
+Optimization: Energy of step 50 is -423.909118652344 integrity true
+Optimization: Energy of step 51 is -423.906280517578 integrity true
+Optimization: Energy of step 51 is -423.920227050781 integrity true
+Optimization: Energy of step 52 is -423.932250976563 integrity true
+Optimization: Energy of step 53 is -423.940032958984 integrity true
+Optimization: Energy of step 54 is -423.950805664063 integrity true
+Optimization: Energy of step 55 is -423.960784912109 integrity true
+Optimization: Energy of step 56 is -423.972595214844 integrity true
+Optimization: Energy of step 57 is -423.980957031250 integrity true
+Optimization: Energy of step 58 is -423.983978271484 integrity true
+Optimization: Energy of step 59 is -424.004516601563 integrity true
+Optimization: Energy of step 60 is -424.012847900391 integrity true
+Optimization: Energy of step 61 is -424.021881103516 integrity true
+Optimization: Energy of step 62 is -424.027404785156 integrity true
+Optimization: Energy of step 63 is -424.040802001953 integrity true
+Optimization: Energy of step 64 is -424.047790527344 integrity true
+Optimization: Energy of step 65 is -424.059814453125 integrity true
+Optimization: Energy of step 66 is -424.069824218750 integrity true
+Optimization: Energy of step 67 is -424.080108642578 integrity true
+Optimization: Energy of step 68 is -424.096038818359 integrity true
+Optimization: Energy of step 69 is -424.107879638672 integrity true
+Optimization: Energy of step 70 is -424.112884521484 integrity true
+Optimization: Energy of step 71 is -424.120635986328 integrity true
+Optimization: Energy of step 72 is -424.122863769531 integrity true
+Optimization: Energy of step 73 is -424.131134033203 integrity true
+Optimization: Energy of step 74 is -424.138275146484 integrity true
+Optimization: Energy of step 75 is -424.141632080078 integrity true
+Optimization: Energy of step 76 is -424.146820068359 integrity true
+Optimization: Energy of step 77 is -424.154510498047 integrity true
+Optimization: Energy of step 78 is -424.158935546875 integrity true
+Optimization: Energy of step 79 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.157348632813 integrity true
+Optimization: Energy of step 80 is -424.161590576172 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161651611328 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161682128906 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization: Energy of step 80 is -424.161712646484 integrity true
+Optimization: Energy of step 80 is -424.161743164063 integrity true
+Optimization done (status -97). Evaluations:79
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.39309261             13.76369797              0.00000000              0.00000000              1.53432763
+             25.79043272              4.78878814           -472.43206762              0.00000000                       -       -424.161728553544
+           SubSystem IA:       -467.643279476215
+Total energy: -424.161743164063
+
+
+Task MD took 2.167574946000 s (2167574946 ticks) to complete.
+Execution of CAST (3.2.0.2dev) ended after 2.212179626000 s (2212179626 ticks)

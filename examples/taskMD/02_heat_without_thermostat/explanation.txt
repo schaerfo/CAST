@@ -1,0 +1,15 @@
+new:
+MDheat                 1000     50
+MDheat                 2000     300
+MDheat                 3000     100
+
+simulation starts with 50K,
+keeps temperature constant till 1000 steps, 
+then rises it linearly to 300K at 2000 steps,
+back to 100K at 3000 steps
+and keeps it constant at 100K till the end of the simulation
+(see file heating_without_thermostat_MD_TRACE.txt)
+
+all of this is done by direct velocity scaling 
+
+worked on 28.11.2016

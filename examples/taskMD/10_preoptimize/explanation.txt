@@ -1,0 +1,4 @@
+new:
+MDpre_optimize         1
+
+if switched on (i.e. set to 1 instead of 0) a local optimization is performed before starting the simulation

@@ -1,0 +1,7 @@
+new: 
+MDtrackoffset          100
+
+not every step but only every 100th step in written into trackoffset_MD_TRACE.txt
+does not affect trackoffset_MD_snap.arc
+
+worked on: 28.11.2016

@@ -1,0 +1,11 @@
+new:
+MDrattle               1
+MDrattpar              oplsaa_mod.prm
+
+applies the rattle algorithm to all bonds that contain an H-atom
+this means the bond length of all bonds with an H is kept constant at an ideal value during the simulation
+
+set MDrattle to 1 instead of 0 to switch on rattle constraint (another possible value is 2, see next example)
+MDrattpar determines the file where the ideal bond length is taken from (e.g. the same parameter file as above)
+
+worked on 29.11.2016

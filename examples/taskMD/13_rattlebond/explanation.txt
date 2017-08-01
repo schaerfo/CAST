@@ -1,0 +1,16 @@
+new:
+MDrattle               2
+MDrattpar              oplsaa_mod.prm
+
+MDrattlebond           2  0
+MDrattlebond           5  1
+
+if MDrattle is set to 2 only specified bonds are constrained 
+the bonds that are constrained are given by MDrattlebond
+every line contains the 2 atom numbers for the bond (starting with 0, i.e. always the number in the tinkerstructure -1)
+the first number has to be the number of the H-atom
+
+in this case the O-H-bond and one of the C-H-bonds are constrained whereas the other two C-H-bonds move normally
+(see rattlebond_MD_SNAP.arc and the diagram bondlengths.png)
+
+worked on: 29.11.2016

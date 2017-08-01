@@ -1,0 +1,12 @@
+new: MDrestart_if_broken    1
+
+CAST tests after every MD step if all bonds are still intact, i.e. if the bond length of every bond is reasonable.
+If this option is set to 1 after recognising broken bonds the coordinates of all atoms are set to the original coordinates at the beginning of 
+the simulation and new random velocities are assigned (according to the currently desired temperature, i.\,e. if you've applied a gradient the gradient 
+won't start again but the temperature will continue to act how you would expect it if the simulation had run normally). 
+You can see when such a thing happens in the output ("output.txt") so in our case it happens the first time between 900 and 1000 steps. In the
+file "restart_if_broken_MD_TRACE.txt" you can see the temperature continues to raise like it's expected. If you watch the simulation with VMD
+you can clearly see how the structure jumps back to the original coordinates between the snapshots 198 and 199 (for example, of course it happens much more
+often)
+
+worked on: 23.12.2016

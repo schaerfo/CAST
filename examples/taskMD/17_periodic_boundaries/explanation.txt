@@ -1,0 +1,14 @@
+new:
+Periodics              1 24.0 24.0 24.0
+Periodicp              1
+
+With the first line you switch on periodic boundaries, i.e. the inputstructure is taken as a unit cell and virtually multiplied in any direction in order to
+create an infinite system. As a consequence every molecule that leaves the box enters it again at the opposite site of the box (you can see this when
+watching the simulation in VMD).
+The first number is 1 for switching periodic boundaries on and 0 for switching them off. The following three numbers determine the size of the box
+(in x-, y- and z-direction) in angstrom.
+
+If you set the option Periodicp to 1 (like it is here) dummy atoms are printed in the corners of the periodic box in every snapshot (you can see them 
+in VMD, too).
+
+worked on: 12.01.2017

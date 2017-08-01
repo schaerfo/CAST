@@ -1,0 +1,122 @@
+####################################
+#                                  #
+#                                  #
+#         CAST CONFIGFILE          #
+#                                  #
+#                                  #
+#################################### 
+
+# Verbosity 
+# Amount of output information from CAST [0-5] (do not use verbosity > 4 :-)
+
+verbosity              3
+
+
+####################################
+#                                  #
+#                                  #
+#        I/O: FILES & TYPES        #
+#                                  #
+#                                  #
+####################################
+
+# Input file name
+
+name                   ethan_FEP.arc
+
+# Output file name
+
+outname                fep_heating
+
+# Input file type
+
+inputtype              TINKER
+
+
+
+#################################### 
+#                                  #
+#          PROGRAM TASK            #
+#                                  #
+####################################
+
+task                  FEP
+
+
+####################################
+#                                  #
+#        ENERGY INTERFACES         #
+#                                  #
+####################################
+
+
+interface              OPLSAA
+
+
+# PARAMETER FILE FOR FF
+# paramfile            amber.prm, amoeba.prm, oplsaa.prm, charmm22.prm
+
+paramfile              oplsaa_mod.prm
+
+
+
+####################################
+#                                  #
+#          CUTOFF RADIUS           #
+#                                  #
+####################################
+
+cutoff                 12.0
+switchdist             10.0
+
+####################################
+#                                  #
+#            MD OPTIONS            #
+#                                  #
+####################################
+
+# Number of Steps
+
+MDsteps                1000
+ 
+# Integrator
+#
+# 0                    Velocity-Verlet
+# 1                    Beeman
+
+MDintegrator           0
+
+MDheat                 0   0.1
+MDheat                 500 300
+
+
+# Timestep in picoseconds
+
+MDtimestep             0.001
+
+# Activate Tracking (Log and Snapshots)
+
+MDtrack                1
+
+
+#
+#   Snapshots
+#
+
+MDsnap                 10
+
+####################################
+#                                  #
+#            FEP OPTIONS           #
+#                                  #
+####################################
+
+FEPlambda      1.0
+FEPdlambda     0.1
+FEPvdwcouple   0.8
+FEPeleccouple  0.2
+FEPvshift      0.5
+FEPcshift      0.1
+FEPequil       20000
+FEPsteps       50000
+FEPfreq        1000

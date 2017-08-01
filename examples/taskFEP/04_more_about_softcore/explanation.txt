@@ -1,0 +1,19 @@
+In the last example you saw that it is a good idea to use a softcore potential in order to avoid simulation instabilities.
+This example now shows you that too much softcore is also not a good idea.
+
+The only thing that changed in comparison to the last example is the following line:
+FEPvshift      100.0
+So now there is a very strong shift in the Van der Waals potential.
+
+This causes the simulation to break. (see alchemical.txt, FEP_Results.txt, no_softcore_MD_TRACE.txt or the console output)
+The reason for this can be understood if you look at the softcore potentials for different FEPvshift values (softcore_vdw.png).
+For small values (green and blue) the potential keeps more or less the original form of the Lennard Jones potential but just without the singularity.
+For bigger values (red and orange) there is no minimum but the lowest energy distance is zero. So as a consequence it is not only not avoided that atoms 
+crash but they are even forced to do so. And in the next window when the softcore potential approximates the "normal" potential better this can be the 
+reason for the program to break.
+
+So you should always choose a sensible value for FEPvshift. If you see the warning "WARNING! You should choose a smaller value for vshift!" 
+(see screenshot.png) this is a sign that the value is too large and the softcore potential for your smallest lambda has no minimum anymore.
+
+worked on: 01.03.2017
+

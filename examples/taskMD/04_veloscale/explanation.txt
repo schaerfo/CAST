@@ -1,0 +1,7 @@
+new:
+MDveloscale            1
+
+removes after every step the total translation and rotation of the molecule
+(compare no_veloscale_MD_SNAP.arc and veloscale_MD_SNAP.arc in VMD)
+
+worked on 28.11.2016

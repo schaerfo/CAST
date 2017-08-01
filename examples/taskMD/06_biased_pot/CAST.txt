@@ -1,0 +1,118 @@
+####################################
+#                                  #
+#                                  #
+#         CAST CONFIGFILE          #
+#                                  #
+#                                  #
+#################################### 
+
+# Verbosity 
+# Amount of output information from CAST [0-5] (do not use verbosity > 4 :-)
+
+verbosity              3
+
+
+####################################
+#                                  #
+#                                  #
+#        I/O: FILES & TYPES        #
+#                                  #
+#                                  #
+####################################
+
+# Input file name
+
+name                   ubq.arc
+
+# Output file name
+
+outname                adjust
+
+# Input file type
+
+inputtype              TINKER
+
+
+
+#################################### 
+#                                  #
+#          PROGRAM TASK            #
+#                                  #
+####################################
+
+task                  MD
+
+
+####################################
+#                                  #
+#        ENERGY INTERFACES         #
+#                                  #
+####################################
+
+
+interface              OPLSAA
+
+
+# PARAMETER FILE FOR FF
+# paramfile            amber.prm, amoeba.prm, oplsaa.prm, charmm22.prm
+
+paramfile              oplsaa_mod.prm
+
+
+
+####################################
+#                                  #
+#          CUTOFF RADIUS           #
+#                                  #
+####################################
+
+cutoff                 12.0
+switchdist             10.0
+
+####################################
+#                                  #
+#            MD OPTIONS            #
+#                                  #
+####################################
+
+# Number of Steps
+
+MDsteps                5000
+ 
+# Integrator
+#
+# 0                    Velocity-Verlet
+# 1                    Beeman
+
+MDintegrator           0
+
+
+# Timestep in picoseconds
+
+MDtimestep             0.001
+
+# Activate Tracking (Log and Snapshots)
+
+MDtrack                1
+
+MDheat                 0   0.001
+MDheat                 500 300
+
+
+#
+#   Snapshots
+#
+
+MDsnap                 1000
+
+
+MDbiased_potential     1
+
+MDactive_site          1008
+MDactive_site          1017
+MDactive_site          1018
+MDactive_site          1019
+
+MDcutoff               10  15
+
+MDadjust_by_step       1

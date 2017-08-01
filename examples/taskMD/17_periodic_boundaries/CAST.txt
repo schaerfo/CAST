@@ -1,0 +1,120 @@
+####################################
+#                                  #
+#                                  #
+#         CAST CONFIGFILE          #
+#                                  #
+#                                  #
+#################################### 
+
+# Verbosity 
+# Amount of output information from CAST [0-5] (do not use verbosity > 4 :-)
+
+verbosity              3
+
+
+####################################
+#                                  #
+#                                  #
+#        I/O: FILES & TYPES        #
+#                                  #
+#                                  #
+####################################
+
+# Input file name
+
+name                   3d7z_inh_water_LOCOPT.arc
+
+# Output file name
+
+outname                periodics
+
+# Input file type
+
+inputtype              TINKER
+
+
+
+#################################### 
+#                                  #
+#          PROGRAM TASK            #
+#                                  #
+####################################
+
+task                  MD
+
+
+####################################
+#                                  #
+#        ENERGY INTERFACES         #
+#                                  #
+####################################
+
+
+interface              OPLSAA
+
+
+# PARAMETER FILE FOR FF
+# paramfile            amber.prm, amoeba.prm, oplsaa.prm, charmm22.prm
+
+paramfile              oplsaa_mod2.prm
+
+
+
+####################################
+#                                  #
+#          CUTOFF RADIUS           #
+#                                  #
+####################################
+
+cutoff                 12.0
+switchdist             10.0
+
+####################################
+#                                  #
+#            MD OPTIONS            #
+#                                  #
+####################################
+
+# Number of Steps
+
+MDsteps                5000
+ 
+# Integrator
+#
+# 0                    Velocity-Verlet
+# 1                    Beeman
+
+MDintegrator           0
+
+
+# Timestep in picoseconds
+
+MDtimestep             0.001
+
+MDheat                 0   300
+
+# Activate Tracking (Log and Snapshots)
+
+MDtrack                1
+
+
+#
+#   Snapshots
+#
+
+MDsnap                 1000
+
+
+####################################
+#                                  #
+#       Periodic Boundaries        #
+#                                  #
+####################################
+
+#Periodics            <Active 1(on)/0(off)> <box-x> <box-y> <box-z>
+Periodics              1 24.0 24.0 24.0
+
+# Print periodic boundary dummy atoms to output?
+#Periodicp            <Active 1(on)/0(off)> 
+
+Periodicp              1

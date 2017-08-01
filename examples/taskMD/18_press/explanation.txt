@@ -1,0 +1,18 @@
+new:
+MDpress                1
+MDptarget              1.0
+MDpcompress            0.000046
+MDpdelay               2.0
+
+These lines do a pressure control via Behrendsen barostat in order to create an NPT ensemble. It is important to know that it is only possible to use 
+pressure control if periodic boundaries are activated because the pressure control is done by modification of the periodic box size. You can see this 
+in VMD if you plot the distance between two of the box atoms against the simulation timestep.
+
+The first line just switches on the barostat (0 would switch it off). The MDptarget option gives the target pressure in atmosphere, so in our case it is
+1 atm. You can see the current pressure in the file "press_MD_TRACE.txt" in the third column. The values are quite far from the target pressure and 
+variy quite strongly. However it is comparable to the results of a tinker calculation performed with similar parameters (see "output_tinker.txt").
+
+MDpcompress is the isothermal compressibility of the substance (the default value 0.000046 is for water) and MDpdelay barostat delay in picoseconds. 
+It is needed to calculate the scaling factor for the box. When in doubt, just leave the default value of 2.0ps.
+
+worked on: 16.01.2017

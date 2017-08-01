@@ -1,0 +1,36 @@
+new:
+MDbiased_potential     1
+
+MDactive_site          1008
+MDactive_site          1017
+MDactive_site          1018
+MDactive_site          1019
+
+MDcutoff               10  15
+
+MDadjust_by_step       0/1
+
+
+applies an additional potential to every atom which depends on the distance of the active site
+active site is calculated as geometrical center of all atoms given by MDactive_site (atom numbers = first line in tinker structure file)
+
+if the distance is smaller than the inner cutoff (first number in MDcutoff) -> "normal" movement
+if the distance is bigger than the outer cutoff (second number in MDcutoff) -> no movement
+between those extremes -> gradual scaling of velocity
+
+MDbiased_potential -> switches biased potential on and off
+
+MDadjust_by step:
+0 -> active site and distances are calculated only once in initialisation of simulation
+1 -> active site and distances are calculated new for every step
+
+compare not_adjust_MD_SNAP.arc and adjust_MD_SNAP.arc (differ only in this last option)
+active site is defined as the NH3-group of an argine
+not-adjust: phenyl-ring of phenylalanin that is around 10 angström from active site (at the beginning) moves slowly the whole time
+adjust: the same phenyl-ring moves a lot when arginine bends towards it and not at all when arginine bends in the other direction
+
+DO NOT USE NOSE-HOOVER THERMOSTAT WITH BIASED POTENTIAL!!! (direct velocity scaling is ok)
+better do not use veloscale (because is doesn't make sense)	
+
+worked on: 28.11.2016
+

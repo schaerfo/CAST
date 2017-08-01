@@ -1,0 +1,20 @@
+new:
+MDspherical            1   10.0  15.0   10.0 20.0   2.0 4.0
+
+applies an additional spherical potential around the geometrical center of the molecule
+-> prevents non-bound atoms/molecules in a structure to drift away from each other endlessly
+(compare no_spherical_MD_SNAP.arc and spherical_MD_SNAP.arc in VMD)
+
+there can be even 2 harmonic potentials that are specified by the 7 parameters:
+- <0/1> switches on and off spherical potential
+- radius where the first potential begins (here: 10.0)
+- radius where the second potential begins (here: 15.0)
+- force constant of first potential (here: 10.0)
+- force constant of second potential (here: 20.0)
+- exponent of first potential (here: 2.0 - "normal" harmonic potential)
+- exponent of second potential (here: 4.0 - more steep potential)
+
+in order to avoid problems with velocities that are too high,
+the radius of the inner potential should be chosen in a way that none of the atoms in the starting structure feel the additional potential
+
+worked on 28.11.2016

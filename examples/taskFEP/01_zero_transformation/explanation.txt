@@ -1,0 +1,49 @@
+FEP = free energy perturbation
+calculates free energy for a transformation from one molecule into another
+(in this case for sake of demonstration ethane to ethane, so free energy should be zero)
+
+Inputstructure (ethan_FEP.arc):
+- appearing moleculed are marked with IN, disappearing molecules with OUT
+- in this case one methyl-group (atoms 6, 9, 10 and 11 are disappearing and replaced with H-atom 13 
+                                while H-atom 12 is replaced by a methyl-group formed by atoms 2 to 5)
+
+
+Inputfile:
+
+The transformation is done stepwise in a number of windows that differ in their value lambda which normally goes from 0 (educt) to 1 (product).
+If you don't want to go until the product you can change the value for FEPlambda to a value smaller than 1 (normally you don't do this).
+The value FEPdlambda defines the size of the window. In this case it is 0.1 so you have 10 windows.
+
+FEPvdwcouple, FEPeleccouple, FEPvshift and FEPcshift are parameters for softcore-potentials that are used in order to avoid numerical instabilities.
+(details see manual and literature) FEPvshift and FEPcshift control the strength of the softcore-potential.
+FEPvdwcouple and FEPeleccouple are there because the contributions by Van der Waals-interactions and electrostatic interactions are scaled independently.
+FEPvdwcouple is the lambda value where the vdw-interactions for appearing atoms reach their maximum (see output.txt, last two columns in table
+Van-der-Waals Coupling), FEPeleccouple is the lambda value where the coulomb-interactions to appearing atoms start (see output.txt, last two columns in the
+table Electrostatic Coupling). The interactions for disappearing atoms are scaled down in a similar way (see first two columns in the tables).
+
+The calculation consists of one initilisation run whose length is determined by MDsteps (1000) and a number of windows (see above). In each of these windows
+an equilibration is done whose length in determined by FEPequil (20000) and after that the production with length FEPsteps (50000). During the production
+run all the conformations are saved to calculate the free energy of each window. FEPfreq controls the output frequency of alchemical.txt and does not affect 
+the calculation.
+
+
+Output files:
+
+FEP_Results.txt
+For each window the lambda value and the free energy change till the current window is given. So the second number in the last row is the total free 
+energy change you are probably interested in.
+
+alchemical.txt
+For every FEPfreq'th step of every equilibration and production run the following things are given:
+- coulomb energy for this conformation at the start of the current window
+- coulomb energy for this conformation at the end of the current window
+- vdw energy for this conformation at the start of the current window
+- vdw energy for this conformation at the end of the current window
+- temperature
+- change in potential energy for this conformation during the current window
+- free energy change calculated from the ensemble average for the current window as far as the ensemble average is still created (only in production run)
+After each production run the free energy change for the complete window is given (last value of the last column) and the total free energy change until
+the current window (sum of all free energy changes until this point; identical to the values in FEP_Results.txt).
+
+worked on 01.03.2017
+ 

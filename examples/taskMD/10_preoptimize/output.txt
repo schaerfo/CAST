@@ -1,0 +1,170 @@
+
+  |-----------------------------------------------------|
+  |                                                     |
+  |  //////////   //////////   //////////   //////////  |
+  |  //           //      //   //               //      |
+  |  //           //      //   //               //      |
+  |  //           //      //   //////////       //      |
+  |  //           //////////           //       //      |
+  |  //           //      //           //       //      |
+  |  //           //      //           //       //      |
+  |  //////////   //      //   //////////       //      |
+  |                                                     |
+  |       conformational analysis and search tool       |
+  |                                                     |
+  |-----------------------------------------------------|
+
+
+-------------------------------------------------------
+Configuration ('CAST.txt')
+-------------------------------------------------------
+Reading structure(s) from 'tridecaalanin.arc' (type: TINKER) and parameters from 'oplsaa_mod.prm'.
+Energy calculations will be performed using 'OPLSAA'.
+The torsional rotation of a hydrogen atom will not be considered as main torsion.
+Cutoff radius of 12 Angstroms (switching to zero starting at 10 Angstroms) applied.
+Default (force field) interface choosen for energy calculations.
+Illegal Energy interface.
+Identified 38 main torsions.
+-------------------------------------------------
+Initialization
+-------------------------------------------------
+Loaded 1 structure. (133 atoms and 942.028 g/mol)
+-------------------------------------------------
+Initialization done after 0.0482444 s (48244432 ticks)
+-------------------------------------------------
+Task 'MD' (7) computation:
+-------------------------------------------------
+Optimization: Energy of step 0 is -418.515 integrity true
+Optimization: Energy of step 1 is -21.1697 integrity false
+Optimization: Energy of step 1 is -418.574 integrity true
+Optimization: Energy of step 2 is -418.673 integrity true
+Optimization: Energy of step 3 is -418.683 integrity true
+Optimization: Energy of step 4 is -418.694 integrity true
+Optimization: Energy of step 5 is -418.707 integrity true
+Optimization: Energy of step 6 is -418.728 integrity true
+Optimization: Energy of step 7 is -418.721 integrity true
+Optimization: Energy of step 7 is -418.738 integrity true
+Optimization: Energy of step 8 is -418.752 integrity true
+Optimization: Energy of step 9 is -418.769 integrity true
+Optimization: Energy of step 10 is -418.77 integrity true
+Optimization: Energy of step 11 is -418.781 integrity true
+Optimization: Energy of step 12 is -418.788 integrity true
+Optimization: Energy of step 13 is -418.792 integrity true
+Optimization: Energy of step 14 is -418.767 integrity true
+Optimization: Energy of step 14 is -418.794 integrity true
+Optimization: Energy of step 15 is -418.793 integrity true
+Optimization: Energy of step 15 is -418.795 integrity true
+Optimization: Energy of step 16 is -418.794 integrity true
+Optimization: Energy of step 16 is -418.797 integrity true
+Optimization: Energy of step 17 is -418.754 integrity true
+Optimization: Energy of step 17 is -418.799 integrity true
+Optimization: Energy of step 18 is -418.796 integrity true
+Optimization: Energy of step 18 is -418.801 integrity true
+Optimization: Energy of step 19 is -418.787 integrity true
+Optimization: Energy of step 19 is -418.801 integrity true
+Optimization: Energy of step 20 is -418.778 integrity true
+Optimization: Energy of step 20 is -418.803 integrity true
+Optimization: Energy of step 21 is -418.797 integrity true
+Optimization: Energy of step 21 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.762 integrity true
+Optimization: Energy of step 22 is -418.802 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization: Energy of step 22 is -418.803 integrity true
+Optimization done (status -97). Evaluations:21
+Energy after optimization: 
+Potentials
+                       B                       A                       U                      ID                     IT
+                       T                       V                       C                    SOLV                       -                    SUM
+
+Count
+                     132                     237                       0                       0                      75
+                     226                    8409                    8409                       -                       -                       -
+              2.92768183             15.41654992              0.00000000              0.00000000              1.63452743
+             27.82555760              5.28392878           -471.89169768              0.00000000                       -       -418.803452127557
+           SubSystem IA:       -466.607768903022
+Total energy: -418.803466796875
+
+Molecular dynamics simulation, limited to 5000 steps (representing a time step of 0.001000000000 ps each) started, simulating 5.000000000000 picoseconds.
+Nose-Hoover thermostat is inactive.
+Degrees of freedom: 399
+Saving 10 snapshots (10 in config)
+100 of 5000 steps completed
+200 of 5000 steps completed
+300 of 5000 steps completed
+400 of 5000 steps completed
+500 of 5000 steps completed
+600 of 5000 steps completed
+700 of 5000 steps completed
+800 of 5000 steps completed
+900 of 5000 steps completed
+1000 of 5000 steps completed
+1100 of 5000 steps completed
+1200 of 5000 steps completed
+1300 of 5000 steps completed
+1400 of 5000 steps completed
+1500 of 5000 steps completed
+1600 of 5000 steps completed
+1700 of 5000 steps completed
+1800 of 5000 steps completed
+1900 of 5000 steps completed
+2000 of 5000 steps completed
+2100 of 5000 steps completed
+2200 of 5000 steps completed
+2300 of 5000 steps completed
+2400 of 5000 steps completed
+2500 of 5000 steps completed
+2600 of 5000 steps completed
+2700 of 5000 steps completed
+2800 of 5000 steps completed
+2900 of 5000 steps completed
+3000 of 5000 steps completed
+3100 of 5000 steps completed
+3200 of 5000 steps completed
+3300 of 5000 steps completed
+3400 of 5000 steps completed
+3500 of 5000 steps completed
+3600 of 5000 steps completed
+3700 of 5000 steps completed
+3800 of 5000 steps completed
+3900 of 5000 steps completed
+4000 of 5000 steps completed
+4100 of 5000 steps completed
+4200 of 5000 steps completed
+4300 of 5000 steps completed
+4400 of 5000 steps completed
+4500 of 5000 steps completed
+4600 of 5000 steps completed
+4700 of 5000 steps completed
+4800 of 5000 steps completed
+4900 of 5000 steps completed
+Average pressure: 0.000000000000
+Velocity-Verlet integration took 1.748902990000 s (1748902990 ticks)
+
+Task MD took 1.771754351000 s (1771754351 ticks) to complete.
+Execution of CAST (3.2.0.2dev) ended after 1.820022811000 s (1820022811 ticks)

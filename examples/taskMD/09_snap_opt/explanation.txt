@@ -1,0 +1,8 @@
+new:
+MDsnap_opt             1
+
+if activated (e.g. set to 1 instead of 0) snapshots are optimized before they are written into file
+this means a local optimization with the chosen interface is performed
+(see output.txt and compare it to output of task LOCOPT)
+
+worked on 28.11.2016
