@@ -1,0 +1,3 @@
+[submodule "submodules/psi4"]
+	path = submodules/psi4
+	url = https://github.com/psi4/psi4

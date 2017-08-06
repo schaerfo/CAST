@@ -56,7 +56,7 @@ project "CAST"
 		filter { "configurations:Armadillo_Testing", "action:gmake" }
 			optimize "Debug"
 			defines { "GOOGLE_MOCK", "USE_ARMADILLO", "ARMA_DONT_USE_WRAPPER" }
-      includedirs { "./includes/gtest/", "../optional_files/includes/armadillo/" }
+      includedirs { "./includes/gtest/", "../optional_files/includes/armadillo/", "../submodules/psi4/psi4/include/psi4" }
       buildoptions { "-I ../optional_files/includes -I ../includes -lgfortran" }
       linkoptions { "../linux_precompiled_libs/libgmock.a ../linux_precompiled_libs/libopenblas.a ../linux_precompiled_libs/liblapack.a -lgfortran" }
       flags { "LinkTimeOptimization" }
@@ -115,8 +115,9 @@ project "CAST"
 
 	configuration "vs2015"
 		targetname "CAST_undefined.exe"
-    debugdir "../optional_files/build"
+		debugdir "../optional_files/build"
 		buildoptions { "/openmp" }
+		includedirs { "../submodules/psi4/psi4/include/" }
 		flags { "MultiProcessorCompile" }
 		filter { "configurations:Release", "action:vs2015" }
 			optimize "Full"
