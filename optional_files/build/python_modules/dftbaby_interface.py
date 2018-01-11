@@ -143,6 +143,9 @@ def calc_energies(xyzfile, optionfile):
 
         if dftb2.long_range_correction == 1:  # add long range correction to partial energies
             energies.append(dftb2.E_HF_x)
+            
+        with open("dftb_charges.txt") as charges:
+            charges.write(dftb2.getPartialCharges())
 
         return str(energies)
         
@@ -178,6 +181,9 @@ def calc_gradients(xyzfile, optionfile):
 
         if tddftb.dftb2.long_range_correction == 1:  # add long range correction to partial energies
             energies.append(tddftb.dftb2.E_HF_x)
+            
+        with open("dftb_charges.txt") as charges:
+            charges.write(dftb2.getPartialCharges())
 
         return str(energies)
     
