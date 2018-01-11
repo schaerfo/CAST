@@ -520,11 +520,12 @@ energy::interfaces::dftb::sysCallInterface::charges() const
 
   std::ifstream chargefile("dftb_charges.txt", std::ios_base::in);
   std::getline(chargefile, line);
-  chargestrings = split(line, ';"');
+  line.pop_back();
+  chargestrings = split(line, ';');
 
   for (auto charge : chargestrings)
   {
-    charges.push_back(std::stof(charge));
+    charges.push_back(std::stod(charge));
   }
   return charges;
 }
