@@ -184,16 +184,14 @@ def calc_gradients(xyzfile, optionfile):
             energies.append(tddftb.dftb2.E_HF_x)
             
         with open("dftb_charges.txt","w") as chargefile:
-            for q in dftb2.getPartialCharges():
+            for q in tddftb.dftb2.getPartialCharges():
                 chargefile.write(str(q)+";")
 
         return str(energies)
     
     except:
         print sys.exc_info()
-        return "error"
-
-    
+        return "error"   
 
 
 def opt(xyzfile, optionfile):
