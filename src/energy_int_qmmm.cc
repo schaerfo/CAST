@@ -376,7 +376,7 @@ coords::float_type energy::interfaces::qmmm::QMMM::qmmm_calc(bool if_gradient)
 
   // delete MM charge files for MOAC and DFTBaby
   if (Config::get().energy.qmmm.qminterface == config::interface_types::T::MOPAC && Config::get().energy.mopac.delete_input) std::remove("mol.in");
-  else if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB && Config::get().energy.dftb.verbose > 1)
+  else if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB && Config::get().energy.dftb.verbose == 0)
   {
     const char *chargefile = (Config::get().energy.dftb.ext_charges.c_str());
     std::remove(chargefile);
