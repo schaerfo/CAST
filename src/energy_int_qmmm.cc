@@ -321,6 +321,7 @@ void energy::interfaces::qmmm::QMMM::write_gaussian_in(char calc_type)
 void energy::interfaces::qmmm::QMMM::write_dftbaby_in()
 {
   std::ofstream file(Config::get().energy.dftb.ext_charges);
+  file << mm_charge_vector.size() << "\n\n";
   for (std::size_t j = 0; j < mm_charge_vector.size(); ++j)  // writing point charges (from MM atoms) into file
   {
     file << mm_charge_vector[j] << " " << coords->xyz(mm_indices[j]).x() << " " << coords->xyz(mm_indices[j]).y() << " " << coords->xyz(mm_indices[j]).z() << "\n";
