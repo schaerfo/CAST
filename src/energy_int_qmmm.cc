@@ -287,9 +287,31 @@ void energy::interfaces::qmmm::QMMM::write_gaussian_in(char calc_type)
       out_file << coords->xyz(mm_indices[j]).x() << " " << coords->xyz(mm_indices[j]).y() << " " << coords->xyz(mm_indices[j]).z() << " " << mm_charge_vector[j] << "\n";
     }
     out_file << '\n';
-    for (std::size_t j = 0; j < mm_charge_vector.size(); ++j)  // writing points for electric field (positions of MM atoms)
+    if (Config::get().energy.gaussian.method == "DFTB=read")
     {
-      out_file << coords->xyz(mm_indices[j]).x() << " " << coords->xyz(mm_indices[j]).y() << " " << coords->xyz(mm_indices[j]).z() <<"\n";
+      std::vector<std::vector<std::string>> pairs = find_pairs(*coords);
+      for (auto p : pairs)
+      {
+        std::string filename = p[0] + "-" + p[1] + ".skf";
+        if (file_exists(filename) == false)
+        {
+          std::cout << "ERROR! Slater Koster file " << filename << " does not exist. Please download it from dftb.org and convert it with the task MODIFY_SK_FILES!\n";
+          std::exit(0);
+        }
+        out_file << "@./" << filename << " /N\n";
+      }
+    }
+    else if (Config::get().energy.gaussian.method == "DFTBA")
+    {
+      out_file << "@GAUSS_EXEDIR:dftba.prm\n";
+    }
+    if (calc_type == 'g')
+    {
+      out_file << '\n';
+      for (std::size_t j = 0; j < mm_charge_vector.size(); ++j)  // writing points for electric field (positions of MM atoms)
+      {
+        out_file << coords->xyz(mm_indices[j]).x() << " " << coords->xyz(mm_indices[j]).y() << " " << coords->xyz(mm_indices[j]).z() << "\n";
+      }
     }
     out_file.close();
   }
