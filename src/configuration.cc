@@ -660,34 +660,36 @@ void config::parse_option(std::string const option, std::string const value_stri
   //DFTBaby options
   else if (option.substr(0,4) == "DFTB")
   {
-    if (option.substr(4,3) == "ath")
-        Config::set().energy.dftb.path = value_string;
-    else if (option.substr(4,8) == "gradfile")
-        Config::set().energy.dftb.gradfile = value_string;
-    else if (option.substr(4,9) == "gradstate")
-        Config::set().energy.dftb.gradstate = std::stoi(value_string);
-    else if (option.substr(4,7) == "verbose")
-        Config::set().energy.dftb.verbose = std::stoi(value_string);
-    else if (option.substr(4,6) == "cutoff")
-        Config::set().energy.dftb.cutoff = std::stof(value_string);
-    else if (option.substr(4,7) == "lr_dist")
-        Config::set().energy.dftb.lr_dist = std::stof(value_string);
-    else if (option.substr(4,7) == "maxiter")
-        Config::set().energy.dftb.maxiter = std::stoi(value_string);
-    else if (option.substr(4,4) == "conv")
-        Config::set().energy.dftb.conv_threshold = value_string;
-    else if (option.substr(4,6) == "states")
-        Config::set().energy.dftb.states = std::stoi(value_string);
-    else if (option.substr(4,7) == "occ_orb")
-        Config::set().energy.dftb.orb_occ = std::stoi(value_string);
-    else if (option.substr(4,8) == "virt_orb")
-        Config::set().energy.dftb.orb_virt = std::stoi(value_string);
-    else if (option.substr(4,9) == "diag_conv")
-         Config::set().energy.dftb.diag_conv = value_string; 
-    else if (option.substr(4,12) == "diag_maxiter")
-        Config::set().energy.dftb.diag_maxiter = std::stoi(value_string);
-    else if (option.substr(4,12) == "charge")
-        Config::set().energy.dftb.charge = std::stoi(value_string);
+    if (option.substr(4, 3) == "ath")
+      Config::set().energy.dftb.path = value_string;
+    else if (option.substr(4, 8) == "gradfile")
+      Config::set().energy.dftb.gradfile = value_string;
+    else if (option.substr(4, 9) == "gradstate")
+      Config::set().energy.dftb.gradstate = std::stoi(value_string);
+    else if (option.substr(4, 7) == "verbose")
+      Config::set().energy.dftb.verbose = std::stoi(value_string);
+    else if (option.substr(4, 6) == "cutoff")
+      Config::set().energy.dftb.cutoff = std::stof(value_string);
+    else if (option.substr(4, 7) == "lr_dist")
+      Config::set().energy.dftb.lr_dist = std::stof(value_string);
+    else if (option.substr(4, 7) == "maxiter")
+      Config::set().energy.dftb.maxiter = std::stoi(value_string);
+    else if (option.substr(4, 4) == "conv")
+      Config::set().energy.dftb.conv_threshold = value_string;
+    else if (option.substr(4, 6) == "states")
+      Config::set().energy.dftb.states = std::stoi(value_string);
+    else if (option.substr(4, 7) == "occ_orb")
+      Config::set().energy.dftb.orb_occ = std::stoi(value_string);
+    else if (option.substr(4, 8) == "virt_orb")
+      Config::set().energy.dftb.orb_virt = std::stoi(value_string);
+    else if (option.substr(4, 9) == "diag_conv")
+      Config::set().energy.dftb.diag_conv = value_string;
+    else if (option.substr(4, 12) == "diag_maxiter")
+      Config::set().energy.dftb.diag_maxiter = std::stoi(value_string);
+    else if (option.substr(4, 12) == "charge")
+      Config::set().energy.dftb.charge = std::stoi(value_string);
+    else if (option.substr(4, 11) == "ext_charges")
+      Config::set().energy.dftb.ext_charges = value_string;
     else if (option.substr(4,7) == "lr_corr")
     {
        if (value_string == "1")

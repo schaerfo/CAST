@@ -35,6 +35,8 @@ void energy::interfaces::dftb::create_dftbaby_configfile()
         file << "diag_conv = "+Config::get().energy.dftb.diag_conv+"\n\n";
     if (Config::get().energy.dftb.diag_maxiter != 0)
         file << "diag_maxiter = "+std::to_string(Config::get().energy.dftb.diag_maxiter)+"\n\n";
+    if (Config::get().energy.dftb.ext_charges != "0")
+        file << "point_charges_xyz = MMcharges.dat\n\n";
     file.close();
 }
 
