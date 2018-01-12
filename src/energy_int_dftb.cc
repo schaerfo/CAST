@@ -169,7 +169,8 @@ double energy::interfaces::dftb::sysCallInterface::e(void)
         printf("ERROR: module dftbaby_interface not found\n"); 
         std::exit(0);
     }
-    std::remove("tmp_struc.xyz"); // delete file
+    std::remove("tmp_struc.xyz"); // delete files
+    if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
   return e_tot;
 }
 
@@ -261,7 +262,8 @@ double energy::interfaces::dftb::sysCallInterface::g(void)
       coords->swap_g_xyz(g_tmp); //give gradients to coordobject
     }
     
-    std::remove("tmp_struc.xyz"); // delete file
+    std::remove("tmp_struc.xyz"); // delete files
+    if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
   return e_tot;
 }
 

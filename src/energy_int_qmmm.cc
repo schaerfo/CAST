@@ -373,7 +373,14 @@ coords::float_type energy::interfaces::qmmm::QMMM::qmmm_calc(bool if_gradient)
 	std::cout << "QM programme failed. Treating structure as broken.\n";
     integrity = false;  // if QM programme fails: integrity is destroyed
   }
+
+  // delete MM charge files for MOAC and DFTBaby
   if (Config::get().energy.qmmm.qminterface == config::interface_types::T::MOPAC && Config::get().energy.mopac.delete_input) std::remove("mol.in");
+  else if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB && Config::get().energy.dftb.verbose > 1)
+  {
+    const char *chargefile = (Config::get().energy.dftb.ext_charges.c_str());
+    std::remove(chargefile);
+  }
   
   ww_calc(if_gradient);  // calculate interactions between QM and MM part
 
@@ -409,6 +416,10 @@ coords::float_type energy::interfaces::qmmm::QMMM::qmmm_calc(bool if_gradient)
     if (check_bond_preservation() == false) integrity = false;
     else if (check_atom_dist() == false) integrity = false;
   }
+
+  // delete QM charge file for dftbaby
+  if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB) std::remove("dftb_charges.txt");
+  
   return energy;
 }
 
@@ -488,8 +499,7 @@ void energy::interfaces::qmmm::QMMM::ww_calc(bool if_gradient)
             coords::float_type db = b / d;
             auto c_gradient_ij = r_ij * db / d;
             c_gradient[j] -= c_gradient_ij;
-          }
-          
+          }          
 
           // gradients of vdW interaction
           coords::float_type const V = p_ij.E*R_r;
