@@ -477,10 +477,16 @@ void energy::interfaces::qmmm::QMMM::ww_calc(bool if_gradient)
         {
           
           if (Config::get().energy.qmmm.qminterface == config::interface_types::T::MOPAC)
-          {    // gradients of coulomb interaction (only for MOPAC here)
+          {    // gradients of coulomb interaction (for MOPAC: QM and MM atoms)
 			      coords::float_type db = b / d;  
 			      auto c_gradient_ij = r_ij * db / d;
             c_gradient[i] += c_gradient_ij;
+            c_gradient[j] -= c_gradient_ij;
+          }
+          else if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB)
+          {    // gradients of coulomb interaction (for DFTBaby: only MM atoms)
+            coords::float_type db = b / d;
+            auto c_gradient_ij = r_ij * db / d;
             c_gradient[j] -= c_gradient_ij;
           }
           
