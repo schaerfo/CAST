@@ -117,12 +117,13 @@ namespace energy
       private:
 
         /**
-        writes inputfile for MOPAC calculation (see http://openmopac.net/manual/QMMM.html)
+        writes a file with external charges for MOPAC calculation (see http://openmopac.net/manual/QMMM.html)
         */
         void write_mol_in();
         /**writes inputfile for gaussian calculation*/
         void write_gaussian_in(char);
-        /**writes inputfile for dftbaby calculation*/
+        /**writes a file with external charges for dftbaby calculation
+        this file looks like a XYZ file but with charges instead of atomic numbers*/
         void write_dftbaby_in();
 
         /**calculates interaction between QM and MM part
