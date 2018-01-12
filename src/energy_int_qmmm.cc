@@ -426,7 +426,7 @@ coords::float_type energy::interfaces::qmmm::QMMM::qmmm_calc(bool if_gradient)
 /**calculates interaction between QM and MM part
 energy is only vdW interactions
 for MOPAC gradients are coulomb and vdW
-for GAUSSIAN gradients are vdW and coulomb on MM atoms
+for GAUSSIAN and DFTBaby gradients are vdW and coulomb on MM atoms
 @param if_gradient: true if gradients should be calculated, false if not*/
 void energy::interfaces::qmmm::QMMM::ww_calc(bool if_gradient)
 {

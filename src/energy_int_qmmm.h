@@ -3,12 +3,15 @@ CAST 3
 energy_int_qmmm.h
 Purpose: QM/MM interface
 
-This is a QM/MM interface between one of the forcefields OPLSAA, AMBER and CHARM with MOPAC or GAUSSIAN.
+This is a QM/MM interface between one of the forcefields OPLSAA, AMBER and CHARM with MOPAC, GAUSSIAN or DFTBaby.
 Interactions between QM and MM part are done by electrostatic embedding (see Gerrit Groenhof "Introduction to QM/MM Simulations", figure 4).
 Only non-bonded interactions are implemented so there must not be bonds between the QM and the MM part.
 
 MOPAC: Gradients of coulomb interactions between QM and MM part are calculated by CAST using the derived charge distribution for QM atoms from MOPAC.
 (see http://openmopac.net/manual/QMMM.html)
+
+DFTBaby: Gradients of coulomb interactions between QM and MM part on QM atoms are calculated by DFTBaby,
+on MM atoms they are calculated using the mulliken charges of the QM atoms from DFTBaby.
 
 GAUSSIAN: Gradients of coulomb interactions between QM and MM part on QM atoms are calculated by GAUSSIAN,
 on MM atoms they are calculated by CAST using the electric field from GAUSSIAN. 
