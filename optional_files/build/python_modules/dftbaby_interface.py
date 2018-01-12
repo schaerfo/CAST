@@ -143,9 +143,6 @@ def calc_energies(xyzfile, optionfile):
 
         if dftb2.long_range_correction == 1:  # add long range correction to partial energies
             energies.append(dftb2.E_HF_x)
-            
-        print dftb2.getPartialCharges()
-        print len(dftb2.getPartialCharges())
         
         with open("dftb_charges.txt","w") as chargefile:
             for q in dftb2.getPartialCharges():
