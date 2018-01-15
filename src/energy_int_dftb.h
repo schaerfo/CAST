@@ -123,6 +123,9 @@ namespace energy
 				add all necessary paths to pythonpath*/
 				std::string add_path;
 
+        /**counter for failed dftbaby calls*/
+        int failcounter;
+
 				/*
 				checks if all bonds are still intact (bond length smaller than 2.2 Angstrom)
 				*/

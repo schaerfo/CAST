@@ -58,7 +58,7 @@ std::string energy::interfaces::dftb::create_pythonpath(std::string numpath, std
 
 energy::interfaces::dftb::sysCallInterface::sysCallInterface(coords::Coordinates * cp) :
   energy::interface_base(cp),
-  e_bs(0.0), e_coul(0.0), e_rep(0.0), e_tot(0.0)
+  e_bs(0.0), e_coul(0.0), e_rep(0.0), e_tot(0.0), failcounter(0u)
 {
     std::string numpath = get_python_modulepath("numpy");
     std::string scipath = get_python_modulepath("scipy");
@@ -69,7 +69,7 @@ energy::interfaces::dftb::sysCallInterface::sysCallInterface(coords::Coordinates
 
 energy::interfaces::dftb::sysCallInterface::sysCallInterface(sysCallInterface const & rhs, coords::Coordinates *cobj) :
   interface_base(cobj),
-  e_bs(rhs.e_bs), e_coul(rhs.e_coul), e_rep(rhs.e_rep), e_tot(rhs.e_tot)
+  e_bs(rhs.e_bs), e_coul(rhs.e_coul), e_rep(rhs.e_rep), e_tot(rhs.e_tot), failcounter(0u)
 {
   interface_base::operator=(rhs);
 }
@@ -94,6 +94,7 @@ void energy::interfaces::dftb::sysCallInterface::swap(interface_base &rhs)
 void energy::interfaces::dftb::sysCallInterface::swap(sysCallInterface &rhs)
 {
   interface_base::swap(rhs);
+  std::swap(failcounter, rhs.failcounter);
 }
 
 energy::interfaces::dftb::sysCallInterface::~sysCallInterface(void)
@@ -149,6 +150,11 @@ double energy::interfaces::dftb::sysCallInterface::e(void)
           if (Config::get().general.verbosity >= 2)
           {
             std::cout << "DFTBaby gave an error. Treating structure as broken.\n";
+          }
+          if (Config::get().energy.dftb.verbose > 0)
+          {
+            std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
+            rename("tmp_struc.xyz", newname.c_str());
           }
           e_bs = 0;
           e_coul = 0;
@@ -216,9 +222,15 @@ double energy::interfaces::dftb::sysCallInterface::g(void)
       }
       else
       {
+        failcounter++;
         if (Config::get().general.verbosity >= 2)
         {
-          std::cout << "DFTBaby gave an error. Treating structure as broken.\n";
+          std::cout << failcounter << ": DFTBaby gave an error. Treating structure as broken.\n";
+        }
+        if (Config::get().energy.dftb.verbose > 0)
+        {
+          std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
+          rename("tmp_struc.xyz", newname.c_str());
         }
         e_bs = 0;
         e_coul = 0;
@@ -313,6 +325,11 @@ double energy::interfaces::dftb::sysCallInterface::h(void)
             {
               std::cout << "DFTBaby gave an error. Treating structure as broken.\n";
             }
+            if (Config::get().energy.dftb.verbose > 0)
+            {
+              std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
+              rename("tmp_struc.xyz", newname.c_str());
+            }
             e_bs = 0;
             e_coul = 0;
             e_rep = 0;
@@ -403,6 +420,11 @@ double energy::interfaces::dftb::sysCallInterface::o(void)
           if (Config::get().general.verbosity >= 2)
           {
             std::cout << "DFTBaby gave an error. Treating structure as broken.\n";
+          }
+          if (Config::get().energy.dftb.verbose > 0)
+          {
+            std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
+            rename("tmp_struc.xyz", newname.c_str());
           }
           e_bs = 0;
           e_coul = 0;
