@@ -155,6 +155,12 @@ double energy::interfaces::dftb::sysCallInterface::e(void)
           {
             std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
             rename("tmp_struc.xyz", newname.c_str());
+            if (Config::get().energy.qmmm.use == true)
+            {
+              newname = "fail_MMcharges_" + std::to_string(failcounter) + ".txt";
+              std::string oldname = Config::get().energy.dftb.ext_charges;
+              rename(oldname.c_str(), newname.c_str());
+            }
           }
           e_bs = 0;
           e_coul = 0;
@@ -231,6 +237,12 @@ double energy::interfaces::dftb::sysCallInterface::g(void)
         {
           std::string newname = "fail_" + std::to_string(failcounter) + ".xyz";
           rename("tmp_struc.xyz", newname.c_str());
+          if (Config::get().energy.qmmm.use == true)
+          {
+            newname = "fail_MMcharges_" + std::to_string(failcounter) + ".txt";
+            std::string oldname = Config::get().energy.dftb.ext_charges;
+            rename(oldname.c_str(), newname.c_str());
+          }
         }
         e_bs = 0;
         e_coul = 0;
