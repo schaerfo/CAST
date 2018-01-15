@@ -175,7 +175,7 @@ double energy::interfaces::dftb::sysCallInterface::e(void)
         printf("ERROR: module dftbaby_interface not found\n"); 
         std::exit(0);
     }
-    std::remove("tmp_struc.xyz"); // delete files
+    if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete files
     if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
   return e_tot;
 }
@@ -274,7 +274,7 @@ double energy::interfaces::dftb::sysCallInterface::g(void)
       coords->swap_g_xyz(g_tmp); //give gradients to coordobject
     }
     
-    std::remove("tmp_struc.xyz"); // delete files
+    if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete files
     if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
   return e_tot;
 }
@@ -372,7 +372,7 @@ double energy::interfaces::dftb::sysCallInterface::h(void)
         coords->set_hessian(hess);  //set hessian
         std::remove("hessian.txt"); // delete file
       }
-      std::remove("tmp_struc.xyz"); // delete file
+      if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete file
 
   return e_tot;
 }
@@ -466,7 +466,7 @@ double energy::interfaces::dftb::sysCallInterface::o(void)
       std::remove("tmp_struc_opt.xyz"); // delete file
     }
    
-    std::remove("tmp_struc.xyz"); // delete file
+    if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete file
   return e_tot;
 }
 
