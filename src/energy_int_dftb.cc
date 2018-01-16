@@ -182,7 +182,10 @@ double energy::interfaces::dftb::sysCallInterface::e(void)
         std::exit(0);
     }
     if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete files
-    if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
+    if (Config::get().energy.qmmm.use == false && Config::get().energy.dftb.init_charges == false)
+    {
+      std::remove("dftb_charges.txt");
+    }
   return e_tot;
 }
 
@@ -287,7 +290,10 @@ double energy::interfaces::dftb::sysCallInterface::g(void)
     }
     
     if (Config::get().energy.dftb.verbose == 0) std::remove("tmp_struc.xyz"); // delete files
-    if (Config::get().energy.qmmm.use == false) std::remove("dftb_charges.txt");
+    if (Config::get().energy.qmmm.use == false && Config::get().energy.dftb.init_charges == false)
+    {
+      std::remove("dftb_charges.txt");
+    }
   return e_tot;
 }
 

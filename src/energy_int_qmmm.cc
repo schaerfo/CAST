@@ -418,7 +418,10 @@ coords::float_type energy::interfaces::qmmm::QMMM::qmmm_calc(bool if_gradient)
   }
 
   // delete QM charge file for dftbaby
-  if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB) std::remove("dftb_charges.txt");
+  if (Config::get().energy.qmmm.qminterface == config::interface_types::T::DFTB && Config::get().energy.dftb.init_charges == false)
+  {
+    std::remove("dftb_charges.txt");
+  }
   
   return energy;
 }

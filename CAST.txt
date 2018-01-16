@@ -202,6 +202,9 @@ DFTBvirt_orb            2
 # use DFTBaby for optimization (otherwise steepest gradient) <0/1>
 DFTBopt                  1
 
+# use charges of former calculation as initial charge guess (recommended) <0/1>
+DFTBinit_charges
+
 # name of file to external charges (has to be filled when using QMMM)
 DFTBext_charges          MMcharges.txt
 

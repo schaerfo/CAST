@@ -692,12 +692,15 @@ void config::parse_option(std::string const option, std::string const value_stri
       Config::set().energy.dftb.ext_charges = value_string;
     else if (option.substr(4,7) == "lr_corr")
     {
-       if (value_string == "1")
-          Config::set().energy.dftb.longrange = true;
+       if (value_string == "1") Config::set().energy.dftb.longrange = true;
     }   
     else if (option.substr(4,3) == "opt")
     {
       if (value_string == "1") Config::set().energy.dftb.opt = true;
+    }
+    else if (option.substr(4, 12) == "init_charges")
+    {
+      if (value_string == "0") Config::set().energy.dftb.init_charges = false;
     }
   }
 
