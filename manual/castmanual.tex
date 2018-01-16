@@ -478,6 +478,7 @@ If you want to run CAST with DFTB, set the interface parameter in the CAST input
 	\textbf{DFTBdiag\_maxiter} & maximum number of iterations for TD-DFTB matrix diagonalisation & int [none] \\
 	\textbf{DFTBdiag\_conv} & convergence threshold for TD-DFTB matrix diagonalisation & string [none] \\
 	\textbf{DFTBopt} & use DFTBaby optimizer for optimization instead of steepest gradient that is implemented in CAST (of course this is not an option of DFTBaby) & bool [true] \\
+	\textbf{DFTBinit\_charges} & use charges of former calculation as initial guess? (useful for calculations where energy or gradients are calculated several times for the same system, e.\,g. in MD simulations or in local optimisation)  & bool [true] \\
 	\textbf{DFTBext\_charges} & name of a file with external charges (e.\,g. used for QM/MM)  & string [none] \\
 \end{longtable} 
 
