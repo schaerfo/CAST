@@ -148,7 +148,8 @@ def calc_energies(xyzfile, optionfile):
 
         if dftb2.long_range_correction == 1:  # add long range correction to partial energies
             energies.append(dftb2.E_HF_x)
-        
+
+        # write a file that can be used as initial charge guess
         with open("dftb_charges.txt","w") as chargefile:
             for q in dftb2.getPartialCharges():
                 chargefile.write(str(q)+"\n")
@@ -187,7 +188,8 @@ def calc_gradients(xyzfile, optionfile):
 
         if tddftb.dftb2.long_range_correction == 1:  # add long range correction to partial energies
             energies.append(tddftb.dftb2.E_HF_x)
-            
+
+        # write a file that can be used as initial charge guess
         with open("dftb_charges.txt","w") as chargefile:
             for q in tddftb.dftb2.getPartialCharges():
                 chargefile.write(str(q)+"\n")
