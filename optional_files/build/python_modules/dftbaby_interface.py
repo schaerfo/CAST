@@ -1,6 +1,6 @@
 import sys
+import os
 import numpy
-import warnings
 from scipy import optimize
 from copy import copy
 
@@ -10,8 +10,6 @@ from DFTB.LR_TDDFTB import LR_TDDFTB
 from DFTB.ExcGradients import Gradients
 from DFTB.PES import PotentialEnergySurfaces
 from DFTB.Dynamics import HarmonicApproximation
-
-warnings.filterwarnings("error")  # catch warnings like exceptions
 
 SCF_OPTIONLIST = ['scf_conv', 'start_from_previous', 'level_shift', 'density_mixer',
                   'fock_interpolator', 'mixing_threshold', 'HOMO_LUMO_tol', 'maxiter',
