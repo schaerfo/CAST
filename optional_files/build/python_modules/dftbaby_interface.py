@@ -89,6 +89,11 @@ def read_options(filename):
     for v in valuelist_str:
         valuelist.append(convert_string(v))
 
+    # if chargefile exist: use as initial charge guess
+    if os.path.exists("dftb_charges.txt"):
+        optionlist.append("initial_charge_guess")
+        valuelist.append("dftb_charges.txt")
+
     return dict(zip(optionlist, valuelist))
 
 
