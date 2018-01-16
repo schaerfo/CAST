@@ -558,17 +558,13 @@ energy::interfaces::dftb::sysCallInterface::charges() const
   }
 
   std::vector<coords::float_type> charges;
-  std::vector<std::string> chargestrings;
   std::string line;
-
   std::ifstream chargefile("dftb_charges.txt", std::ios_base::in);
-  std::getline(chargefile, line);
-  line.pop_back();
-  chargestrings = split(line, ';');
 
-  for (auto charge : chargestrings)
+  for (int i = 0; i < coords->size(); i++)
   {
-    charges.push_back(std::stod(charge));
+    std::getline(chargefile, line);
+    charges.push_back(std::stod(line));
   }
   return charges;
 }
