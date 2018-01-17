@@ -1,4 +1,4 @@
-/**
+﻿/**
 CAST 3
 configurationHelperfunctions.h
 Purpose: Functions to parse input / output / etc.
@@ -51,13 +51,13 @@ namespace config
    *
    * Helper function that creates a
    * boolean value from an istringstream,
-   * specifically from a numerical value contained
-   * in this stream ( 0 = false, 1 = true ).
+   * scanning for "TRUE", "true", "True" or 1
+   * (and equivalently for false)
    *
-   * All numbers smaller than or euql to 0 are considered false.
-   * All numbers bigger than 1 are considered true.
+   * Throws formated output when @value option is given when
+   * boolean value cannot be determined.
    */
-  bool bool_from_iss(std::istringstream & in);
+  bool bool_from_iss(std::istringstream & in, std::string const& option = std::string());
 
 
   template<typename T>
@@ -98,18 +98,11 @@ namespace config
   * @todo: remove in favor of "sorted_indices_from_cs_string"
   */
   template<typename T>
-  std::vector<T> configuration_range_int(std::istringstream& cv)
+  std::vector<T> configuration_range_int(std::vector<std::string>& holder)
   {
     bool none_check = false;
     std::vector<T> temp;
-    std::vector<std::string> holder;
-    while (cv)
-    {
-      std::string temp2;
-      cv >> temp2;
-      holder.push_back(temp2);
-    }
-    holder.pop_back();
+
     for (unsigned int i = 0; i < holder.size(); i++)
     {
       if (holder[i] == "none")
@@ -224,15 +217,8 @@ namespace config
     return temp;
   }
 
-  /**
-   * Helper function that sorts numerical
-   * integer type numbers into a vector. Every number
-   * is only inserted once ("uniquely").
-   *
-   * @param str: String containing number range (ex. "0-2, 7, 2, 3, 3, 13-15")
-   * @return: vector containing sorted unique numbers (ex. "0, 1, 2, 3, 7, 13, 14, 15")
-   */
-  std::vector<std::size_t> sorted_indices_from_cs_string(std::string str);
+
+
 
   /**
    * Helperfunction that (tries to)

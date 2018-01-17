@@ -6,6 +6,104 @@
  */
 Config * Config::m_instance = nullptr;
 
+/**
+* Helper function that sorts numerical
+* integer type numbers into a vector. Every number
+* is only inserted once ("uniquely").
+*
+* @param str: String containing number range (ex. "0-2, 7, 2, 3, 3, 13-15")
+* @return: vector containing sorted unique numbers (ex. "0, 1, 2, 3, 7, 13, 14, 15")
+*/
+std::vector<std::size_t> config::sorted_indices_from_cs_string(std::string str, bool minus_1)
+{
+  // remove all spaces
+  str.erase(std::remove_if(str.begin(), str.end(),
+    [](char c) -> bool {return std::isspace(c) > 0; }),
+    str.end());
+  // replace all commas with spaces
+  std::replace(str.begin(), str.end(), ',', ' ');
+  std::string d;
+  std::stringstream iss(str);
+  std::vector<std::size_t> re;
+  // get each seperated value as single string d
+  while (iss >> d)
+  {
+    auto dash_pos = d.find('-');
+    // if element is a range (contains '-')
+    if (dash_pos != std::string::npos)
+    {
+      d[dash_pos] = ' ';
+      std::stringstream pss{ d };
+      std::size_t first(0), last(0);
+      if (pss >> first && pss >> last)
+      {
+        if (first <= last && (!minus_1 || first > 0))
+        {
+          for (auto i = first; i <= last; ++i)
+          {
+            re.push_back(minus_1 ? i - 1u : i);
+          }
+        }
+        else
+        {
+          throw std::runtime_error("Invalid range for indices: '" +
+            std::to_string(first) + " - " + std::to_string(last) + "'.");
+        }
+      }
+
+      else
+      {
+        throw std::runtime_error("Cannot read index range from '" + d + "'.");
+      }
+    }
+    // throw if non-numeric character is found
+    else if (d.find_first_not_of("0123456789") != std::string::npos)
+    {
+      throw std::runtime_error("Non numeric character found in '" + d + "'.");
+    }
+    // read number from stringstream of d
+    else
+    {
+      std::stringstream pss{ d };
+      std::size_t value;
+      if (pss >> value && (!minus_1 || value > 0))
+      {
+        re.push_back(minus_1 ? value- 1u : value);
+      }
+      else
+      {
+        throw std::runtime_error("Cannot read index from '" + d + "'.");
+      }
+    }
+  }
+  // sort resulting numbers
+  std::sort(re.begin(), re.end());
+  // remove duplicates and return rest
+  return std::vector<std::size_t>{re.begin(), std::unique(re.begin(), re.end())};
+}
+
+
+
+template<typename T>
+static T clip(T value, T const LOW, T const HIGH)
+{
+  using std::min;
+  using std::max;
+  return min(HIGH, max(LOW, value));
+}
+
+
+template<typename ENUM_T, std::size_t ARR_SIZE>
+static ENUM_T enum_type_from_string_arr(std::string const & S, std::string const (&arr)[ARR_SIZE])
+{
+  for (std::size_t i = 0; i < ARR_SIZE; ++i)
+  {
+    if (S.find(arr[i]) != S.npos) return static_cast<ENUM_T>(i);
+  }
+  return static_cast<ENUM_T>(-1);
+}
+
+
 config::tasks::T Config::getTask(std::string const & S)
 {
   for (std::size_t i = 0; i < config::NUM_TASKS; ++i)
@@ -36,25 +134,6 @@ config::output_types::T Config::getOutFormat(std::string const & S)
   return config::output_types::ILLEGAL;
 }
 
-config::solvs::S Config::getSolv(std::string const & S)
-{
-  for (std::size_t i = 0; i < config::NUM_SOLV; ++i)
-  {
-    if (S.find(config::solv_strings[i]) != S.npos)
-      return static_cast<config::solvs::S>(i);
-  }
-  return config::solvs::VAC;
-}
-
-config::surfs::SA Config::getSurf(std::string const & S)
-{
-  for (std::size_t i = 0; i < config::NUM_SURF; ++i)
-  {
-    if (S.find(config::surf_strings[i]) != S.npos)
-      return static_cast<config::surfs::SA>(i);
-  }
-  return config::surfs::TINKER;
-}
 
 /*
 
@@ -343,19 +422,13 @@ void config::parse_option(std::string const option, std::string const value_stri
   {
     cv >> Config::set().energy.cutoff;
     Config::set().energy.cutoff = Config::get().energy.cutoff < 9.0 ? 10.0 : Config::get().energy.cutoff;
-    if (Config::get().energy.periodic)
+    if (Config::get().periodics.periodic)
     {
-      double const min_cut(min(abs(Config::get().energy.pb_box)) / 2.0);
-      if (min_cut > 9.0) Config::set().energy.cutoff = min_cut;
+      double const min_cut(min(abs(Config::get().periodics.pb_box)) / 2.0);
+      if (min_cut > 9.0) 
+        Config::set().energy.cutoff = min_cut;
     }
     Config::set().energy.switchdist = Config::get().energy.cutoff - 4.0;
-  }
-  // Turn particle mesh ewald on
-  // CURRENTLY OUT OF ORDER
-  // Default: Off
-  else if (option == "PME")
-  {
-    cv >> Config::set().energy.pme;
   }
 
   // Radius to start switching function to kick in; scales interactions smoothly to zero at cutoff radius
@@ -393,21 +466,6 @@ void config::parse_option(std::string const option, std::string const value_stri
     }
   }
 
-  //! Methods for implicit solvation
-
-  // Method for solvation
-  // Default: VAC (i guess vacuum?)
-  else if (option == "solvmethod")
-  {
-    config::solvs::S solvmethod(Config::getSolv(value_string));
-    Config::set().general.solvationmethod = solvmethod;
-  }
-  else if (option == "surface")
-  {
-    config::surfs::SA surfmethod(Config::getSurf(value_string));
-    Config::set().general.surfacemethod = surfmethod;
-  }
-
   // Output type for structures
   else if (option == "outputtype")
   {
@@ -443,6 +501,8 @@ void config::parse_option(std::string const option, std::string const value_stri
       std::cout << "Configuration contained illegal interface." << std::endl;
       std::cout << "Using default energy interface: OPLSAA." << std::endl;
     }
+    if (inter == interface_types::QMMM) Config::set().energy.qmmm.use = true;
+    else Config::set().energy.qmmm.use = false;
   }
 
   // Preoptimizazion energy calculation interface
@@ -462,6 +522,41 @@ void config::parse_option(std::string const option, std::string const value_stri
     std::cout << "CAST was compiled without multithreading. Ignoring the config-option \"cores\"." << std::endl;
 #endif
   }
+
+  //! Qmmm-Option
+  else if (option.substr(0, 4u) == "QMMM")
+  {
+    if (option.substr(4u) == "qmatoms")
+    {
+      Config::set().energy.qmmm.qmatoms = 
+        sorted_indices_from_cs_string(value_string, true);
+    }
+    else if (option.substr(4u) == "mminterface")
+    {
+      interface_types::T inter = Config::getInterface(value_string);
+      if (inter != interface_types::ILLEGAL)
+      {
+        Config::set().energy.qmmm.mminterface = inter;
+      }
+      else
+      {
+        std::cout << "Configuration contained illegal QMMM MM-interface." << std::endl;
+      }
+    }
+    else if (option.substr(4u) == "qminterface")
+    {
+      interface_types::T inter = Config::getInterface(value_string);
+      if (inter != interface_types::ILLEGAL)
+      {
+        Config::set().energy.qmmm.qminterface = inter;
+      }
+      else
+      {
+        std::cout << "Configuration contained illegal QMMM QM-interface." << std::endl;
+      }
+    }
+  }
+
 
   //!SPACKMAN
   else if (option == "Spackman")
@@ -529,6 +624,14 @@ void config::parse_option(std::string const option, std::string const value_stri
 		  cv >> Config::set().neb.COMPLETE_PATH;
 	  else if (option.substr(11, 20) == "-NEB-MULTIPLE_POINTS")
 		  cv >> Config::set().neb.MULTIPLE_POINTS;
+     else if (option.substr(11, 27) == "-NEB-INTERNAL_INTERPOLATION")
+      cv >> Config::set().neb.INTERNAL_INTERPOLATION;
+	 else if (option.substr(11, 12) == "-NEB-MCM_OPT")
+		 cv >> Config::set().neb.MCM_OPT;
+	 else if (option.substr(11, 12) == "-NEB-MC_SAVE")
+		 cv >> Config::set().neb.MCM_SAVEITER;
+	 else if (option.substr(11, 5) == "-CONN")
+		 cv >> Config::set().neb.CONN;
   }
 
   // MOPAC options
@@ -536,6 +639,8 @@ void config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(5, 3) == "key")
       Config::set().energy.mopac.command = value_string;
+    else if (option.substr(5, 4) == "link")
+      Config::set().energy.gaussian.link = value_string;
     else if (option.substr(5, 4) == "path")
       Config::set().energy.mopac.path = value_string;
     else if (option.substr(5, 6) == "delete")
@@ -550,6 +655,73 @@ void config::parse_option(std::string const option, std::string const value_stri
         config::NUM_MOPAC_VERSION
         >(value_string, config::mopac_ver_string);
     }
+  }
+
+  //DFTBaby options
+  else if (option.substr(0,4) == "DFTB")
+  {
+    if (option.substr(4,3) == "ath")
+        Config::set().energy.dftb.path = value_string;
+    else if (option.substr(4,8) == "gradfile")
+        Config::set().energy.dftb.gradfile = value_string;
+    else if (option.substr(4,9) == "gradstate")
+        Config::set().energy.dftb.gradstate = std::stoi(value_string);
+    else if (option.substr(4,7) == "verbose")
+        Config::set().energy.dftb.verbose = std::stoi(value_string);
+    else if (option.substr(4,6) == "cutoff")
+        Config::set().energy.dftb.cutoff = std::stof(value_string);
+    else if (option.substr(4,7) == "lr_dist")
+        Config::set().energy.dftb.lr_dist = std::stof(value_string);
+    else if (option.substr(4,7) == "maxiter")
+        Config::set().energy.dftb.maxiter = std::stoi(value_string);
+    else if (option.substr(4,4) == "conv")
+        Config::set().energy.dftb.conv_threshold = value_string;
+    else if (option.substr(4,6) == "states")
+        Config::set().energy.dftb.states = std::stoi(value_string);
+    else if (option.substr(4,7) == "occ_orb")
+        Config::set().energy.dftb.orb_occ = std::stoi(value_string);
+    else if (option.substr(4,8) == "virt_orb")
+        Config::set().energy.dftb.orb_virt = std::stoi(value_string);
+    else if (option.substr(4,9) == "diag_conv")
+         Config::set().energy.dftb.diag_conv = value_string; 
+    else if (option.substr(4,12) == "diag_maxiter")
+        Config::set().energy.dftb.diag_maxiter = std::stoi(value_string);
+    else if (option.substr(4,12) == "charge")
+        Config::set().energy.dftb.charge = std::stoi(value_string);
+    else if (option.substr(4,7) == "lr_corr")
+    {
+       if (value_string == "1")
+          Config::set().energy.dftb.longrange = true;
+    }   
+    else if (option.substr(4,3) == "opt")
+    {
+      if (value_string == "1") Config::set().energy.dftb.opt = true;
+    }
+  }
+
+  //Gaussian options
+  else if (option.substr(0, 8) == "GAUSSIAN")
+  {
+    if (option.substr(8, 6) == "method")
+      Config::set().energy.gaussian.method = value_string;
+    else if (option.substr(8, 8) == "basisset")
+      Config::set().energy.gaussian.basisset = value_string;
+    else if (option.substr(8, 14) == "specifications")
+      Config::set().energy.gaussian.spec = value_string;
+    else if (option.substr(8, 4) == "link")
+      Config::set().energy.gaussian.link = value_string;
+    else if (option.substr(8, 6) == "charge")
+      Config::set().energy.gaussian.charge = value_string;
+    else if (option.substr(8, 12) == "multiplicity")
+      Config::set().energy.gaussian.multipl = value_string;
+    else if (option.substr(8, 4) == "path")
+      Config::set().energy.gaussian.path = value_string;
+    else if (option.substr(8, 3) == "opt")
+      Config::set().energy.gaussian.opt = bool_from_iss(cv);
+    else if (option.substr(8, 5) == "steep")
+      Config::set().energy.gaussian.steep = bool_from_iss(cv);
+    else if (option.substr(8, 6) == "delete")
+      Config::set().energy.gaussian.delete_input = bool_from_iss(cv);
   }
 
   // convergence threshold for bfgs
@@ -682,6 +854,10 @@ void config::parse_option(std::string const option, std::string const value_stri
 	  {
 		  cv >> Config::set().md.veloScale;
 	  }
+      else if (option.substr(2, 12) == "temp_control")
+      {
+        if (cv.str() == "0") Config::set().md.temp_control = false;
+      }
 	  else if (option.substr(2, 10) == "thermostat")
 	  {
 		  Config::set().md.hooverHeatBath = bool_from_iss(cv);
@@ -834,22 +1010,36 @@ void config::parse_option(std::string const option, std::string const value_stri
 
   else if (option.substr(0, 9) == "Periodics")
   {
-    Config::set().energy.periodic = bool_from_iss(cv);
-    if (cv >> Config::set().energy.pb_box.x()
-      && cv >> Config::set().energy.pb_box.y()
-      && cv >> Config::set().energy.pb_box.z() )
+    Config::set().periodics.periodic = bool_from_iss(cv, option.substr(0, 9));
+    if (cv >> Config::set().periodics.pb_box.x()
+      && cv >> Config::set().periodics.pb_box.y()
+      && cv >> Config::set().periodics.pb_box.z() )
     {
-      double const min_cut(min(abs(Config::get().energy.pb_box)) / 2.0);
-      if (Config::set().energy.periodic
+      double const min_cut(min(abs(Config::get().periodics.pb_box)) / 2.0);
+      if (Config::set().periodics.periodic
         && Config::get().energy.cutoff > min_cut)
       {
         Config::set().energy.cutoff = min_cut;
+        Config::set().energy.switchdist = Config::get().energy.cutoff - std::min(1./10. * min_cut, 4.0);
+
       }
     }
   }
   else if (option.substr(0, 9) == "Periodicp")
   {
-    Config::set().energy.periodic_print = bool_from_iss(cv);
+    Config::set().periodics.periodic_print = bool_from_iss(cv, option.substr(0, 9));
+  }
+  else if (option.substr(0, 15) == "PeriodicCutout")
+  {
+    Config::set().periodics.periodicCutout = bool_from_iss(cv, option.substr(0, 15));
+  }
+  else if (option.substr(0, 23) == "PeriodicCutoutCriterion")
+  {
+    cv >> Config::set().periodics.criterion;
+  }
+  else if (option.substr(0, 23) == "PeriodicCutoutDistance")
+  {
+    cv >> Config::set().periodics.cutout_distance_to_box;
   }
 
   else if (option.substr(0, 3) == "FEP")
@@ -889,6 +1079,18 @@ void config::parse_option(std::string const option, std::string const value_stri
     else if (option.substr(3, 4) == "freq")
     {
       cv >> Config::set().fep.freq;
+    }
+    else if (option.substr(3, 7) == "analyze")
+    {
+      std::string a;
+      cv >> a;
+      if (a == "0") Config::set().fep.analyze = false;
+    }
+    else if (option.substr(3, 3) == "bar")
+    {
+      std::string a;
+      cv >> a;
+      if (a == "1") Config::set().fep.bar = true;
     }
   }
 
@@ -1078,41 +1280,13 @@ void config::parse_option(std::string const option, std::string const value_stri
   //! Fixation excluding
   else if (option.substr(0, 10) == "FIXexclude")
   {
-    Config::set().energy.remove_fixed = bool_from_iss(cv);
+    Config::set().energy.remove_fixed = bool_from_iss(cv, option.substr(0, 10));
   }
   //! Fixation 
   else if (option.substr(0, 8) == "FIXrange")
   {
-    std::size_t start(0), end(0);
-    if (cv >> start && cv >> end && start > 0 && end > start)
-    {
-      for (std::size_t a(start - 1u); a < end; ++a)
-      {
-        //std::cout << "RangeFIXING: " << a << "\n";
-        scon::sorted::insert_unique(Config::set().coords.fixed, a);
-      }
-    }
-  }
-
-  else if (option.substr(0, 7) == "ATOMFIX")
-  {
-    auto fixed = from_iss<std::size_t>(cv) - 1u;
-    //std::cout << "ATOMIXing: " << fixed << "\n";
-    scon::sorted::insert_unique(Config::set().coords.fixed, fixed);
-  }
-
-  else if (option.substr(0, 5) == "ADJUST")
-  {
-    if (option.substr(5, 3) == "dih")
-    {
-      config::adjust_conf::dihedral ald;
-      if (cv >> ald.a && cv >> ald.b
-        && cv >> ald.c && cv >> ald.d && cv >> ald.value)
-      {
-        --ald.a; --ald.b; --ald.c; --ald.d;
-        Config::set().adjustment.dihedrals.push_back(ald);
-      }
-    }
+    std::vector<size_t> indicesFromString = sorted_indices_from_cs_string(value_string);
+    Config::set().coords.fixed = indicesFromString;
   }
 
   //! Connect two atoms internally
@@ -1124,7 +1298,6 @@ void config::parse_option(std::string const option, std::string const value_stri
       Config::set().coords.internal.connect[a] = b;
       Config::set().coords.internal.connect[b] = a;
     }
-    Config::set().energy.remove_fixed = bool_from_iss(cv);
   }
   else if (option.substr(0u, 4u) == "MAIN")
   {
@@ -1153,7 +1326,7 @@ void config::parse_option(std::string const option, std::string const value_stri
 
   else if (option.substr(0, 10) == "REMOVEHROT")
   {
-    Config::set().coords.remove_hydrogen_rot = bool_from_iss(cv);
+    Config::set().coords.remove_hydrogen_rot = bool_from_iss(cv, option.substr(0, 10));
   }
 
   else if (option.substr(0, 4) == "BIAS")
@@ -1171,7 +1344,6 @@ void config::parse_option(std::string const option, std::string const value_stri
       }
     }
 
-
     else if (option.substr(4, 5) == "cubic")
     {
 
@@ -1184,7 +1356,6 @@ void config::parse_option(std::string const option, std::string const value_stri
         Config::set().coords.bias.cubic.push_back(buffer);
       }
     }
-
 
     else if (option.substr(4, 3) == "dih")
     {
@@ -1199,7 +1370,6 @@ void config::parse_option(std::string const option, std::string const value_stri
         --biasBuffer.b;
         --biasBuffer.c;
         --biasBuffer.d;
-        biasBuffer.forward = bool_from_iss(cv);
         Config::set().coords.bias.dihedral.push_back(biasBuffer);
       }
     }
@@ -1218,6 +1388,15 @@ void config::parse_option(std::string const option, std::string const value_stri
       }
     }
   } // BIAS
+
+  else if (option.substr(0, 18) == "thresholdpotential")
+  {
+    config::biases::thresholdstr thrBuffer;
+    if (cv >> thrBuffer.th_dist && cv >> thrBuffer.forceconstant)
+    {
+      Config::set().coords.bias.threshold.push_back(thrBuffer);
+    }
+  }
 
   else if (option.substr(0, 9) == "Subsystem")
   {
@@ -1241,7 +1420,6 @@ void config::parse_option(std::string const option, std::string const value_stri
     Config::set().coords.subsystems.push_back(std::move(ssi));
   }
 
-  // D U S T I N S T U F F 
 
   //Trajectory Alignment and Analasys options
   else if (option == "dist_unit")
@@ -1252,10 +1430,6 @@ void config::parse_option(std::string const option, std::string const value_stri
   {
     cv >> Config::set().alignment.holm_sand_r0;
   }
-  //else if (option == "cdist_cutoff")
-  //{
-    //cv >> Config::set().alignment.cdist_cutoff;
-  //}
   else if (option == "ref_frame_num")
   {
     cv >> Config::set().alignment.reference_frame_num;
@@ -1373,7 +1547,15 @@ void config::parse_option(std::string const option, std::string const value_stri
   }
   else if (option == "pca_trunc_atoms_num")
   {
-    Config::set().PCA.pca_trunc_atoms_num = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    Config::set().PCA.pca_trunc_atoms_num = configuration_range_int<size_t>(holder);
   }
   else if (option == "pca_start_frame_num")
   {
@@ -1389,7 +1571,15 @@ void config::parse_option(std::string const option, std::string const value_stri
   }
   else if (option == "pca_internal_dih" && Config::get().PCA.pca_use_internal)
   {
-    Config::set().PCA.pca_internal_dih = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    Config::set().PCA.pca_internal_dih = configuration_range_int<size_t>(holder);
   }
   else if (option == "pca_ignore_hydrogen")
   {
@@ -1427,7 +1617,18 @@ void config::parse_option(std::string const option, std::string const value_stri
   }
   else if (option == "pca_dimensions_for_histogramming")
   {
-    Config::set().PCA.pca_dimensions_for_histogramming = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    if (holder.at(0u) != "all")
+      Config::set().PCA.pca_dimensions_for_histogramming = configuration_range_int<size_t>(holder);
+    else
+      Config::set().PCA.pca_histogram_all_marginal_degrees_of_freedom = true;
   }
   else if (option == "proc_desired_start")
   {
@@ -1481,15 +1682,39 @@ void config::parse_option(std::string const option, std::string const value_stri
   }
   else if (option == "entropy_trunc_atoms_num" && Config::get().entropy.entropy_trunc_atoms_bool)
   {
-    Config::set().entropy.entropy_trunc_atoms_num = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    Config::set().entropy.entropy_trunc_atoms_num = configuration_range_int<size_t>(holder);
   }
   else if (option == "entropy_internal_dih" && Config::get().entropy.entropy_use_internal)
   {
-    Config::set().entropy.entropy_internal_dih = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    Config::set().entropy.entropy_internal_dih = configuration_range_int<size_t>(holder);
   }
   else if (option == "entropy_method")
   {
-    Config::set().entropy.entropy_method = configuration_range_int<size_t>(cv);
+    std::vector<std::string> holder;
+    while (cv)
+    {
+      std::string temp2;
+      cv >> temp2;
+      holder.push_back(temp2);
+    }
+    holder.pop_back();
+    Config::set().entropy.entropy_method = configuration_range_int<size_t>(holder);
   }
   else if (option == "entropy_method_knn_k")
   {
@@ -1563,6 +1788,266 @@ void config::parse_option(std::string const option, std::string const value_stri
       Config::set().io.amber_trajectory_at_constant_pressure = false;
     }
   }
+
+  /* Inputoptions for exciton_breakup
+  */
+  else if (option.substr(0u,2u) == "EX")
+  {
+	  if (option.substr(2u,11u) == "masscenters")
+	  {
+		  Config::set().exbreak.masscenters = value_string;
+	  }
+	  else if (option.substr(2u,7u) == "numbern")
+	  {
+		  cv >> Config::set().exbreak.nscnumber;
+	  }
+	  else if (option.substr(2u,7u) == "numberp")
+	  {
+		  cv >> Config::set().exbreak.pscnumber;
+	  }
+	  else if (option.substr(2u, 11u) == "planeinterf")
+	  {
+		  cv >> Config::set().exbreak.interfaceorientation;
+	  }
+	  else if (option.substr(2u, 12u) == "nscpairrates")
+	  {
+		  Config::set().exbreak.nscpairrates = value_string;
+	  }
+	  else if (option.substr(2u, 14u) == "pscpairexrates")
+	  {
+		  Config::set().exbreak.pscpairexrates = value_string;
+	  }
+	  else if (option.substr(2u, 14u) == "pscpairchrates")
+	  {
+		  Config::set().exbreak.pscpairchrates = value_string;
+	  }
+	  else if (option.substr(2u, 13u) == "pnscpairrates")
+	  {
+		  Config::set().exbreak.pnscpairrates = value_string;
+	  }
+    else if (option.substr(2u, 10u) == "ReorgE_exc")
+    {
+      cv >> Config::set().exbreak.ReorgE_exc;
+    }
+    else if (option.substr(2u, 9u) == "ReorgE_ch")
+    {
+      cv >> Config::set().exbreak.ReorgE_ch;
+    }
+    else if (option.substr(2u, 10u) == "ReorgE_nSC")
+    {
+      cv >> Config::set().exbreak.ReorgE_nSC;
+    }
+    else if (option.substr(2u, 9u) == "ReorgE_ct")
+    {
+      cv >> Config::set().exbreak.ReorgE_ct;
+    }
+   else if (option.substr(2u, 10u) == "ReorgE_rek")
+    {
+     cv >> Config::set().exbreak.ReorgE_rek;
+    }
+    else if (option.substr(2u, 13u) == "ct_triebkraft")
+    {
+      cv >> Config::set().exbreak.ct_triebkraft;
+    }
+    else if (option.substr(2u, 14u) == "rek_triebkraft")
+    {
+      cv >> Config::set().exbreak.rek_triebkraft;
+    }
+    else if (option.substr(2u, 18u) == "oscillatorstrength")
+    {
+      cv >> Config::set().exbreak.oscillatorstrength;
+    }
+    else if (option.substr(2u, 10u) == "wellenzahl")
+    {
+      cv >> Config::set().exbreak.wellenzahl;
+    }
+  }
+
+  /* Inputoptions for interfacecreation
+  */
+  else if (option.substr(0u, 2u) == "IC")
+  {
+    if (option.substr(2u, 4u) == "name")
+    {
+      Config::set().interfcrea.icfilename = value_string;
+    }
+    else if (option.substr(2u, 9u) == "inputtype")
+    {
+      Config::set().interfcrea.icfiletype = enum_from_string<input_types::T, NUM_INPUT>(input_strings, value_string);
+    }
+    else if (option.substr(2u, 4u) == "axis")
+    {
+      cv >> Config::set().interfcrea.icaxis;
+    }
+    else if (option.substr(2u, 8u) == "distance")
+    {
+      cv >> Config::set().interfcrea.icdist;
+    }
+  }
+
+  /* Inputoptions for Center
+  */
+  else if (option.substr(0u, 6u) == "CENTER")
+  {
+    if (option.substr(6u, 5u) == "dimer")
+    {
+      Config::set().center.dimer = bool_from_iss(cv);
+    }
+    else if (option.substr(6u, 8u) == "distance")
+    {
+      cv >> Config::set().center.distance;
+    }
+  }
+
+  /* Inputoptions for Couplings
+  */
+  else if (option.substr(0u, 9u) == "Couplings")
+  {
+    if (option.substr(9u, 11u) == "dimernumber")
+    {
+      cv >> Config::set().couplings.nbr_dimPairs;
+    }
+    else if (option.substr(9u, 9u) == "nSCnumber")
+    {
+      cv >> Config::set().couplings.nbr_nSC;
+    }
+    else if (option.substr(9u, 9u) == "pSCnumber")
+    {
+      cv >> Config::set().couplings.nbr_pSC;
+    }
+    else if (option.substr(9u, 13u) == "CTcharastates")
+    {
+      cv >> Config::set().couplings.ct_chara_all;
+    }
+    else if (option.substr(9u, 6u) == "pSCdim")
+    {
+      if (option.substr(15u, 12u) == "Multiplicity")
+      {
+        cv >> Config::set().couplings.pSCmultipl;
+      }
+      else if (option.substr(15u, 6u) == "Charge")
+      {
+        cv >> Config::set().couplings.pSCcharge;
+      }
+      else if (option.substr(15u, 12u) == "ElCalcmethod")
+      {
+        while (!cv.eof())
+        {
+          std::string tmp;
+          cv >> tmp;
+          Config::set().couplings.pSCmethod_el.append(tmp);
+          Config::set().couplings.pSCmethod_el.append(" ");
+        }
+      }
+      else if (option.substr(15u, 14u) == "ExciCalcmethod")
+      {
+        while (!cv.eof())
+        {
+          std::string tmp;
+          cv >> tmp;
+          Config::set().couplings.pSCmethod_ex.append(tmp);
+          Config::set().couplings.pSCmethod_ex.append(" ");
+        }
+      }
+    }
+    else if (option.substr(9u, 6u) == "nSCdim")
+    {
+      if (option.substr(15u, 12u) == "Multiplicity")
+      {
+        cv >> Config::set().couplings.nSCmultipl;
+      }
+      else if (option.substr(15u, 6u) == "Charge")
+      {
+        cv >> Config::set().couplings.nSCcharge;
+      }
+      else if (option.substr(15u, 13u) == "holCalcmethod")
+      {
+        while (!cv.eof())
+        {
+          std::string tmp;
+          cv >> tmp;
+          Config::set().couplings.nSCmethod.append(tmp);
+          Config::set().couplings.nSCmethod.append(" ");
+        }
+      }
+    }
+    else if (option.substr(9u, 9u) == "heterodim")
+    {
+      if (option.substr(18u, 12u) == "Multiplicity")
+      {
+        cv >> Config::set().couplings.hetmultipl;
+      }
+      else if (option.substr(18u, 6u) == "Charge")
+      {
+        cv >> Config::set().couplings.hetcharge;
+      }
+      else if (option.substr(18u, 10u) == "Calcmethod")
+      {
+        while (!cv.eof())
+        {
+          std::string tmp;
+          cv >> tmp;
+          Config::set().couplings.hetmethod.append(tmp);
+          Config::set().couplings.hetmethod.append(" ");
+        }
+      }
+    }
+  }
+
+  /* Inputoptions for Layer_Deposition
+  */
+  else if (option.substr(0u, 4u) == "LayD")
+  {
+    if (option.substr(4u, 6u) == "layers")
+    {
+      cv >> Config::set().layd.amount;
+    }
+    else if (option.substr(4u, 10u) == "del_number")
+    {
+      cv >> Config::set().layd.del_amount;
+    }
+    else if (option.substr(4u, 4u) == "axis")
+    {
+      cv >> Config::set().layd.laydaxis;
+    }
+    else if (option.substr(4u, 8u) == "distance")
+    {
+      cv >> Config::set().layd.layddist;
+    }
+    else if (option.substr(4u, 9u) == "het_struc")
+    {
+      Config::set().layd.hetero_option = bool_from_iss(cv);
+    }
+    else if (option.substr(4u, 8u) == "het_dist")
+    {
+      cv >> Config::set().layd.sec_layddist;
+    }
+    else if (option.substr(4u, 10u) == "het_layers")
+    {
+      cv >> Config::set().layd.sec_amount;
+    }
+    else if (option.substr(4u, 14u) == "het_del_number")
+    {
+      cv >> Config::set().layd.sec_del_amount;
+    }
+    else if (option.substr(4u, 8u) == "het_name")
+    {
+      Config::set().layd.layd_secname = value_string;
+    }
+    else if (option.substr(4u, 7u) == "replace")
+    {
+      Config::set().layd.replace = bool_from_iss(cv);
+    }
+    else if (option.substr(4u, 10u) == "reference1")
+    {
+      Config::set().layd.reference1 = value_string;
+    }
+    else if (option.substr(4u, 10u) == "reference2")
+    {
+      Config::set().layd.reference2 = value_string;
+    }
+  }
+
 }
 
 
@@ -1623,7 +2108,7 @@ std::ostream & config::operator << (std::ostream &strm, general const &g)
   return strm;
 }
 
-std::ostream & config::operator<< (std::ostream &strm, coords::eqval const &equals)
+std::ostream & config::operator<< (std::ostream &strm, coords::conditionsForStructuresToBeConsideredEqual const &equals)
 {
   strm << "Two structures will be considered to be equal if either\n";
   strm << " - none of the main torsions differ more then " << equals.main << ", or\n";
@@ -1634,43 +2119,43 @@ std::ostream & config::operator<< (std::ostream &strm, coords::eqval const &equa
   return strm;
 }
 
-std::ostream & config::operator<< (std::ostream &strm, coords const &p)
+std::ostream & config::operator<< (std::ostream &strm, coords const & coords_in)
 {
-  if (p.remove_hydrogen_rot)
+  if (coords_in.remove_hydrogen_rot)
   {
     strm << "The torsional rotation of a hydrogen atom "
       << "will not be considered as main torsion.\n";
   }
-  if (!p.internal.main_blacklist.empty() && p.internal.main_whitelist.empty())
+  if (!coords_in.internal.main_blacklist.empty() && coords_in.internal.main_whitelist.empty())
   {
     strm << "Torsional rotation axes ";
     std::size_t k = 1;
-    for (auto const & po : p.internal.main_blacklist)
+    for (auto const & po : coords_in.internal.main_blacklist)
     {
       strm << (k == 1 ? (k % 10 == 0 ? ",\n" : "") : ", ") << po.first << "-" << po.second;
       ++k;
     }
-    strm << (p.internal.main_blacklist.size() > 1 ? " are" : " is")
+    strm << (coords_in.internal.main_blacklist.size() > 1 ? " are" : " is")
       << " are not considered as main torsions.\n";
   }
-  else if (!p.internal.main_whitelist.empty())
+  else if (!coords_in.internal.main_whitelist.empty())
   {
-    strm << "Torsional rotation around ax" << (p.internal.main_whitelist.size() > 1 ? "es " : "is ");
+    strm << "Torsional rotation around ax" << (coords_in.internal.main_whitelist.size() > 1 ? "es " : "is ");
     std::size_t k = 1;
-    for (auto const & po : p.internal.main_whitelist)
+    for (auto const & po : coords_in.internal.main_whitelist)
     {
       strm << (k == 1 ? (k % 10 == 0 ? ",\n" : "") : ", ") << po.first << "-" << po.second;
       ++k;
     }
-    strm << (p.internal.main_whitelist.size() > 1 ? " are" : " is")
+    strm << (coords_in.internal.main_whitelist.size() > 1 ? " are" : " is")
       << " exclusively considered for main torsions.\n";
   }
-  if (!p.fixed.empty())
+  if (! coords_in.fixed.empty())
   {
-    auto const fsi = p.fixed.size();
+    auto const fsi = coords_in.fixed.size();
     if (fsi == 1)
     {
-      strm << "1 atom will be fixed: " << p.fixed.front() << '\n';
+      strm << "1 atom will be fixed: " << coords_in.fixed.front() << '\n';
     }
     else
     {
@@ -1679,14 +2164,14 @@ std::ostream & config::operator<< (std::ostream &strm, coords const &p)
       auto const fsim1 = fsi - 1u;
       while (last < fsi)
       {
-        while (last < fsim1 && p.fixed[last + 1u] == (p.fixed[last] + 1u)) { ++last; }
+        while (last < fsim1 && coords_in.fixed[last + 1u] == (coords_in.fixed[last] + 1u)) { ++last; }
         if (last > first)
         {
-          strm << " [" << p.fixed[first] + 1 << " to " << p.fixed[last] + 1 << "]";
+          strm << " [" << coords_in.fixed[first] + 1 << " to " << coords_in.fixed[last] + 1 << "]";
         }
         else
         {
-          strm << " " << p.fixed[first] + 1;
+          strm << " " << coords_in.fixed[first] + 1;
         }
         ++last;
         first = last;
@@ -1695,57 +2180,57 @@ std::ostream & config::operator<< (std::ostream &strm, coords const &p)
     }
   }
 
-  if (Config::get().general.task == tasks::UMBRELLA && (!p.umbrella.torsions.empty() || !p.umbrella.distances.empty()))
+  if (Config::get().general.task == tasks::UMBRELLA && (!coords_in.umbrella.torsions.empty() || !coords_in.umbrella.distances.empty()))
   {
-    strm << "Umbrella Sampling with " << " steps and snapshots every " << p.umbrella.snap_offset << " steps.\n";
-    if (!p.umbrella.torsions.empty())
+    strm << "Umbrella Sampling with " << " steps and snapshots every " << coords_in.umbrella.snap_offset << " steps.\n";
+    if (!coords_in.umbrella.torsions.empty())
     {
       strm << "Umbrella torsions:\n";
-      for (auto const & torsion : p.umbrella.torsions)
+      for (auto const & torsion : coords_in.umbrella.torsions)
       {
         strm << "[UT] Indices: " << torsion.index[0] << ", " << torsion.index[1] << ", " << torsion.index[2] << ", " << torsion.index[3];
         strm << ". Start: " << " - End: " << ". Step: " << ". \n";
       }
     }
-    if (!p.umbrella.distances.empty())
+    if (!coords_in.umbrella.distances.empty())
     {
       strm << "Umbrella distances:\n";
-      for (auto const & dist : p.umbrella.distances)
+      for (auto const & dist : coords_in.umbrella.distances)
       {
         strm << "[UD] Indices: " << dist.index[0] << ", " << dist.index[1];
       }
     }
   }
 
-  for (auto const & torsion : p.bias.dihedral)
+  for (auto const & torsion : coords_in.bias.dihedral)
   {
     strm << "Dihedral " << torsion.a + 1 << "->" << torsion.b + 1 << "->";
     strm << torsion.c + 1 << "->" << torsion.d + 1 << " will be forced to be ";
     strm << torsion.ideal << " deg with force =  " << torsion.force << ".\n";
   }
 
-  for (auto const & dist : p.bias.distance)
+  for (auto const & dist : coords_in.bias.distance)
   {
     strm << "Distance " << dist.a << "<->" << dist.b;
     strm << " will be forced to be ";
     strm << dist.ideal << " A. Force =  " << dist.force << "\n";
   }
 
-  for (auto const & angle : p.bias.angle)
+  for (auto const & angle : coords_in.bias.angle)
   {
     strm << "Angle " << angle.a << "->" << angle.b << "<-" << angle.c;
     strm << " will be forced to be ";
     strm << angle.ideal << " A. Force =  " << angle.force << "\n";
   }
 
-  for (auto const & sphere : p.bias.spherical)
+  for (auto const & sphere : coords_in.bias.spherical)
   {
     strm << "Spherical boundary with radius " << sphere.radius;
     strm << " will be applied; Force =  " << sphere.force;
     strm << ", Exponent = " << sphere.exponent << "\n";
   }
 
-  for (auto const & cube : p.bias.cubic)
+  for (auto const & cube : coords_in.bias.cubic)
   {
     strm << "Cubic boundary with box size " << cube.dim;
     strm << " will be applied; Force =  " << cube.force;
@@ -1763,10 +2248,6 @@ std::ostream & config::operator<< (std::ostream &strm, energy const &p)
   {
     strm << "Nonbonded terms between fixed atoms will be excluded in internal forcefield calculations.\n";
   }
-  if (p.periodic)
-  {
-    strm << "Periodics box [ x, y, z] " << p.pb_box << " applied.\n";
-  }
   if (p.spackman.on)
   {
     strm << "Spackman correction applied.\n";
@@ -1774,6 +2255,33 @@ std::ostream & config::operator<< (std::ostream &strm, energy const &p)
   if (Config::get().general.energy_interface == interface_types::MOPAC)
   {
     strm << "Mopac path is '" << p.mopac.path << "' and command is '" << p.mopac.command << "'.\n";
+  }
+  if (Config::get().general.energy_interface == interface_types::GAUSSIAN)
+  {
+    strm << "Gaussian path is '" << p.gaussian.path << "' and command is '" << "# " 
+         << p.gaussian.method << " " << p.gaussian.basisset << " " << p.gaussian.spec << "'.\n";
+  }
+  return strm;
+}
+
+std::ostream & config::operator<< (std::ostream &strm, periodics const &p)
+{
+  if (p.periodic)
+  {
+    strm << "Periodics box [ x, y, z ] " << p.pb_box << " applied.\n";
+    if (p.periodicCutout)
+    {
+      strm << "Molecules ";
+      if (p.criterion == 1u)
+        strm << "of which the center of mass is ";
+      else if (p.criterion == 0u)
+        strm << "which have atoms that are ";
+      if (p.cutout_distance_to_box == 0.)
+        strm << "outside the periodic box ";
+      else
+        strm << "closer than " << p.cutout_distance_to_box << "Angstrom to periodic box edges ";
+      strm << "are removed.\n";
+    }
   }
   return strm;
 }

@@ -1,4 +1,4 @@
-#include <stdexcept>
+﻿#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <cmath>
@@ -157,7 +157,6 @@ bool tinker::parameter::angle::check (std::size_t a, std::size_t b, std::size_t 
 {
   if (b == index[1] && ((a == index[0] && c == index[2]) || 
                         (a == index[2] && c == index[0]))) return true;
- // if (config::tasks::REACTIONCOORDINATE) return true;
   return false;
 }
 
@@ -187,7 +186,6 @@ tinker::parameter::bond::bond (std::string const &line)
 bool tinker::parameter::bond::check (std::size_t a, std::size_t b) const
 {
   if ((a == index[0] && b == index[1]) || (a == index[1] && b == index[0])) return true;
- // if (config::tasks::REACTIONCOORDINATE) return true;
   return false;
 }
 
@@ -1349,7 +1347,6 @@ tinker::parameter::parameters tinker::parameter::parameters::contract(std::vecto
   }
   
   return parametersToBeContracted;
-
 }
 
 /*
@@ -1753,30 +1750,4 @@ void tinker::parameter::global::swap (global &rhs)
   std::swap(dielectric,rhs.dielectric);
   std::swap(electric,rhs.electric);
   for (std::size_t i(0u); i<KEYS; ++i) std::swap(indices[i], rhs.indices[i]);
-}
-
-void tinker::parameter::parameters::swap (parameters &rhs)
-{
-  std::swap(contracted,rhs.contracted);
-  std::swap(m_valid,rhs.m_valid);
-  m_general.swap(m_general);
-  m_type_of_group.swap(m_type_of_group);
-  m_reduced_types.swap(m_reduced_types);
-  m_reduced_groups.swap(m_reduced_groups);
-  contraction_map.swap(contraction_map);
-  m_atoms.swap(m_atoms);
-  m_angles.swap(m_angles);
-  m_charges.swap(m_charges);
-  m_bonds.swap(m_bonds);
-  m_charges.swap(m_charges);
-  m_impropers.swap(m_impropers);
-  m_imptors.swap(m_imptors);
-  m_multipoles.swap(m_multipoles);
-  m_opbends.swap(m_opbends);
-  m_polarizes.swap(m_polarizes);
-  m_strbends.swap(m_strbends);
-  m_torsions.swap(m_torsions);
-  m_ureybrads.swap(m_ureybrads);
-  m_vdws.swap(m_vdws);
-  m_vdw14s.swap(m_vdw14s);
 }
