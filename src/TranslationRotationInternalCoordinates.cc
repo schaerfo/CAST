@@ -61,4 +61,5 @@ namespace internals {
     auto diff = PrimitiveInternalCoordinates::calc_diff(lhs, rhs);
     return (diff * del_mat).t();
   }
+  
 }

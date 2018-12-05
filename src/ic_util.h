@@ -195,15 +195,29 @@ namespace ic_util{
     return result;
   }
 
-  template<typename Mat>
-  coords::Representation_3D mat_to_rep3D(Mat&& mat){
-    coords::Representation_3D result;
-    for(auto i = 0u; i<mat.rows(); i+=3){
-      result.emplace_back(coords::Cartesian_Point(
-        mat(i, 0),mat(i + 1, 0),mat(i + 2, 0)
-      ));
+  namespace {
+    template<typename Mat>
+    coords::Representation_3D convertMat(Mat&& mat, bool flat = true) {
+      auto const increment = flat ? 3 : 1;
+      coords::Representation_3D result;
+      for (auto i = 0u; i<mat.rows(); i += increment) {
+        auto cp = flat ?
+          coords::Cartesian_Point(mat(i, 0), mat(i + 1, 0), mat(i + 2, 0)) :
+          coords::Cartesian_Point(mat(i, 0), mat(i, 1), mat(i, 2));
+        result.emplace_back(std::move(cp));
+      }
+      return result;
     }
-    return result;
+  }
+
+  template<typename Mat>
+  coords::Representation_3D flatMatToRep3D(Mat&& mat) {
+    return convertMat(std::forward<Mat>(mat));
+  }
+
+  template<typename Mat>
+  coords::Representation_3D matToRep3D(Mat&& mat){
+    return convertMat(std::forward<Mat>(mat), false);
   }
 }
 

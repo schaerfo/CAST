@@ -23,6 +23,8 @@ namespace internals {
     using BondGraph = ic_util::Graph<ic_util::Node>;
     using InternalVec = std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>>;
   public:
+    //TODO Really just for DEBUG!!! Delete when possible. With great power comes great responsibility
+    void fakeSystem(CartesianType & cartesians);
     PrimitiveInternalCoordinates(const std::vector<coords::Representation_3D>& res_init,
       const std::vector<std::vector<std::size_t>>& res_index,
       CartesianType & xyz_init, BondGraph const& graph)
@@ -324,7 +326,7 @@ namespace internals {
 
   template<typename Dcart>
   coords::Representation_3D& InternalToCartesianConverter::takeCartesianStep(Dcart&& d_cart) {
-    auto d_cart_rep3D = ic_util::mat_to_rep3D(std::forward<Dcart>(d_cart));
+    auto d_cart_rep3D = ic_util::flatMatToRep3D(std::forward<Dcart>(d_cart));
     return set_xyz(cartesianCoordinates + d_cart_rep3D);
   }
 

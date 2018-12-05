@@ -33,6 +33,11 @@ namespace internals {
     scon::mathmatrix<coords::float_type> calc(coords::Representation_3D const& xyz) const override;//F
     scon::mathmatrix<coords::float_type> calc_diff(coords::Representation_3D const& lhs, coords::Representation_3D const& rhs) const override;//F
 
+    //This function is for debug purpose only. Destroy it after debugging!
+    void setU(scon::mathmatrix<coords::float_type> && other){
+	  del_mat = other;
+    }
+
     scon::mathmatrix<coords::float_type> const& getDelMat()const { return del_mat; }
   protected:
     scon::mathmatrix<coords::float_type> del_mat;

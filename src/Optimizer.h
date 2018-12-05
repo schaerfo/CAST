@@ -20,7 +20,6 @@ class Optimizer {
 protected:
   using CartesianType = InternalCoordinates::CartesiansForInternalCoordinates;
 public:
-
   Optimizer(internals::PrimitiveInternalCoordinates & internals, CartesianType const& cartesians) 
 	  : internalCoordinateSystem{ internals }, cartesianCoordinates{cartesians},
     converter{ internalCoordinateSystem, cartesianCoordinates }, hessian{ internalCoordinateSystem.guess_hessian(cartesianCoordinates) }, trustRadius{ 0.1 }, expectedChangeInEnergy{ 0.0 } {}

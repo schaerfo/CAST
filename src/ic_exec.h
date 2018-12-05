@@ -49,6 +49,10 @@ public:
             
             // create initial internal coordinates system
 	    internals::TRIC icSystem(residue_vec, index_vec, cartesians, graph);
+      for (auto const & pic : icSystem.primitive_internals) {
+        std::cout << pic->info(cp_vec) << "\n";
+      }
+      std::cout << "\n\n\n\n";
             
             //auto write_with_zero = [](auto&& ofs, auto&& mat) {
             //  for (auto r = 0; r < mat.rows(); ++r) {

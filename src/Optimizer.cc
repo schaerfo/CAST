@@ -1,7 +1,7 @@
 #include "Optimizer.h"
 
 #include<regex>
-
+#include"TranslationRotationInternalCoordinates.h"
 
 scon::mathmatrix<coords::float_type> Optimizer::atomsNorm(scon::mathmatrix<coords::float_type> const& norm) {
   scon::mathmatrix<coords::float_type> mat(norm.rows(), 1);
@@ -89,7 +89,7 @@ std::vector<std::string> getAllContentOfFile(std::string const& fileName){
 scon::mathmatrix<coords::float_type> readMatrix(std::string const& fileName){
   auto lines = getAllContentOfFile(fileName);
   std::vector<std::vector<double>> values;
-  std::regex pattern("[+-]?\\d*\\d*[eE]?[+-]?\\d*");
+  std::regex pattern("[+-]?\\d*\\.\\d*[eE]?[+-]?\\d*");
   auto cols{ 0u };
   auto rows{ lines.size() };
   for(auto & line : lines){
@@ -100,6 +100,7 @@ scon::mathmatrix<coords::float_type> readMatrix(std::string const& fileName){
     });
     if(cols == 0) cols = row.size();
     if(row.size() != cols) throw std::runtime_error("The lines in file " + fileName + " contain a different amount of floating point numbers.\n");
+    values.emplace_back(std::move(row));
   }
   scon::mathmatrix<coords::float_type> result(rows, cols);
   for(auto i=0u; i < rows; ++i){
@@ -118,21 +119,26 @@ void Optimizer::optimize(coords::DL_Coordinates<coords::input::formats::pdb> & c
   std::ofstream initialStream("InitialStucture.xyz");
   output.to_stream(initialStream);
 
+  dynamic_cast<internals::TRIC*>(&internalCoordinateSystem)->setU(readMatrix("U.dat"));
+  hessian = readMatrix("Hessian.dat");
+  std::ifstream ifs("Trust.dat");
+  ifs >> trustRadius;
   for (auto i = 0; i< 500; ++i) {
-    std::stringstream ss;
-    //ss << "StructureInCycle" << std::setfill('0') << std::setw(5) << i+1u << ".xyz";
-    //std::ofstream stepStream(ss.str());
-    //output.to_stream(stepStream);
     
-    //std::stringstream strstr;
-    //strstr << "CASTHessianStep" << std::setfill('0') << std::setw(5u) << i + 1u << ".dat";
-    //std::ofstream hessianOfs(strstr.str());
-    //hessianOfs << std::fixed << std::setprecision(15) << hessian;
+    /*std::stringstream ss;
+    ss << "CASTStructureStep" << std::setfill('0') << std::setw(5) << i+1u << ".xyz";
+    std::ofstream stepStream(ss.str());
+    output.to_stream(stepStream);
+   
+    std::stringstream strstr;
+    strstr << "CASTHessianStep" << std::setfill('0') << std::setw(5u) << i + 1u << ".dat";
+    std::ofstream hessianOfs(strstr.str());
+    hessianOfs << std::fixed << std::setprecision(15) << hessian;
 
-    //std::stringstream gradientName;
-    //gradientName << "CASTGradientStep" << std::setfill('0') << std::setw(5u) << i + 1u << ".dat";
-    //std::ofstream gradientOfs(gradientName.str());
-    //gradientOfs << std::fixed << std::setprecision(15) << oldVariables->systemGradients;
+    std::stringstream gradientName;
+    gradientName << "CASTGradientStep" << std::setfill('0') << std::setw(5u) << i + 1u << ".dat";
+    std::ofstream gradientOfs(gradientName.str());
+    gradientOfs << std::fixed << std::setprecision(15) << oldVariables->systemGradients;*/
 
     evaluateNewCartesianStructure(coords);
 
@@ -143,7 +149,8 @@ void Optimizer::optimize(coords::DL_Coordinates<coords::input::formats::pdb> & c
       resetStep(coords);
       continue;
     }
-        
+    std::cout << "Hello\n";
+     
     applyHessianChange();
 
     if (ConvergenceCheck{ i + 1,cartesianGradients,*this }()) {
@@ -151,6 +158,8 @@ void Optimizer::optimize(coords::DL_Coordinates<coords::input::formats::pdb> & c
       break;
     }
     setNewToOldVariables();
+
+    exit(0);
     
   }
   std::ofstream ofs("FinalStruct.xyz");
@@ -170,12 +179,24 @@ void Optimizer::setCartesianCoordinatesForGradientCalculation(coords::DL_Coordin
 void Optimizer::prepareOldVariablesPtr(coords::DL_Coordinates<coords::input::formats::pdb> & coords) {
   oldVariables = std::make_unique<SystemVariables>();
 
-  oldVariables->systemEnergy = coords.g() / energy::au2kcal_mol;
-  auto cartesianGradients = scon::mathmatrix<coords::float_type>::col_from_vec(ic_util::flatten_c3_vec(
+  std::ifstream ifs("Energy.dat");
+  ifs >> oldVariables->systemEnergy;
+
+  //REACTIVATE
+  //oldVariables->systemEnergy = coords.g() / energy::au2kcal_mol;
+  /*auto cartesianGradients = scon::mathmatrix<coords::float_type>::col_from_vec(ic_util::flatten_c3_vec(
     ic_core::grads_to_bohr(coords.g_xyz())
-  ));
+  ));*/
+
+  //REMOVE
+  cartesianCoordinates.setCartesianCoordnates(ic_util::matToRep3D(readMatrix("Structure.dat") /*/ energy::bohr2ang*/));
+  
   oldVariables->systemCartesianRepresentation = cartesianCoordinates;
-  oldVariables->systemGradients = converter.calculateInternalGradients(cartesianGradients);
+  //REACTIVATE
+  //oldVariables->systemGradients = converter.calculateInternalGradients(cartesianGradients);
+
+  //REMOVE
+  oldVariables->systemGradients = readMatrix("Gradients.dat");
   oldVariables->internalValues = converter.calculateInternalValues();
 }
 
@@ -188,10 +209,10 @@ void Optimizer::resetStep(coords::DL_Coordinates<coords::input::formats::pdb> & 
 void Optimizer::evaluateNewCartesianStructure(coords::DL_Coordinates<coords::input::formats::pdb> & coords) {
   
   internals::AppropriateStepFinder stepFinder(converter, oldVariables->systemGradients, hessian);
-  
+ 
   stepFinder.appropriateStep(trustRadius);
-  expectedChangeInEnergy = stepFinder.getSolBestStep();
-  stepSize = stepFinder.getBestStep();
+ expectedChangeInEnergy = stepFinder.getSolBestStep();
+ stepSize = stepFinder.getBestStep();
 
   cartesianCoordinates.setCartesianCoordnates(stepFinder.extractCartesians());
   coords.set_xyz(ic_core::rep3d_bohr_to_ang(cartesianCoordinates));
@@ -242,7 +263,7 @@ void Optimizer::applyHessianChange() {
   auto d_gq = currentVariables.systemGradients - oldVariables->systemGradients;
   auto dq = stepSize;//internalCoordinateSystem.calc_diff(cartesianCoordinates, oldVariables->systemCartesianRepresentation);
   
-  std::stringstream hessianSS;
+  /*std::stringstream hessianSS;
   hessianSS << "CASTHessianStep" << std::setfill('0') << std::setw(5u) << i + 1u << ".dat";
   std::ofstream hessianOfs(hessianSS.str());
   hessianOfs << std::fixed << std::setprecision(15) << hessian;
@@ -255,7 +276,7 @@ void Optimizer::applyHessianChange() {
   std::stringstream displacementSS;
   displacementSS << "CASTDisplacementChange" << std::setfill('0') << std::setw(5) << i + 1u << ".dat";
   std::ofstream displacementOfs(displacementSS.str());
-  displacementOfs << dq;
+  displacementOfs << dq;*/
 
   auto term1 = (d_gq*d_gq.t()) / (d_gq.t()*dq)(0, 0);
   auto term2 = ((hessian*dq)*(dq.t()*hessian)) / (dq.t()*hessian*dq)(0, 0);

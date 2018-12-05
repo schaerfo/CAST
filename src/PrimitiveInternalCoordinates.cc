@@ -1,5 +1,7 @@
 #include "PrimitiveInternalCoordinates.h"
 #include "Optimizer.h"
+//TODO remove if possible
+#include <regex>
 
 namespace internals {
   std::vector<std::vector<std::size_t>> PrimitiveInternalCoordinates::possible_sets_of_3(BondGraph::adjacency_iterator const vbegin, BondGraph::adjacency_iterator const vend) {
@@ -260,7 +262,107 @@ namespace internals {
     append_primitives(std::move(rotationA));
     append_primitives(std::move(rotationB));
     append_primitives(std::move(rotationC));
+    //TODO FATAL This breaks the program. Use just for DEBUG
+    fakeSystem(cartesians);
   }
+
+
+#define DEBUG
+#ifdef DEBUG
+  struct Atom {
+    int atom_serial;
+    std::string element = "H";
+  };
+
+  template<typename T, typename IteratorType, typename UnaryFunction>
+  std::vector<T> makeVector(IteratorType && begin, IteratorType && end, UnaryFunction f) {
+    std::vector<T> result;
+    std::transform(begin, end, std::back_inserter(result), f);
+    return result;
+  }
+
+  std::string fileAsString(std::string const& filename) {
+    std::ifstream ifs(filename);
+    return std::string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+  }
+
+  std::vector<std::vector<std::size_t>> makeIntsFromPattern(std::string const& content, std::regex const& pattern) {
+    std::vector<std::vector<std::size_t>> values;
+    std::transform(std::sregex_iterator(content.begin(), content.end(), pattern), std::sregex_iterator(), std::back_inserter(values), [](auto const& matches) {
+      return makeVector<std::size_t>(matches.begin() + 1, matches.end(), [](auto && val) {
+        return std::stoi(std::forward<decltype(val)>(val));
+      });
+    });
+    return values;
+  }
+
+  std::vector<std::vector<std::size_t>> allDistances(std::string const& filename) {
+    return makeIntsFromPattern(fileAsString(filename), std::regex("Distance (\\d+)-(\\d+)"));
+  }
+
+  std::vector<std::vector<std::size_t>> allAngles(std::string const& filename) {
+    return makeIntsFromPattern(fileAsString(filename), std::regex("Angle (\\d+)-(\\d+)-(\\d+)"));
+  }
+
+  std::vector<std::vector<std::size_t>> allDihedrals(std::string const& filename) {
+    return makeIntsFromPattern(fileAsString(filename), std::regex("Dihedral (\\d+)-(\\d+)-(\\d+)-(\\d+)"));
+  }
+
+  std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> fakeDistances() {
+    auto bonds = allDistances("geo.dat");
+    std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> result;
+    for (auto const& bond : bonds) {
+      result.emplace_back(std::make_unique<InternalCoordinates::BondDistance>(Atom{ bond.at(0) }, Atom{ bond.at(1) }));
+    }
+    return result;
+  }
+  
+  std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> fakeAngles() {
+    auto angles = allAngles("geo.dat");
+    std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> result;
+    for (auto const& angle : angles) {
+      result.emplace_back(std::make_unique<InternalCoordinates::BondAngle>(
+        Atom{ angle.at(0) }, Atom{ angle.at(1) }, Atom{ angle.at(2) })
+      );
+    }
+    return result;
+  }
+
+  std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> fakeDihedrals() {
+    auto dihedrals = allDihedrals("geo.dat");
+    std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> result;
+    for (auto const& dihedral : dihedrals) {
+      result.emplace_back(std::make_unique<InternalCoordinates::DihedralAngle>(
+        Atom{ dihedral.at(0) }, Atom{ dihedral.at(1) }, Atom{ dihedral.at(2) }, Atom{ dihedral.at(3) })
+      );
+    }
+    return result;
+  }
+
+  void PrimitiveInternalCoordinates::fakeSystem(CartesianType & cartesians) {
+    primitive_internals.clear();
+    append_primitives(fakeDistances());
+    append_primitives(fakeAngles());
+    append_primitives(fakeDihedrals());
+
+    //TODO own function for translations
+    std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> trans_x, trans_y, trans_z;
+    std::tie(trans_x, trans_y, trans_z) = create_translations();
+
+    append_primitives(std::move(trans_x));
+    append_primitives(std::move(trans_y));
+    append_primitives(std::move(trans_z));
+
+    //TODO own function for rotations
+    std::vector<std::unique_ptr<InternalCoordinates::InternalCoordinate>> rotationA, rotationB, rotationC;
+    std::tie(rotationA, rotationB, rotationC) = create_rotations(cartesians);
+
+    append_primitives(std::move(rotationA));
+    append_primitives(std::move(rotationB));
+    append_primitives(std::move(rotationC));
+  }
+#endif
+
 
   scon::mathmatrix<coords::float_type> PrimitiveInternalCoordinates::guess_hessian(InternalCoordinates::CartesiansForInternalCoordinates const& cartesians) const {
     using Mat = scon::mathmatrix<coords::float_type>;
@@ -559,7 +661,7 @@ namespace internals {
   }
 
   void InternalToCartesianConverter::takeCartesianStep(scon::mathmatrix <coords::float_type> && cartesianChange, InternalCoordinates::temporaryCartesian & cartesians) const {
-    cartesians.coordinates += ic_util::mat_to_rep3D(std::move(cartesianChange));
+    cartesians.coordinates += ic_util::flatMatToRep3D(std::move(cartesianChange));
     cartesians.stolenNotify();
     internalCoordinates.requestNewBAndG();
   }
@@ -581,7 +683,6 @@ namespace internals {
 	<< std::fixed << std::setprecision(15) << internalCoordinates.pseudoInverseOfGmat(actual_xyz.coordinates) << "\n\n";
       std::cout << "Cartesians in Microiteration " << micro_iter << ":\n\n"
 	      << actual_xyz.coordinates << "\n\n";*/
-
       takeCartesianStep(damp*internalCoordinates.transposeOfBmat(actual_xyz.coordinates)*internalCoordinates.pseudoInverseOfGmat(actual_xyz.coordinates)*d_int_left, actual_xyz);
 
       auto d_now = internalCoordinates.calc_diff(actual_xyz.coordinates, old_xyz.coordinates);
