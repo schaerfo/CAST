@@ -461,7 +461,7 @@ namespace internals {
         }
       }
     }
-    //std::cout << "Diff:\n" << diff.t() << "\n";
+    std::cout << "Diff:\n" << diff.t() << "\n";
     return diff;
   }
 
@@ -661,7 +661,7 @@ namespace internals {
   }
 
   void InternalToCartesianConverter::takeCartesianStep(scon::mathmatrix <coords::float_type> && cartesianChange, InternalCoordinates::temporaryCartesian & cartesians) const {
-    cartesians.coordinates += ic_util::flatMatToRep3D(std::move(cartesianChange));
+    cartesians.coordinates += ic_util::matToRep3D(std::move(cartesianChange));
     cartesians.stolenNotify();
     internalCoordinates.requestNewBAndG();
   }
@@ -682,7 +682,12 @@ namespace internals {
         << "Gmat inverser MicroIteration " << micro_iter << "\n\n"
 	<< std::fixed << std::setprecision(15) << internalCoordinates.pseudoInverseOfGmat(actual_xyz.coordinates) << "\n\n";
       std::cout << "Cartesians in Microiteration " << micro_iter << ":\n\n"
-	      << actual_xyz.coordinates << "\n\n";*/
+	      << actual_xyz.coordinates << "\n\n";
+      std::cout << "CartesianChange in MicroIteration " << micro_iter << "\n\n"
+        << std::fixed << std::setprecision(15) << damp * internalCoordinates.transposeOfBmat(actual_xyz.coordinates)*internalCoordinates.pseudoInverseOfGmat(actual_xyz.coordinates)*d_int_left
+        << "\n\n";
+      std::cout << "InternalStep in Microiteration " << micro_iter << "\n\n" << std::fixed << std::setprecision(15) << d_int_left << "\n\n";*/
+
       takeCartesianStep(damp*internalCoordinates.transposeOfBmat(actual_xyz.coordinates)*internalCoordinates.pseudoInverseOfGmat(actual_xyz.coordinates)*d_int_left, actual_xyz);
 
       auto d_now = internalCoordinates.calc_diff(actual_xyz.coordinates, old_xyz.coordinates);

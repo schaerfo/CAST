@@ -56,6 +56,8 @@ namespace ic_util{
     return res;
   }
 
+
+//TODO make it independent of scon::mathmatrix!
   template <typename T, template<typename> class CoordType, template <typename, typename ...> class ContainerType, typename ... ContainerArgs>
   inline typename std::enable_if<std::is_arithmetic<T>::value, scon::mathmatrix<T>>::type
   Rep3D_to_Mat(const ContainerType<CoordType<T>, ContainerArgs ...>& rep) {
@@ -196,28 +198,64 @@ namespace ic_util{
   }
 
   namespace {
+    struct MatrixConverterInterface {
+      virtual coords::Representation_3D toRep3D() const = 0;
+    };
+
     template<typename Mat>
-    coords::Representation_3D convertMat(Mat&& mat, bool flat = true) {
-      auto const increment = flat ? 3 : 1;
-      coords::Representation_3D result;
-      for (auto i = 0u; i<mat.rows(); i += increment) {
-        auto cp = flat ?
-          coords::Cartesian_Point(mat(i, 0), mat(i + 1, 0), mat(i + 2, 0)) :
-          coords::Cartesian_Point(mat(i, 0), mat(i, 1), mat(i, 2));
-        result.emplace_back(std::move(cp));
+    struct FlatMatrix : MatrixConverterInterface {
+      FlatMatrix(Mat const& mat) : matrix(mat) {
+        if (matrix.cols() != 1)
+          throw std::runtime_error("Passed a Matrix as flattened Matrix which is not flat at all! Error in class FlatMatrix most likely thrown in MatToRep3D.");
       }
-      return result;
+      Mat const& matrix;
+
+      coords::Representation_3D toRep3D() const override {
+        coords::Representation_3D result;
+        for (auto i = 0u; i < matrix.rows(); i += 3) {
+          result.emplace_back(matrix.operator()(i, 0u), matrix.operator()(i+1u, 0u), matrix.operator()(i+2u, 0u));
+        }
+        return result;
+      }
+    };
+    template<typename Mat>
+    struct NotFlatMatrix : MatrixConverterInterface {
+      NotFlatMatrix(Mat const& mat) : matrix(mat) {
+        if (matrix.cols() != 3)
+          throw std::runtime_error("Passed a Matrix as to convert to a Rep3D object, but the matrix has not three rows! Error in class NotFlatMatrix  most likely thrown in MatToRep3D.");
+      }
+      Mat const& matrix;
+
+      coords::Representation_3D toRep3D() const override {
+        coords::Representation_3D result;
+        for (auto i = 0u; i < matrix.rows(); ++i) {
+          result.emplace_back(matrix(i, 0u), matrix(i, 1u), matrix(i, 2u));
+        }
+        return result;
+      }
+    };
+  }
+
+  template<typename Mat>
+  void printMat(Mat const& mat) {
+    for (auto i = 0u; i < mat.rows(); ++i) {
+      for (auto j = 0u; j < mat.cols(); ++j) {
+        std::cout << mat(i, j) << " ";
+      }
+      std::cout << "\n";
     }
   }
 
   template<typename Mat>
-  coords::Representation_3D flatMatToRep3D(Mat&& mat) {
-    return convertMat(std::forward<Mat>(mat));
-  }
-
-  template<typename Mat>
-  coords::Representation_3D matToRep3D(Mat&& mat){
-    return convertMat(std::forward<Mat>(mat), false);
+  coords::Representation_3D matToRep3D(Mat const& mat) {
+    std::unique_ptr<MatrixConverterInterface> converter;
+    if (mat.cols() == 1) {
+      converter = std::make_unique<FlatMatrix<Mat>>(mat);
+    }
+    else {
+      converter = std::make_unique<NotFlatMatrix<Mat>>(mat);
+    }
+    return converter->toRep3D();
   }
 }
 
