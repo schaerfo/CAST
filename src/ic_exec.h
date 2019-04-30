@@ -37,7 +37,7 @@ public:
             auto el_vec = p.create_element_vec();
 
             // create vector of bonds
-            auto bonds = ic_util::bonds(p.create_element_vec(), coords::input::formats::pdb::helper::ang_from_bohr(cp_vec));
+            auto bonds = ic_util::bonds(p.create_element_vec(), coords::input::formats::pdb::helper::ang_from_bohr(cp_vec), index_vec);
 
             // create graph from bonds vector and atom vector
 	    ic_util::Graph<ic_util::Node> graph = ic_util::make_graph(bonds, p.atom_vec);
@@ -49,7 +49,7 @@ public:
             
             // create initial internal coordinates system
 	    internals::TRIC icSystem(residue_vec, index_vec, cartesians, graph);
-	    //internals::PrimitiveInternalsTransRot icSystem(residue_vec, index_vec, cartesians, graph);
+	    //internals::PrimitiveInternalCoordinates icSystem(residue_vec, index_vec, cartesians, graph);
             
             //auto write_with_zero = [](auto&& ofs, auto&& mat) {
             //  for (auto r = 0; r < mat.rows(); ++r) {

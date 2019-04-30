@@ -692,7 +692,7 @@ coords::Coordinates coords::input::formats::pdb::read(std::string const& file_na
   auto rep3D = parser->create_rep_3D();
   input_ensemble.emplace_back(rep3D);
 
-  coords::input::formats::pdb::helper::make_bonds(atoms, ic_util::bonds(parser->create_element_vec(), rep3D));
+  coords::input::formats::pdb::helper::make_bonds(atoms, ic_util::bonds(parser->create_element_vec(), rep3D, parser->create_resids_indices()));
   coords::input::formats::pdb::helper::set_energy_type(atoms, parser->create_resids_indices());
 
   Coordinates result;
