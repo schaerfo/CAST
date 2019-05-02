@@ -37,7 +37,12 @@ public:
             auto el_vec = p.create_element_vec();
 
             // create vector of bonds
-            auto bonds = ic_util::bonds(p.create_element_vec(), coords::input::formats::pdb::helper::ang_from_bohr(cp_vec), index_vec);
+            auto ang_cp_vec = coords::input::formats::pdb::helper::ang_from_bohr(cp_vec);
+            auto bonds = ic_util::bonds(p.create_element_vec(), ang_cp_vec);
+            auto interfragment_bonds = ic_util::findInterfragmentBonds(ang_cp_vec, index_vec);
+
+            bonds.insert(bonds.end(), std::make_move_iterator(interfragment_bonds.begin()),
+                         std::make_move_iterator(interfragment_bonds.end()));
 
             // create graph from bonds vector and atom vector
 	    ic_util::Graph<ic_util::Node> graph = ic_util::make_graph(bonds, p.atom_vec);

@@ -118,9 +118,8 @@ namespace ic_util{
 
     AtomConnector(
       std::vector<std::string> const& elem_vec,
-      coords::Representation_3D const& cp_vec,
-      std::vector<std::vector<std::size_t>> const& index_vec
-    ) : sequenceOfSymbols{ elem_vec }, cartesianRepresentation{ cp_vec }, fragmentIndices{ index_vec }, firstAtomIndex{ 0u }, secondAtomIndex{ 0u } {}
+      coords::Representation_3D const& cp_vec
+    ) : sequenceOfSymbols{ elem_vec }, cartesianRepresentation{ cp_vec }, firstAtomIndex{ 0u }, secondAtomIndex{ 0u } {}
     returnType operator()();
 
   private:
@@ -129,11 +128,9 @@ namespace ic_util{
     void findAtomWithIndexHigherThanFirst(returnType & connectedAtoms);
     void connectIfCloseEnough(returnType & connectedAtoms);
     bool areTheyCloseEnough();
-    void addInterfragmentBonds(returnType & connectedAtoms);
 
     std::vector<std::string> const& sequenceOfSymbols;
     coords::Representation_3D const& cartesianRepresentation;
-    std::vector<std::vector<std::size_t>> const& fragmentIndices;
 
     std::size_t firstAtomIndex;
     std::size_t secondAtomIndex;
@@ -142,7 +139,6 @@ namespace ic_util{
   inline std::vector<std::pair<std::size_t, std::size_t>> AtomConnector::operator()() {
     std::vector<std::pair<std::size_t, std::size_t>> connectedAtoms;
     findTheFirstAtom(connectedAtoms);
-    addInterfragmentBonds(connectedAtoms);
     return connectedAtoms;
   }
 
@@ -174,18 +170,33 @@ namespace ic_util{
     using ic_atom::element_radius;
     return 1.2 * (element_radius(oneAtom) + element_radius(otherAtom));
   }
+
+  inline std::vector<std::pair<std::size_t, std::size_t>>
+  bonds(std::vector<std::string> const& elem_vec,
+        coords::Representation_3D const& cp_vec
+       ) {
+    AtomConnector atomCreator(elem_vec, cp_vec);
+    return atomCreator();
+
+  }
   
-  inline void AtomConnector::addInterfragmentBonds(returnType & connectedAtoms){
+  /// inline to prevent link-time error
+  inline std::vector<std::pair<std::size_t, std::size_t>> findInterfragmentBonds(
+    coords::Representation_3D const& cp_vec,
+    std::vector<std::vector<std::size_t>> const& index_vec
+  ){
+    std::vector<std::pair<std::size_t, std::size_t>> ret;
+    
     // Iterate over every combination of framents
-    for (auto firstFragmentIndex = 0u; firstFragmentIndex < fragmentIndices.size(); ++firstFragmentIndex) {
-      for (auto secondFragmentIndex = firstFragmentIndex+1u; secondFragmentIndex < fragmentIndices.size(); ++secondFragmentIndex) {
+    for (auto firstFragmentIndex = 0u; firstFragmentIndex < index_vec.size(); ++firstFragmentIndex) {
+      for (auto secondFragmentIndex = firstFragmentIndex+1u; secondFragmentIndex < index_vec.size(); ++secondFragmentIndex) {
         
-        // Find atoms from fragments with smallest distance and add them to connectedAtoms
+        // Find atoms from fragments with smallest distance and add them to ret
         double minDistanceBetweenFragments{ 0.0 };
         std::size_t minFirstAtom, minSecondAtom;
-        for (auto const& firstAtom : fragmentIndices[firstFragmentIndex]) {
-          for (auto const& secondAtom : fragmentIndices[secondFragmentIndex]) {
-            auto currDistance = scon::len(cartesianRepresentation.at(firstAtom-1) - cartesianRepresentation.at(secondAtom-1));
+        for (auto const& firstAtom : index_vec[firstFragmentIndex]) {
+          for (auto const& secondAtom : index_vec[secondFragmentIndex]) {
+            auto currDistance = scon::len(cp_vec.at(firstAtom-1) - cp_vec.at(secondAtom-1));
             if (minDistanceBetweenFragments == 0.0 || currDistance < minDistanceBetweenFragments){
               minFirstAtom = firstAtom - 1;
               minSecondAtom = secondAtom - 1;
@@ -193,37 +204,27 @@ namespace ic_util{
             }
           }
         }
-        connectedAtoms.emplace_back(minFirstAtom, minSecondAtom);
+        ret.emplace_back(minFirstAtom, minSecondAtom);
         std::cout << "Added interfragment bond between Atom " << minFirstAtom +1 << " and " << minSecondAtom + 1
                   << " with distance " << minDistanceBetweenFragments << std::endl;
         
         // Add auxiliary bond coordinate if interfragment distance is less than 2 angstrom or
         // less than 1.3 * minDistanceBetweenFragments (according to Bakken, V.; Helgaker, T., J. Chem. Phys. 2002, 117, 9161)
         double minDistanceAuxiliaryBond = 1.3 * minDistanceBetweenFragments;
-        for (auto const& firstAtom : fragmentIndices[firstFragmentIndex]) {
-          for (auto const& secondAtom : fragmentIndices[secondFragmentIndex]) {
-            auto currDistance = scon::len(cartesianRepresentation.at(firstAtom-1) - cartesianRepresentation.at(secondAtom-1));
+        for (auto const& firstAtom : index_vec[firstFragmentIndex]) {
+          for (auto const& secondAtom : index_vec[secondFragmentIndex]) {
+            auto currDistance = scon::len(cp_vec.at(firstAtom-1) - cp_vec.at(secondAtom-1));
             if ((currDistance < 2.0 || currDistance < minDistanceAuxiliaryBond)
               && firstAtom -1 != minFirstAtom && secondAtom-1 != minSecondAtom // We dont want to add the shortest interfragment bond a second time
             ) {
-              connectedAtoms.emplace_back(firstAtom - 1, secondAtom - 1);
+              ret.emplace_back(firstAtom - 1, secondAtom - 1);
               std::cout << "Added auxiliary interfragment bond between Atom " << firstAtom << " and " << secondAtom << std::endl;
             }
           }
         }
       }
     }
-  }
-
-  inline std::vector<std::pair<std::size_t, std::size_t>>
-  bonds(std::vector<std::string> const& elem_vec,
-        coords::Representation_3D const& cp_vec,
-        std::vector<std::vector<std::size_t>> const& index_vec
-       ) {
-
-    AtomConnector atomCreator(elem_vec, cp_vec, index_vec);
-    return atomCreator();
-
+    return ret;
   }
 
   /*!
