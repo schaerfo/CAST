@@ -25,10 +25,10 @@ namespace internals{
     
     void create_translations_rotations(CartesianType & cartesians);
   
-    virtual void prepare_rotations() const override;
+    //virtual void prepare_rotations() const override;
     
   protected:
-    std::vector<std::shared_ptr<InternalCoordinates::Rotator>> registeredRotators;
+    //std::vector<std::shared_ptr<InternalCoordinates::Rotator>> registeredRotators;
     
     InternalVec create_trans_x() const;
     InternalVec create_trans_y() const;

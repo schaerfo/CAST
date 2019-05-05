@@ -339,13 +339,19 @@ namespace internals {
     /*for (auto & r : registeredRotators) {
       r->requestNewValueEvaluation();
     }*/
-    prepare_rotations();
+    //prepare_rotations();
+    for (auto & curr_coord : primitive_internals){
+      curr_coord->update_value();
+    }
     auto lprims = PrimitiveInternalCoordinates::calc(lhs);
     //TODO remove these from here
     /*for (auto & r : registeredRotators) {
       r->requestNewValueEvaluation();
     }*/
-    prepare_rotations();
+    //prepare_rotations();
+    for (auto & curr_coord : primitive_internals){
+      curr_coord->update_value();
+    }
     auto rprims = PrimitiveInternalCoordinates::calc(rhs);
     auto diff = lprims - rprims;
 

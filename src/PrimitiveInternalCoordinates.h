@@ -60,7 +60,7 @@ namespace internals {
     
     // Requests new values from rotational coordinates. This class does not have any, so this method does nothing.
     // However, PrimitiveInternalsTransRot does, therefore this method is overridden. 
-    virtual void prepare_rotations() const{} 
+    //virtual void prepare_rotations() const{} 
 
     bool new_B_matrix = true;
     bool new_G_matrix = true;

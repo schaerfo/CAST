@@ -86,7 +86,7 @@ namespace internals{
       resultA.emplace_back(std::move(rotation.rotationA));
       resultB.emplace_back(std::move(rotation.rotationB));
       resultC.emplace_back(std::move(rotation.rotationC));
-      registeredRotators.emplace_back(rotation.rotator);
+      //registeredRotators.emplace_back(rotation.rotator);
     }
     return { std::move(resultA), std::move(resultB), std::move(resultC) };
   }
@@ -118,9 +118,9 @@ namespace internals{
     return diff;
   }*/
   
-  void PrimitiveInternalsTransRot::prepare_rotations() const{
+  /*void PrimitiveInternalsTransRot::prepare_rotations() const{
     for (auto & r : registeredRotators) {
       r->requestNewValueEvaluation();
     }
-  }
+  }//*/
 }

@@ -77,6 +77,7 @@ namespace InternalCoordinates {
     virtual std::vector<coords::float_type> der_vec(coords::Representation_3D const& cartesians) const = 0;
     virtual coords::float_type hessian_guess(coords::Representation_3D const& cartesians) const = 0;
     virtual std::string info(coords::Representation_3D const & cartesians) const = 0;
+    virtual void update_value() {} /// Only rotations need to override this
     virtual ~InternalCoordinate() = default;
   };
 
@@ -330,6 +331,9 @@ namespace InternalCoordinates {
       oss << "Rotation A: " << val(cartesians);
       return oss.str();
     }
+    virtual void update_value() override{
+      rotator->requestNewValueEvaluation();
+    }
     std::shared_ptr<Rotator> rotator;
     bool operator==(RotationA const& other) const {
       return *rotator.get() == *other.rotator.get();
@@ -355,6 +359,9 @@ namespace InternalCoordinates {
         oss << "Rotation B: " << val(cartesians);
         return oss.str();
     }
+    virtual void update_value() override{
+      rotator->requestNewValueEvaluation();
+    }
     std::shared_ptr<Rotator> rotator;
     bool operator==(RotationB const& other) const {
       return *rotator.get() == *other.rotator.get();
@@ -378,6 +385,9 @@ namespace InternalCoordinates {
       std::ostringstream oss;
       oss << "Rotation C: " << val(cartesians);
       return oss.str();
+    }
+    virtual void update_value() override{
+      rotator->requestNewValueEvaluation();
     }
     std::shared_ptr<Rotator> rotator;
     bool operator==(RotationC const& other) const {
