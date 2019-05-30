@@ -189,12 +189,21 @@ namespace InternalCoordinates {
   };
 
   struct Translations : public InternalCoordinates::InternalCoordinate {
+    enum class Axis{
+      X, Y, Z
+    };
+    
     using CoordFunc = scon::_c3::_fc<coords::float_type> (scon::c3<coords::float_type>::*) ()const;
     
-    Translations(std::vector<std::size_t> const& index_vec, CoordFunc cf):
-    cf_(cf),
+    Translations(std::vector<std::size_t> const& index_vec, Axis axis):
     constrained_(Config::get().constrained_internals.constrain_translations)
     {
+      switch (axis){
+        case Axis::X: cf_ = &scon::c3<coords::float_type>::x; break;
+        case Axis::Y: cf_ = &scon::c3<coords::float_type>::y; break;
+        case Axis::Z: cf_ = &scon::c3<coords::float_type>::z; break;
+      }
+      
       for (auto index : index_vec) {
         indices_.emplace_back(index - 1u);
       }
@@ -237,8 +246,8 @@ namespace InternalCoordinates {
   };
 
   struct TranslationX : Translations {
-    TranslationX(const std::vector<std::size_t>& index_vec, CoordFunc cf)
-      : Translations(index_vec, cf)
+    TranslationX(const std::vector<std::size_t>& index_vec, Axis axis)
+      : Translations(index_vec, axis)
     {}
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
@@ -246,8 +255,8 @@ namespace InternalCoordinates {
   };
 
   struct TranslationY : Translations {
-    TranslationY(const std::vector<std::size_t>& index_vec, CoordFunc cf)
-      : Translations(index_vec, cf)
+    TranslationY(const std::vector<std::size_t>& index_vec, Axis axis)
+      : Translations(index_vec, axis)
     {}
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
@@ -255,8 +264,8 @@ namespace InternalCoordinates {
   };
 
   struct TranslationZ : Translations {
-    TranslationZ(const std::vector<std::size_t>& index_vec, CoordFunc cf)
-      : Translations(index_vec, cf)
+    TranslationZ(const std::vector<std::size_t>& index_vec, Axis axis)
+      : Translations(index_vec, axis)
     {}
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
