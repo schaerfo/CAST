@@ -189,12 +189,24 @@ namespace InternalCoordinates {
   };
 
   struct Translations : public InternalCoordinates::InternalCoordinate {
-    Translations(std::vector<std::size_t> const& index_vec) {
+    using CoordFunc = scon::_c3::_fc<coords::float_type> (scon::c3<coords::float_type>::*) ()const;
+    
+    Translations(std::vector<std::size_t> const& index_vec, CoordFunc cf):
+    cf_(cf)
+    {
       for (auto index : index_vec) {
         indices_.emplace_back(index - 1u);
       }
     }
     virtual ~Translations() = default;
+    
+    coords::float_type val(coords::Representation_3D const& cartesians) const override {
+      auto coord_sum{ 0.0 };
+      for (auto& i : indices_) {
+        coord_sum += (cartesians.at(i).*cf_)();
+      }
+      return coord_sum / indices_.size();
+    }
 
     std::vector<std::size_t> indices_;
 
@@ -217,21 +229,15 @@ namespace InternalCoordinates {
     }
 
     bool operator==(Translations const&) const;
+    
+    CoordFunc cf_;
   };
 
   struct TranslationX : Translations {
-    TranslationX(const std::vector<std::size_t>& index_vec)
-      : Translations(index_vec),
+    TranslationX(const std::vector<std::size_t>& index_vec, CoordFunc cf)
+      : Translations(index_vec, cf),
         constrained_(Config::get().constrained_internals.constrain_translations)
     {}
-
-    coords::float_type val(coords::Representation_3D const& cartesians) const override {
-      auto coord_sum{ 0.0 };
-      for (auto& i : indices_) {
-        coord_sum += cartesians.at(i).x();
-      }
-      return coord_sum / indices_.size();
-    }
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
     std::string info(coords::Representation_3D const& cartesians) const override;
@@ -241,18 +247,10 @@ namespace InternalCoordinates {
   };
 
   struct TranslationY : Translations {
-    TranslationY(const std::vector<std::size_t>& index_vec)
-      : Translations(index_vec),
+    TranslationY(const std::vector<std::size_t>& index_vec, CoordFunc cf)
+      : Translations(index_vec, cf),
         constrained_(Config::get().constrained_internals.constrain_translations)
     {}
-
-    coords::float_type val(coords::Representation_3D const& cartesians) const override {
-      auto coord_sum{ 0.0 };
-      for (auto& i : indices_) {
-        coord_sum += cartesians.at(i).y();
-      }
-      return coord_sum / indices_.size();
-    }
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
     std::string info(coords::Representation_3D const& cartesians) const override;
@@ -262,18 +260,10 @@ namespace InternalCoordinates {
   };
 
   struct TranslationZ : Translations {
-    TranslationZ(const std::vector<std::size_t>& index_vec)
-      : Translations(index_vec),
+    TranslationZ(const std::vector<std::size_t>& index_vec, CoordFunc cf)
+      : Translations(index_vec, cf),
         constrained_(Config::get().constrained_internals.constrain_translations)
     {}
-
-    coords::float_type val(coords::Representation_3D const& cartesians) const override {
-      auto coord_sum{ 0.0 };
-      for (auto& i : indices_) {
-        coord_sum += cartesians.at(i).z();
-      }
-      return coord_sum / indices_.size();
-    }
 
     std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
     std::string info(coords::Representation_3D const& cartesians) const override;
