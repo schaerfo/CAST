@@ -2,8 +2,8 @@
 #include "Optimizer.h"
 
 namespace internals {
-  void PrimitiveInternalCoordinates::appendCoordinates(std::shared_ptr<InternalCoordinateAppenderInterface> appender){
-    appender->append(shared_from_this());
+  void PrimitiveInternalCoordinates::appendCoordinates(InternalCoordinateAppenderInterface& appender){
+    appender.append(*this);
   }
 
   void PrimitiveInternalCoordinates::appendPrimitives(InternalVec&& pic) {

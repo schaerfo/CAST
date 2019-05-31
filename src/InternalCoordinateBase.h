@@ -22,7 +22,7 @@ namespace internals {
   
   class InternalCoordinateAppenderInterface{
   public:
-    virtual void append(std::shared_ptr<PrimitiveInternalCoordinates> primitives) = 0;
+    virtual void append(PrimitiveInternalCoordinates& primitives) = 0;
   };
 
   class InternalCoordinatesBase{
@@ -35,7 +35,7 @@ namespace internals {
     // cartesians cannot be a const& because of InternalCoordinates::Rotator::buildRotator
     // (which is called by ICRotationDecorator::buildCoordinates which implements this method)
     virtual void buildCoordinates(CartesianType & cartesians, BondGraph const& graph, IndexVec const& indexVec) = 0;
-    virtual void appendCoordinates(std::shared_ptr<InternalCoordinateAppenderInterface> appender) = 0;
+    virtual void appendCoordinates(InternalCoordinateAppenderInterface& appender) = 0;
     
   };
 
