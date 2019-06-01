@@ -193,30 +193,19 @@ namespace InternalCoordinates {
       X, Y, Z
     };
     
-    using CoordFunc = scon::_c3::_fc<coords::float_type> (scon::c3<coords::float_type>::*) ()const;
-    
     Translations(std::vector<std::size_t> const& index_vec, Axis axis):
-    constrained_(Config::get().constrained_internals.constrain_translations)
+      constrained_{Config::get().constrained_internals.constrain_translations},
+      axis_{axis}
     {
-      switch (axis){
-        case Axis::X: cf_ = &scon::c3<coords::float_type>::x; break;
-        case Axis::Y: cf_ = &scon::c3<coords::float_type>::y; break;
-        case Axis::Z: cf_ = &scon::c3<coords::float_type>::z; break;
-      }
-      
       for (auto index : index_vec) {
         indices_.emplace_back(index - 1u);
       }
     }
     virtual ~Translations() = default;
     
-    coords::float_type val(coords::Representation_3D const& cartesians) const override {
-      auto coord_sum{ 0.0 };
-      for (auto& i : indices_) {
-        coord_sum += (cartesians.at(i).*cf_)();
-      }
-      return coord_sum / indices_.size();
-    }
+    coords::float_type val(coords::Representation_3D const& cartesians) const override;
+    std::vector<coords::float_type> der_vec(coords::Representation_3D const& cartesians) const override;
+    std::string info(coords::Representation_3D const& cartesians) const override;
 
     std::vector<std::size_t> indices_;
 
@@ -240,36 +229,9 @@ namespace InternalCoordinates {
 
     bool operator==(Translations const&) const;
     
-    CoordFunc cf_;
     bool constrained_;
+    Axis axis_;
     virtual bool is_constrained() const override {return constrained_;}
-  };
-
-  struct TranslationX : Translations {
-    TranslationX(const std::vector<std::size_t>& index_vec, Axis axis)
-      : Translations(index_vec, axis)
-    {}
-
-    std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
-    std::string info(coords::Representation_3D const& cartesians) const override;
-  };
-
-  struct TranslationY : Translations {
-    TranslationY(const std::vector<std::size_t>& index_vec, Axis axis)
-      : Translations(index_vec, axis)
-    {}
-
-    std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
-    std::string info(coords::Representation_3D const& cartesians) const override;
-  };
-
-  struct TranslationZ : Translations {
-    TranslationZ(const std::vector<std::size_t>& index_vec, Axis axis)
-      : Translations(index_vec, axis)
-    {}
-
-    std::vector<coords::float_type> der_vec(coords::Representation_3D const& rep)const override;
-    std::string info(coords::Representation_3D const& cartesians) const override;
   };
   
   template<typename T>

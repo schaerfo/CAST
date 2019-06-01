@@ -224,10 +224,9 @@ namespace internals{
   void ICTranslationDecorator::buildCoordinates(CartesianType & cartesians, BondGraph const& graph, IndexVec const& indexVec){
     InternalVec result;
     for (auto const& indices : indexVec){
-      // When using make_unique, compilation fails because it cannot resolve the function overload
-      result.emplace_back(std::make_unique<InternalCoordinates::TranslationX>(indices, InternalCoordinates::Translations::Axis::X));
-      result.emplace_back(std::make_unique<InternalCoordinates::TranslationY>(indices, InternalCoordinates::Translations::Axis::Y));
-      result.emplace_back(std::make_unique<InternalCoordinates::TranslationZ>(indices, InternalCoordinates::Translations::Axis::Z));
+      result.emplace_back(std::make_unique<InternalCoordinates::Translations>(indices, InternalCoordinates::Translations::Axis::X));
+      result.emplace_back(std::make_unique<InternalCoordinates::Translations>(indices, InternalCoordinates::Translations::Axis::Y));
+      result.emplace_back(std::make_unique<InternalCoordinates::Translations>(indices, InternalCoordinates::Translations::Axis::Z));
     }
     appendCoordinates(std::make_shared<ICGeneralAppender>(std::move(result)));
     ICAbstractDecorator::buildCoordinates(cartesians, graph, indexVec);

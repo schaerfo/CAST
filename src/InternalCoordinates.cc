@@ -305,53 +305,38 @@ namespace InternalCoordinates {
     oss << "Out of plane: " << val(cartesians) * SCON_180PI << "||" << index_a_ + 1u << "||" << index_b_ + 1u << "||" << index_c_ + 1u << "||" << index_d_ + 1u << " || " << "Constrained: " << std::boolalpha << is_constrained();
     return oss.str();
   }
-
-  std::vector<coords::float_type>
-    TranslationX::der_vec(coords::Representation_3D const& cartesians) const {
+  
+  coords::float_type Translations::val(coords::Representation_3D const& cartesians) const {
+    using CoordFunc = scon::_c3::_fc<coords::float_type> (scon::c3<coords::float_type>::*) () const;
+    CoordFunc coord_func = [this]() -> CoordFunc{
+      switch (axis_){
+        case Axis::X: return &scon::c3<coords::float_type>::x;
+        case Axis::Y: return &scon::c3<coords::float_type>::y;
+        case Axis::Z: return &scon::c3<coords::float_type>::z;
+      }
+    }();
+    auto coord_sum{ 0.0 };
+    for (auto& i : indices_) {
+      coord_sum += (cartesians.at(i).*coord_func)();
+    }
+    return coord_sum / indices_.size();
+  }
+  
+  std::vector<coords::float_type> Translations::der_vec(coords::Representation_3D const& cartesians) const{
     using cp = coords::Cartesian_Point;
-
-    return ic_util::flatten_c3_vec(der(cartesians.size(), [](auto const & s) {
-      return cp(1. / static_cast<coords::float_type>(s), 0., 0.);
+    
+    return ic_util::flatten_c3_vec(der(cartesians.size(), [this](auto const& s){
+      return cp(axis_ == Axis::X ? 1. / static_cast<coords::float_type>(s) : 0,
+                axis_ == Axis::Y ? 1. / static_cast<coords::float_type>(s) : 0,
+                axis_ == Axis::Z ? 1. / static_cast<coords::float_type>(s) : 0
+             );
     }));
   }
-
-  std::string TranslationX::info(coords::Representation_3D const & cartesians) const
-  {
+  
+  std::string Translations::info(coords::Representation_3D const& cartesians) const {
+    auto axis_str{ axis_ == Axis::X ? "X" : (axis_ == Axis::Y ? "Y" : "Z") };
     std::ostringstream oss;
-    oss << "Trans X: " << val(cartesians) << " | Constrained: " << std::boolalpha << is_constrained();
-    return oss.str();
-  }
-
-  std::vector<coords::float_type>
-    TranslationY::der_vec(coords::Representation_3D const& cartesians) const {
-
-    using cp = coords::Cartesian_Point;
-
-    return ic_util::flatten_c3_vec(der(cartesians.size(), [](auto const & s) {
-      return cp(0., 1. / static_cast<coords::float_type>(s), 0.);
-    }));
-  }
-
-  std::string TranslationY::info(coords::Representation_3D const & cartesians) const
-  {
-    std::ostringstream oss;
-    oss << "Trans Y: " << val(cartesians) << " | Constrained: " << std::boolalpha << is_constrained();
-    return oss.str();
-  }
-
-  std::vector<coords::float_type>
-    TranslationZ::der_vec(coords::Representation_3D const& cartesians) const {
-    using cp = coords::Cartesian_Point;
-
-    return ic_util::flatten_c3_vec(der(cartesians.size(), [](auto const & s) {
-      return cp(0., 0., 1. / static_cast<coords::float_type>(s));
-    }));
-  }
-
-  std::string TranslationZ::info(coords::Representation_3D const & cartesians) const
-  {
-    std::ostringstream oss;
-    oss << "Trans Z: " << val(cartesians) << " | Constrained: " << std::boolalpha << is_constrained();
+    oss << "Trans " << axis_str << ": " << val(cartesians) << " | Constrained: " << std::boolalpha << is_constrained();
     return oss.str();
   }
 
