@@ -254,12 +254,12 @@ namespace scon
   template<class It>
   inline std::size_t size_2d(It beg, It const end)
   {
-    using std::begin;
-    using std::end;
+    //using std::begin;
+    //using std::end;
     std::ptrdiff_t n = std::ptrdiff_t();
     for (; beg != end; ++beg)
     {
-      n += std::distance(begin(*beg), end(*beg));
+      n += std::distance(std::begin(*beg), std::end(*beg));
     }
     return n >= 0 ? static_cast<std::size_t>(n) : 0u;
   }
@@ -761,7 +761,7 @@ namespace scon
   inline T rand(T const & low, T const & up)
   {
     static const T rm(static_cast<T>(RAND_MAX));
-    return low + static_cast<T>(rand()) / rm * (up - low);
+    return low + static_cast<T>(std::rand()) / rm * (up - low);
   }
 
 #endif
