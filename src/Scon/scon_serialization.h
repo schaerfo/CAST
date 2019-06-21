@@ -17,7 +17,7 @@
 #include <cstring>
 #include <utility>
 
-#if __GNUG__ && __GNUC__ < 5
+#if __GNUG__ && __GNUC__ < 5 && !defined(__clang__)
 #define IS_TRIVIALLY_COPYABLE(T) std::has_trivial_copy_constructor<T>::value
 #else
 #define IS_TRIVIALLY_COPYABLE(T) std::is_trivially_copyable<T>::value

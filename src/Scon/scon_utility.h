@@ -614,8 +614,8 @@ namespace scon
     {
       static std::mutex mtx;
       static std::random_device r;
-      static auto mt = std::mt19937_64{
-        std::seed_seq{ r(), r(), r(), r(), r(), r() } };
+      static std::seed_seq sseq { r(), r(), r(), r(), r(), r() };
+      static auto mt = std::mt19937_64{ sseq };
       std::unique_lock<std::mutex> lock(mtx);
       std::seed_seq seq{ mt(), mt(), mt(), mt(), x };
       return std::mt19937_64{ seq };

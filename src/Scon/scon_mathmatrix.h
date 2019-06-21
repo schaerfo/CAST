@@ -142,7 +142,15 @@ template <typename T>
 class mathmatrix : public matrix_type<T> {
 
 private:
+#ifndef __clang__
   using base_type = matrix_type<T>;
+#else
+#ifndef CAST_USE_ARMADILLO
+  using base_type = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
+#else
+  using base_type = arma::Mat<T>;
+#endif
+#endif
 
 public:
   using int_type = int;
@@ -161,11 +169,7 @@ public:
    *
    * Constructs an empty mathmatrix
    **/
-#ifndef CAST_USE_ARMADILLO
-  using base_type::Matrix;
-#else
-  using base_type::Mat;
-#endif
+  using base_type::base_type;
 
   mathmatrix(std::initializer_list<std::initializer_list<T>> const& ini);
   mathmatrix() = default;
