@@ -3,7 +3,28 @@
 #if !defined(SCON_HEADER)
 #define SCON_HEADER
 
-#if defined(__GNUG__)
+#if defined(__clang__)
+
+#error "CLANG SUPPORT NOT YET INCLUDED FOR SCON."
+
+  #ifndef CLANG_VERSION
+  #define CLANG_VERSION (__clang_major__ * 10000 \
+    + __clang_minor__ * 100 \
+    + __clang_patchlevel__)
+  #endif
+
+  #if CLANG_VERSION >= 20900
+  #endif
+  #if CLANG_VERSION >= 30000
+  #endif
+  #if CLANG_VERSION >= 30100
+  #endif
+  #if CLANG_VERSION >= 30200
+  #endif
+  #if CLANG_VERSION >= 30300
+  #endif
+
+#elif defined(__GNUG__)
 
   #if !defined(NDEBUG) && !defined(SCON_DEBUG)
     #define SCON_DEBUG 1
@@ -210,27 +231,6 @@
     #define SCON_CC11_EXPLICIT_VIRTUAL_OVERRRIDE
     #define SCON_CC11_MOVE
     #define SCON_CC11_OVERRIDE_FINAL
-  #endif
-
-#elif defined(__clang__)
-
-  #error "CLANG SUPPORT NOT YET INCLUDED FOR SCON."
-
-  #ifndef CLANG_VERSION
-  #define CLANG_VERSION (__clang_major__ * 10000 \
-    + __clang_minor__ * 100 \
-    + __clang_patchlevel__)
-  #endif
-
-  #if CLANG_VERSION >= 20900
-  #endif
-  #if CLANG_VERSION >= 30000
-  #endif
-  #if CLANG_VERSION >= 30100
-  #endif
-  #if CLANG_VERSION >= 30200
-  #endif
-  #if CLANG_VERSION >= 30300
   #endif
 
 #endif // compiler defines
