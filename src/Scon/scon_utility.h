@@ -945,8 +945,8 @@ namespace scon
     struct TuplePrinter<N>
     {
       template<class Ch, class ChTr>
-      static void print(std::basic_ostream<Ch, ChTr> & strm,
-        delimeted_tuple<Ch, ChTr> const & t)
+      static void print(std::basic_ostream<Ch, ChTr> & /*strm*/,
+        delimeted_tuple<Ch, ChTr> const & /*t*/)
       { }
     };
 
@@ -1050,7 +1050,7 @@ namespace scon
   namespace detail
   {
     // termination function
-    template<class T> void apply_unary(T&& value) { }
+    template<class T> void apply_unary(T&& /*value*/) { }
     // recursive function for applying all unarys
     template<class T, class F1, class... UnaryFs>
     void apply_unary(T&& value, F1 && f, UnaryFs && ... fs)

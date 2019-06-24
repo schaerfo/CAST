@@ -387,7 +387,7 @@ namespace scon
 
   template<class T>
   typename std::enable_if<std::is_fundamental<T>::value,
-    std::size_t>::type cardinality(c3<T> const &v)
+    std::size_t>::type cardinality(c3<T> const &/*v*/)
   {
     return 3U;
   }
@@ -459,7 +459,7 @@ namespace scon
   // cardinality
 
   template<class T>
-  std::size_t cardinality(ang<T> const &v)
+  std::size_t cardinality(ang<T> const &/*v*/)
   {
     return 1U;
   }

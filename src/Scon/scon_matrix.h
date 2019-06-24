@@ -139,7 +139,7 @@ namespace scon
       if (in.empty()) return;
       auto const n = in.size(), // rows
         m = in.front().size(); // cols
-      bool same_size{ true };
+      //bool same_size{ true };
       for (std::size_t i = 1u; i < n; ++i)
       {
         if (in[i].size() != m)
