@@ -603,11 +603,9 @@ namespace scon
   }
 
 
-#if defined(SCON_CC11_RANDOM)
 
   struct random
   {
-#if defined(SCON_CC11_THREAD)
 
     template<class T>
     inline std::mt19937_64 threaded_mt_engine(T x)
@@ -636,7 +634,6 @@ namespace scon
           std::hash<std::thread::id>()(std::this_thread::get_id()));
       return dist(tlrng);
     }
-#endif
   };
 
   template<class T, bool F = std::is_floating_point<T>::value>
@@ -738,7 +735,6 @@ namespace scon
   {
     return random::rand(std::uniform_real_distribution<long double>(low, up));
   }
-#if defined(SCON_CC11_THREAD)
   //template<typename T>
   //inline typename std::uniform_int_distribution<T>::result_type rand_thread(T const & low, T const & up)
   //{
@@ -754,17 +750,6 @@ namespace scon
   //{
   //  return random::threaded_random<std::uniform_real_distribution<float>>(std::uniform_real_distribution<float>(low, up));
   //}
-#endif
-#else
-
-  template<typename T>
-  inline T rand(T const & low, T const & up)
-  {
-    static const T rm(static_cast<T>(RAND_MAX));
-    return low + static_cast<T>(std::rand()) / rm * (up - low);
-  }
-
-#endif
 
   template<class T, class U = T>
   inline typename std::enable_if<std::is_arithmetic<U>::value>::type

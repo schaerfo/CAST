@@ -851,7 +851,6 @@ namespace coords
     }
     //Irgendwer der das perfect forwarden will? Der move macht naemlich probleme
     //ifdef kann weg
-#if defined(SCON_CC11_RVALUE_REF) && defined(SCON_CC11_MOVE)
   /**set new cartisian coordinates
   @param new_xyz: new cartesian coordinates
   @param overwrite_fixed: if true also change coordinates of fixed atoms*/
@@ -870,7 +869,6 @@ namespace coords
         m_representation.structure.cartesian = std::move(new_xyz);
       m_stereo.update(xyz());
     }
-#endif
 
     /** set new gradients and update internal coordinates
   @param rhs: new gradients

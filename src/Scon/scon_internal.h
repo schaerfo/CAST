@@ -149,12 +149,8 @@ namespace scon
   }
 
   template<class T>
-#if defined (SCON_CC11_AUTO_DECLARATOR) && defined(SCON_CC11_F_LATE_DECLARATOR)
   inline auto dot(internals<T> const &a, internals<T> const &b)
     -> decltype(a.x()*b.x() + a.y()*b.y().rad + a.z()*b.z())
-#else
-  inline T dot(vect3d<T> const &a, vect3d<T> const &b)
-#endif
   {
     return scon::dot(a.x(), b.x()) + scon::dot(a.y(), b.y()) + scon::dot(a.z(), b.z());
   }

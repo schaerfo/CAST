@@ -8,11 +8,7 @@
 #include "scon.h"
 #include "scon_utility.h"
 
-#if defined(SCON_CC11_CHRONO)
-  #include <chrono>
-#else
-  #include <ctime>
-#endif
+#include <chrono>
 
 #if defined (_MSC_VER) && _MSC_VER < 1900
 #define WIN32_LEAN_AND_MEAN
