@@ -31,14 +31,6 @@
 #include <cxxabi.h>
 #endif
 
-#if defined(_MSC_VER) && !defined(thread_local)  // Visual studio
-#define thread_local __declspec( thread )
-#elif defined(__GCC__) && (__GNUC__ < 4 || __GNUC_MINOR__ < 8) && !defined(thread_local)  // GCC
-#define thread_local __thread
-#elif  !defined(thread_local)
-#define thread_local 
-#endif
-
 #if defined(_MSC_VER)
 #include "../win_inc.h"
 #endif
