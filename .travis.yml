@@ -2,9 +2,10 @@ language: cpp
 os: linux
 dist: xenial
 compiler: gcc
-apt:
-  packages:
-    - gfortran
+addons:
+  apt:
+    packages:
+      - gfortran
 env:
   - BUILD_CONFIG=testing_x64 EXEC_NAME=CAST_linux_x64_testing                      # Set matrix row for Eigen build
   - BUILD_CONFIG=armadillo_testing_x64 EXEC_NAME=CAST_linux_x64_armadillo_testing  # Set matrix row for Armadillo build
