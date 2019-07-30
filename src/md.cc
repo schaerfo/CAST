@@ -175,8 +175,8 @@ void md::simulation::run(bool const restart)
   if (restarted)
   {
     nht = nose_hoover();
-    nht.setQ1(Config::set().md.nosehoover_Q);
-    nht.setQ2(Config::set().md.nosehoover_Q);
+    nht.setQ1(Config::get().md.nosehoover_Q);
+    nht.setQ2(Config::get().md.nosehoover_Q);
 
     T = Config::get().md.T_init;
     init();

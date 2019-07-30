@@ -55,7 +55,7 @@ namespace pca
 
 					if (num == 1u	|| numbnd == 1u || numang == 1u || numdih == 1u)
 					{
-						Config::set().PCA.pca_internal_dih.erase(Config::set().PCA.pca_internal_dih.begin() + i);
+						Config::set().PCA.pca_internal_dih.erase(Config::get().PCA.pca_internal_dih.begin() + i);
 						sizeOfVector--;
 						i--;
 					}

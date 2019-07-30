@@ -504,7 +504,7 @@ int energy::interfaces::gaussian::sysCallInterfaceGauss::callGaussian()
       << failcounter << " Gaussian call" << (failcounter != 1 ? "s have" : " has")
       << " failed so far.)\n";
 
-    if (Config::set().energy.gaussian.delete_input == false)
+    if (Config::get().energy.gaussian.delete_input == false)
     {                                   // save logfile for failed gaussian calls
       std::string oldname = id + ".log";
       std::string newname = "fail_" + std::to_string(failcounter) + ".log";

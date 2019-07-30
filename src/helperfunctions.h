@@ -284,7 +284,7 @@ inline bool is_smaller_than(double a, double b, double precision = 1e-10)
 @param atomtype: forcefield atomtype
 @param paramfile: name of the forcefield parameterfile (default is what is given in inputfile)
 returns number of bonds*/
-inline unsigned int get_ideal_bond_number_from_parameterfile(int atomtype, std::string const &paramfile = Config::set().general.paramFilename)
+inline unsigned int get_ideal_bond_number_from_parameterfile(int atomtype, std::string const &paramfile = Config::get().general.paramFilename)
 {
   if (file_exists(paramfile) == false) {
     throw std::runtime_error("Parameterfile " + paramfile + " not found to get number of bonds for atomtype " + std::to_string(atomtype));
