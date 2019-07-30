@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     // Parse config file and command line 
     auto config_filename = config::config_file_from_commandline(argc, argv);
     Config main_configuration(config_filename);
-    config::parse_command_switches(argc, argv);
+    main_configuration.parse_command_switches(argc, argv);
 
     // Print configuration
     if (Config::get().general.verbosity > 1U)

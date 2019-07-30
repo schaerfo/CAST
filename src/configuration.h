@@ -1801,18 +1801,6 @@ namespace config
   */
   std::ostream & operator<< (std::ostream &, general const &);
 
-  /*! Parses command line switches into cnofig object
-  *
-  * This function parses command lines switches.
-  * They have priority over options from the inputfile
-  * and therefore overwrite them. Pass over argc
-  * and argv to this function.
-  *
-  * @param N: usually "argc"
-  * @param V: usually "argv"
-  */
-  void parse_command_switches(std::ptrdiff_t const, char**);
-
   /*! Returns name of the config-file for the runtime of CAST
   *
   * This function determines the name
@@ -1829,17 +1817,6 @@ namespace config
   * CAST.exe -s filename.txt
   */
   std::string config_file_from_commandline(std::ptrdiff_t const, char**);
-
-  /*! Parses one config-option and stores it in config-class
-  *
-  * This function parses one configoption
-  * and puts the value into the corresponding
-  * struct inside the Config class
-  *
-  * @param option: name of the configoption
-  * @param value_string: corresponding value of the option
-  */
-  void parse_option(std::string const option, std::string const value);
 
   // Important function declarations end here...
 
@@ -1930,6 +1907,18 @@ public:
     parse_file(filename);
   }
 
+  /*! Parses command line switches into cnofig object
+  *
+  * This function parses command lines switches.
+  * They have priority over options from the inputfile
+  * and therefore overwrite them. Pass over argc
+  * and argv to this function.
+  *
+  * @param N: usually "argc"
+  * @param V: usually "argv"
+  */
+  void parse_command_switches(std::ptrdiff_t const, char**);
+
   /*! Obtain contents of Config
    *
    * This get() function is used to safely
@@ -2002,6 +1991,23 @@ private:
    * @param filename: Full filename of the file
    */
   void parse_file(std::string const &filename);
+
+  /*! Parses one config-option and stores it in config-class
+  *
+  * This function parses one configoption
+  * and puts the value into the corresponding
+  * struct inside the Config class
+  *
+  * @param option: name of the configoption
+  * @param value_string: corresponding value of the option
+  */
+  void parse_option(std::string const option, std::string const value);
+
+  /*!
+   * function to find all appearing or disappearing atoms in an FEP input file
+   * returns a vector with tinker atom numbers
+   */
+  std::vector<unsigned> FEP_get_inout();
 
   /*! Pointer to the single instance of the Config class
    *
