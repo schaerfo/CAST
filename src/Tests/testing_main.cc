@@ -16,8 +16,8 @@
 
 int main(int argc, char** argv) {
   // Parse config file and command line 
-  //auto config_filename = config::config_file_from_commandline(argc, argv);
-  Config main_configuration("../../CAST.txt");
+  auto config_filename = config::config_file_from_commandline(argc, argv);
+  Config main_configuration(config_filename);
   main_configuration.parse_command_switches(argc, argv);
   Config::set().general.verbosity = 0u;
   Config::set().general.paramFilename = "test_files/oplsaa.prm";

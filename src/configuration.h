@@ -1902,11 +1902,19 @@ public:
    */
   Config(std::string const &filename)
   {
-    // There can only ever be one Config!
-    if (m_instance) throw std::runtime_error("Configuration duplication.");
-
-    m_instance = this;
+    // Register this a global instance if there is not already one
+    if (!Config::m_instance) {
+      m_is_global_instance = true;
+      Config::m_instance = this;
+    }
     parse_file(filename);
+  }
+
+  ~Config()
+  {
+    if (m_is_global_instance){
+      Config::m_instance = nullptr;
+    }
   }
 
   /*! Parses command line switches into cnofig object
@@ -1983,6 +1991,30 @@ public:
    */
   static config::output_types::T     getOutFormat(std::string const&);
 
+  bool is_global_instance() const {return m_is_global_instance;}
+
+  /*! Copying a Config object:
+   *  The copy will not be the global instance regardless of whether other is
+   */
+  Config(Config const& other):
+      m_options(other.m_options)
+  {}
+
+  Config & operator= (Config const& other)
+  {
+    m_options = other.m_options;
+    return *this;
+  }
+
+  /*! Moving a Config object:
+   *  The moved-to object 'inherits' whether it is the global instance
+   *  from the moved-from objects, which is the defaults do.
+   */
+  Config(Config && other) = default;
+  Config & operator= (Config && other) = default;
+
+  ConfigOptions m_options;
+
 private:
 
   /*! Parse whole config-file for config-options
@@ -2011,15 +2043,19 @@ private:
    */
   std::vector<unsigned> FEP_get_inout();
 
-  /*! Pointer to the single instance of the Config class
+  /*! Pointer to the globally available instance of the Config class
    *
-   * There can only ever be one Config object.
-   * A pointer to it is contained here.
+   * On the first instantiation of Config, the ctor sets this pointer.
+   * Likewise, the dtor of the global instance (as reported by m_is_global_instance)
+   * resets this to a nullptr.
    * If no object exists (yet), this will be a nullpointer.
    */
   static Config * m_instance;
 
-  ConfigOptions m_options;
+  /*! Stores whether this instance is the global one stored in m_instance
+   *  This field may be replaced by checking this == m_instance
+   */
+  bool m_is_global_instance{false};
 };
 
 #endif
