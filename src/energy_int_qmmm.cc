@@ -18,7 +18,7 @@ energy::interfaces::qmmm::QMMM::QMMM(coords::Coordinates * cp) :
 {
   if (!tp.valid())
   {
-    tp.from_file(Config::get().get().general.paramFilename);
+    tp.from_file(Config::get().general.paramFilename);
   }
   std::vector<std::size_t> types;
   for (auto atom : (*cp).atoms())

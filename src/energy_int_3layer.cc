@@ -38,7 +38,7 @@ energy::interfaces::three_layer::THREE_LAYER::THREE_LAYER(coords::Coordinates *c
 	{
 		throw std::runtime_error("One of your chosen interfaces is not suitable for THREE_LAYER.");
 	}
-  if (!file_exists(Config::get().get().general.paramFilename) &&    // if forcefield is desired but no parameterfile is given -> throw error
+  if (!file_exists(Config::get().general.paramFilename) &&    // if forcefield is desired but no parameterfile is given -> throw error
     (Config::get().energy.qmmm.qminterface == config::interface_types::T::OPLSAA || Config::get().energy.qmmm.qminterface == config::interface_types::T::AMBER
       || Config::get().energy.qmmm.seinterface == config::interface_types::T::OPLSAA || Config::get().energy.qmmm.seinterface == config::interface_types::T::AMBER
       || Config::get().energy.qmmm.mminterface == config::interface_types::T::OPLSAA || Config::get().energy.qmmm.qminterface == config::interface_types::T::AMBER))
@@ -46,9 +46,9 @@ energy::interfaces::three_layer::THREE_LAYER::THREE_LAYER(coords::Coordinates *c
     throw std::runtime_error("You need a tinker-like parameterfile for your chosen forcefield.");
   }
 
-  if (!tp.valid() && file_exists(Config::get().get().general.paramFilename))
+  if (!tp.valid() && file_exists(Config::get().general.paramFilename))
   {
-    tp.from_file(Config::get().get().general.paramFilename);
+    tp.from_file(Config::get().general.paramFilename);
   }
 }
 
