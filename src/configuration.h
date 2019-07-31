@@ -1867,28 +1867,30 @@ namespace config
 class Config
 {
 public:
-  config::general               general;
-  config::coords                coords;
-  config::energy                energy;
-  config::startopt              startopt;
-  config::optimization          optimization;
-  config::fep                   fep;
-  config::molecular_dynamics    md;
-  config::dimer                 dimer;
-  config::neb					          neb;
-  config::align			            alignment;
-  config::PCA					          PCA;
-  config::entropy				        entropy;
-  config::io                    io;
-  config::scan2d				      	scan2d;
-  config::exbreak				        exbreak;
-  config::interfcrea            interfcrea;
-  config::center                center;
-  config::couplings             couplings;
-  config::periodics             periodics;
-  config::layd                  layd;
-  config::constrained_internals constrained_internals;
-  config::stuff                 stuff;
+  struct ConfigOptions {
+    config::general general;
+    config::coords coords;
+    config::energy energy;
+    config::startopt startopt;
+    config::optimization optimization;
+    config::fep fep;
+    config::molecular_dynamics md;
+    config::dimer dimer;
+    config::neb neb;
+    config::align alignment;
+    config::PCA PCA;
+    config::entropy entropy;
+    config::io io;
+    config::scan2d scan2d;
+    config::exbreak exbreak;
+    config::interfcrea interfcrea;
+    config::center center;
+    config::couplings couplings;
+    config::periodics periodics;
+    config::layd layd;
+    config::constrained_internals constrained_internals;
+    config::stuff stuff;
+  };
 
   /*! Constructor of Config object
    *
@@ -1927,10 +1929,10 @@ public:
    * This function returns const& and can
    * therefore not be used to change values.
    */
-  static Config const & get()
+  static ConfigOptions const & get()
   {
     if (!m_instance) throw std::runtime_error("Configuration not loaded.");
-    return *m_instance;
+    return m_instance->m_options;
   }
 
   /*! Change contents of Config
@@ -1942,10 +1944,10 @@ public:
   * and can therefore be used to change values.
   * To merely obtain read-access, use get() function.
   */
-  static Config & set()
+  static ConfigOptions & set()
   {
     if (!m_instance) throw std::runtime_error("Configuration not loaded.");
-    return *m_instance;
+    return m_instance->m_options;
   }
 
   /**
@@ -2016,6 +2018,8 @@ private:
    * If no object exists (yet), this will be a nullpointer.
    */
   static Config * m_instance;
+
+  ConfigOptions m_options;
 };
 
 #endif

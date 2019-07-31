@@ -272,18 +272,18 @@ void Config::parse_command_switches(std::ptrdiff_t const N, char **V)
       // Enable spackman by entering -spack
       else if (argument.substr(0, 6) == "-spack")
       {
-        this->energy.spackman.on = true;
+        m_options.energy.spackman.on = true;
       }
     }
   }
 
-  std::string::size_type f = this->general.outputFilename.find("%i");
+  std::string::size_type f = m_options.general.outputFilename.find("%i");
   if (f != std::string::npos)
   {
-    this->general.outputFilename =
-      this->general.outputFilename.substr(0, f) +
-      scon::StringFilePath(this->general.inputFilename).base_no_extension() +
-      this->general.outputFilename.substr(f + 2);
+    m_options.general.outputFilename =
+      m_options.general.outputFilename.substr(0, f) +
+      scon::StringFilePath(m_options.general.inputFilename).base_no_extension() +
+      m_options.general.outputFilename.substr(f + 2);
   }
 }
 
@@ -327,7 +327,7 @@ static bool outname_check(int x = 0)
 std::vector<unsigned> Config::FEP_get_inout()
 {
 	std::vector<unsigned> temp;
-	std::ifstream config_file_stream(this->general.inputFilename.c_str(), std::ios_base::in);
+	std::ifstream config_file_stream(m_options.general.inputFilename.c_str(), std::ios_base::in);
 	std::string line;
 	while (std::getline(config_file_stream, line))
 	{
@@ -357,7 +357,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
   ////////////////////
   if (option == "name")
   {
-    this->general.inputFilename = value_string;
+    m_options.general.inputFilename = value_string;
 
 	  // If no outname is specified,
 	  // the output-file will have the same name as the inputfile
@@ -375,7 +375,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
 			  path = path.substr(1u, path.length() - 2U);
 		  }
 		  scon::FilePath<std::string> in_file_path(path);
-		  this->general.outputFilename = in_file_path.base_no_extension() + "_out";
+		  m_options.general.outputFilename = in_file_path.base_no_extension() + "_out";
 	  }
   }
   // Name of the outputfile
@@ -390,17 +390,17 @@ void Config::parse_option(std::string const option, std::string const value_stri
 	  // we append the (input)name by this string
 	  if (value_string[0] == '+')
 	  {
-		  this->general.outputFilename += value_string.substr(1);
+		  m_options.general.outputFilename += value_string.substr(1);
 	  }
 	  else
-		  this->general.outputFilename = value_string;
+		  m_options.general.outputFilename = value_string;
   }
 
   // Filename of the ForceField parameter-file
   // Has to be in same folder as executable
   // Default: oplsaa.prm
   else if (option == "paramfile")
-    this->general.paramFilename = value_string;
+    m_options.general.paramFilename = value_string;
 
   // Option to read charges from seperate file "charges.txt"
   // has to be in the same folder as executable
@@ -409,18 +409,18 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
 	  if (value_string == "1")
 	  {
-		  this->general.chargefile = true;
+		  m_options.general.chargefile = true;
 	  }
 	  else
 	  {
-		  this->general.chargefile = false;
+		  m_options.general.chargefile = false;
 	  }
   }
 
   // Input format.
   // Default: TINKER
   else if (option == "inputtype")
-    this->general.input = config::enum_from_string<config::input_types::T, config::NUM_INPUT>(config::input_strings, value_string);
+    m_options.general.input = config::enum_from_string<config::input_types::T, config::NUM_INPUT>(config::input_strings, value_string);
 
   /////////////////////
   //// Config::energy
@@ -433,34 +433,34 @@ void Config::parse_option(std::string const option, std::string const value_stri
   // Default: 10000
   else if (option == "cutoff")
   {
-    cv >> this->energy.cutoff;
-    this->energy.cutoff = this->energy.cutoff < 9.0 ? 10.0 : this->energy.cutoff;
-    if (this->periodics.periodic)
+    cv >> m_options.energy.cutoff;
+    m_options.energy.cutoff = m_options.energy.cutoff < 9.0 ? 10.0 : m_options.energy.cutoff;
+    if (m_options.periodics.periodic)
     {
-      double const min_cut(min(abs(this->periodics.pb_box)) / 2.0);
+      double const min_cut(min(abs(m_options.periodics.pb_box)) / 2.0);
       if (min_cut > 9.0)
-        this->energy.cutoff = min_cut;
+        m_options.energy.cutoff = min_cut;
     }
-    this->energy.switchdist = this->energy.cutoff - 4.0;
+    m_options.energy.switchdist = m_options.energy.cutoff - 4.0;
   }
 
   // Radius to start switching function to kick in; scales interactions smoothly to zero at cutoff radius
   // Default: Cutoff - 4.0
   else if (option == "switchdist")
   {
-    cv >> this->energy.switchdist;
+    cv >> m_options.energy.switchdist;
   }
 
 	else if (option == "xyz_atomtypes")
 	{
-		this->stuff.xyz_atomtypes = config::bool_from_iss(cv);
+		m_options.stuff.xyz_atomtypes = config::bool_from_iss(cv);
 	}
 
   // Set Verbosity
   // Default: 1
   else if (option == "verbosity")
   {
-    cv >> this->general.verbosity;
+    cv >> m_options.general.verbosity;
   }
 
   //! Task to be performed by CAST
@@ -469,7 +469,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     config::tasks::T task(Config::getTask(value_string));
     if (task != config::tasks::ILLEGAL)
     {
-      this->general.task = task;
+      m_options.general.task = task;
     }
     else
     {
@@ -479,7 +479,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       std::ptrdiff_t identifier(config::from_string<std::ptrdiff_t>(value_string));
       if (identifier >= 0 && identifier < static_cast<std::ptrdiff_t>(config::NUM_TASKS))
       {
-        this->general.task = static_cast<config::tasks::T>(identifier);
+        m_options.general.task = static_cast<config::tasks::T>(identifier);
       }
     }
   }
@@ -490,7 +490,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     config::output_types::T type(Config::getOutFormat(value_string));
     if (type != config::output_types::ILLEGAL)
     {
-      this->general.output = type;
+      m_options.general.output = type;
     }
     else
     {
@@ -500,7 +500,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       std::ptrdiff_t identifier(config::from_string<std::ptrdiff_t>(value_string));
       if (identifier >= 0 && identifier < static_cast<std::ptrdiff_t>(config::NUM_OUTPUT))
       {
-        this->general.output = static_cast<config::output_types::T>(identifier);
+        m_options.general.output = static_cast<config::output_types::T>(identifier);
       }
     }
 
@@ -512,7 +512,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     config::interface_types::T inter = Config::getInterface(value_string);
     if (inter != config::interface_types::ILLEGAL)
     {
-      this->general.energy_interface = inter;
+      m_options.general.energy_interface = inter;
     }
     else
     {
@@ -520,7 +520,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     }
 		if (inter == config::interface_types::QMMM || inter == config::interface_types::ONIOM || inter == config::interface_types::THREE_LAYER)
 		{
-			this->energy.qmmm.use = true;
+			m_options.energy.qmmm.use = true;
 		}
   }
 
@@ -528,7 +528,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
   else if (option == "preinterface")
   {
     config::interface_types::T inter = Config::getInterface(value_string);
-    this->general.preopt_interface = inter;
+    m_options.general.preopt_interface = inter;
   }
 
   else if (option == "cores")
@@ -537,14 +537,14 @@ void Config::parse_option(std::string const option, std::string const value_stri
     long const T(config::from_iss<long>(cv));
     if (T > 0) omp_set_num_threads(T);
 #else
-    if (this->general.verbosity > 2u)
+    if (m_options.general.verbosity > 2u)
     std::cout << "CAST was compiled without multithreading. Ignoring the config-option \"cores\"." << std::endl;
 #endif
   }
 
   else if (option == "MOVEmode")
   {
-    this->stuff.moving_mode = std::stoi(value_string);
+    m_options.stuff.moving_mode = std::stoi(value_string);
   }
 
   //! Qmmm-Option
@@ -552,12 +552,12 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(4u) == "qmatoms")
     {
-      this->energy.qmmm.qmatoms =
+      m_options.energy.qmmm.qmatoms =
           config::sorted_indices_from_cs_string(value_string, true);
     }
     else if (option.substr(4u) == "seatoms")
     {
-      this->energy.qmmm.seatoms =
+      m_options.energy.qmmm.seatoms =
           config::sorted_indices_from_cs_string(value_string, true);
     }
     else if (option.substr(4u) == "mminterface")
@@ -565,7 +565,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       config::interface_types::T inter = Config::getInterface(value_string);
       if (inter != config::interface_types::ILLEGAL)
       {
-        this->energy.qmmm.mminterface = inter;
+        m_options.energy.qmmm.mminterface = inter;
       }
       else
       {
@@ -577,7 +577,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       config::interface_types::T inter = Config::getInterface(value_string);
       if (inter != config::interface_types::ILLEGAL)
       {
-        this->energy.qmmm.seinterface = inter;
+        m_options.energy.qmmm.seinterface = inter;
       }
       else
       {
@@ -589,7 +589,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       config::interface_types::T inter = Config::getInterface(value_string);
       if (inter != config::interface_types::ILLEGAL)
       {
-        this->energy.qmmm.qminterface = inter;
+        m_options.energy.qmmm.qminterface = inter;
       }
       else
       {
@@ -598,23 +598,23 @@ void Config::parse_option(std::string const option, std::string const value_stri
     }
 	  else if (option.substr(4u) == "writeqmintofile")
 	  {
-	    if (value_string == "1") this->energy.qmmm.qm_to_file = true;
+	    if (value_string == "1") m_options.energy.qmmm.qm_to_file = true;
 	  }
 	  else if (option.substr(4u) == "linkatomtype")
 	  {
-	    this->energy.qmmm.linkatom_types.push_back(std::stoi(value_string));
+	    m_options.energy.qmmm.linkatom_types.push_back(std::stoi(value_string));
 	  }
 		else if (option.substr(4u) == "cutoff")
 		{
-			this->energy.qmmm.cutoff = std::stod(value_string);
+			m_options.energy.qmmm.cutoff = std::stod(value_string);
 		}
 		else if (option.substr(4u) == "small_charges")
 		{
-			this->energy.qmmm.emb_small = std::stoi(value_string);
+			m_options.energy.qmmm.emb_small = std::stoi(value_string);
 		}
 		else if (option.substr(4u) == "zerocharge_bonds")
 		{
-			this->energy.qmmm.zerocharge_bonds = std::stoi(value_string);
+			m_options.energy.qmmm.zerocharge_bonds = std::stoi(value_string);
 		}
   }
 
@@ -623,10 +623,10 @@ void Config::parse_option(std::string const option, std::string const value_stri
   else if (option == "Spackman")
   {
     std::size_t a(0U), b(0U);
-    if (cv >> a && cv >> b && cv >> this->energy.spackman.cut)
+    if (cv >> a && cv >> b && cv >> m_options.energy.spackman.cut)
     {
-      if (a > 0) this->energy.spackman.on = true;
-      if (b > 0) this->energy.spackman.interp = true;
+      if (a > 0) m_options.energy.spackman.on = true;
+      if (b > 0) m_options.energy.spackman.interp = true;
     }
 
   }
@@ -634,131 +634,131 @@ void Config::parse_option(std::string const option, std::string const value_stri
   else if (option.substr(0, 11) == "NEB-PATHOPT")
   {
 	  if (option.substr(11, 6) == "-FINAL")
-		  this->neb.FINAL_STRUCTURE = value_string;
+		  m_options.neb.FINAL_STRUCTURE = value_string;
 	  else if (option.substr(11, 7) == "-IMAGES")
-		  cv >> this->neb.IMAGES;
+		  cv >> m_options.neb.IMAGES;
 	  else if (option.substr(11, 7) == "-SPRING")
-		  cv >> this->neb.SPRINGCONSTANT;
+		  cv >> m_options.neb.SPRINGCONSTANT;
 	  else if (option.substr(11, 5) == "-TEMP")
-		  cv >> this->neb.TEMPERATURE;
+		  cv >> m_options.neb.TEMPERATURE;
 	  else if (option.substr(11, 5) == "-ITER")
-		  cv >> this->neb.MCITERATION;
+		  cv >> m_options.neb.MCITERATION;
 	  else if (option.substr(11, 9) == "-GLOBITER")
-		  cv >> this->neb.GLOBALITERATION;
+		  cv >> m_options.neb.GLOBALITERATION;
 	  else if (option.substr(11, 5) == "-MODE")
-		  this->neb.OPTMODE = value_string;
+		  m_options.neb.OPTMODE = value_string;
 	  else if (option.substr(11, 13) == "-BIASCONSTANT")
-		  cv >> this->neb.BIASCONSTANT;
+		  cv >> m_options.neb.BIASCONSTANT;
 	  else if (option.substr(11, 7) == "-MAXVAR")
-		  cv >> this->neb.VARIATION;
+		  cv >> m_options.neb.VARIATION;
 	  else if (option.substr(11, 13) == "-ENERGY_RANGE")
-		  cv >> this->neb.PO_ENERGY_RANGE;
+		  cv >> m_options.neb.PO_ENERGY_RANGE;
 	  else if (option.substr(11, 9) == "-STEPSIZE")
-		  cv >> this->neb.MCSTEPSIZE;
+		  cv >> m_options.neb.MCSTEPSIZE;
 	  else if (option.substr(11, 8) == "-NEBCONN")
-		  cv >> this->neb.NEB_CONN;
+		  cv >> m_options.neb.NEB_CONN;
 	  else if (option.substr(11, 15) == "-NUMBER_NEBCONN")
-		  cv >> this->neb.CONNECT_NEB_NUMBER;
+		  cv >> m_options.neb.CONNECT_NEB_NUMBER;
 	  else if (option.substr(11, 8) == "-MIXMOVE")
-		  cv >> this->neb.MIXED_MOVE;
+		  cv >> m_options.neb.MIXED_MOVE;
 	  else if (option.substr(11, 18) == "-CONSTRAINT_GLOBAL")
-		  cv >> this->neb.CONSTRAINT_GLOBAL;
+		  cv >> m_options.neb.CONSTRAINT_GLOBAL;
 	  else if (option.substr(11, 28) == "-CONSTRAINT_NUMBER_DIHEDRALS")
-		  cv >> this->neb.NUMBER_OF_DIHEDRALS;
+		  cv >> m_options.neb.NUMBER_OF_DIHEDRALS;
 	  else if (option.substr(11, 11) == "-BOND_PARAM")
-		  cv >> this->neb.BOND_PARAM;
+		  cv >> m_options.neb.BOND_PARAM;
 	  else if (option.substr(11, 4) == "-TAU")
-		  cv >> this->neb.TAU;
+		  cv >> m_options.neb.TAU;
 	  else if (option.substr(11, 9) == "-INT_PATH")
-		  cv >> this->neb.INT_PATH;
+		  cv >> m_options.neb.INT_PATH;
 	  else if (option.substr(11, 9) == "-CLIMBING")
-		  cv >> this->neb.CLIMBING;
+		  cv >> m_options.neb.CLIMBING;
 	  else if (option.substr(11, 7) == "-INT_IT")
-		  cv >> this->neb.INT_IT;
+		  cv >> m_options.neb.INT_IT;
 	  else if (option.substr(11, 9) == "-NEB-IDPP")
-		  cv >> this->neb.IDPP;
+		  cv >> m_options.neb.IDPP;
 	  else if (option.substr(11, 8) == "-MAXFLUX")
-		  cv >> this->neb.MAXFLUX;
+		  cv >> m_options.neb.MAXFLUX;
 	  else if (option.substr(11, 11) == "-MF_PATHOPT")
-		  cv >> this->neb.MAXFLUX_PATHOPT;
+		  cv >> m_options.neb.MAXFLUX_PATHOPT;
 	  else if (option.substr(11, 13) == "-NEB-COMPLETE")
-		  cv >> this->neb.COMPLETE_PATH;
+		  cv >> m_options.neb.COMPLETE_PATH;
 	  else if (option.substr(11, 20) == "-NEB-MULTIPLE_POINTS")
-		  cv >> this->neb.MULTIPLE_POINTS;
+		  cv >> m_options.neb.MULTIPLE_POINTS;
      else if (option.substr(11, 27) == "-NEB-INTERNAL_INTERPOLATION")
-      cv >> this->neb.INTERNAL_INTERPOLATION;
+      cv >> m_options.neb.INTERNAL_INTERPOLATION;
 	 else if (option.substr(11, 12) == "-NEB-MCM_OPT")
-		 cv >> this->neb.MCM_OPT;
+		 cv >> m_options.neb.MCM_OPT;
 	 else if (option.substr(11, 12) == "-NEB-MC_SAVE")
-		 cv >> this->neb.MCM_SAVEITER;
+		 cv >> m_options.neb.MCM_SAVEITER;
 	 else if (option.substr(11, 5) == "-CONN")
-		 cv >> this->neb.CONN;
+		 cv >> m_options.neb.CONN;
   }
 
   // MOPAC options
   else if (option.substr(0, 5) == "MOPAC")
   {
 		if (option.substr(5, 3) == "key")
-			this->energy.mopac.command = value_string;
+			m_options.energy.mopac.command = value_string;
 		else if (option.substr(5, 4) == "link")
-			this->energy.gaussian.link = value_string;
+			m_options.energy.gaussian.link = value_string;
 		else if (option.substr(5, 4) == "path")
-			this->energy.mopac.path = value_string;
+			m_options.energy.mopac.path = value_string;
 		else if (option.substr(5, 6) == "delete")
-			this->energy.mopac.delete_input = config::bool_from_iss(cv);
+			m_options.energy.mopac.delete_input = config::bool_from_iss(cv);
 		else if (option.substr(5, 7) == "version")
 		{
 			// Matching the "value string"
 			// to the enum config::mopac_ver_type
-			this->energy.mopac.version =
+			m_options.energy.mopac.version =
 				enum_type_from_string_arr<
 				config::mopac_ver_type::T,
 				config::NUM_MOPAC_VERSION
 				>(value_string, config::mopac_ver_string);
 		}
 		else if (option.substr(5, 6) == "charge")
-			this->energy.mopac.charge = std::stoi(value_string);
+			m_options.energy.mopac.charge = std::stoi(value_string);
   }
 
   //DFTBaby options
   else if (option.substr(0,7) == "DFTBABY")
   {
     if (option.substr(7,3) == "ath")
-        this->energy.dftbaby.path = value_string;
+        m_options.energy.dftbaby.path = value_string;
     else if (option.substr(7,8) == "gradfile")
-        this->energy.dftbaby.gradfile = value_string;
+        m_options.energy.dftbaby.gradfile = value_string;
     else if (option.substr(7,9) == "gradstate")
-        this->energy.dftbaby.gradstate = std::stoi(value_string);
+        m_options.energy.dftbaby.gradstate = std::stoi(value_string);
     else if (option.substr(7,7) == "verbose")
-        this->energy.dftbaby.verbose = std::stoi(value_string);
+        m_options.energy.dftbaby.verbose = std::stoi(value_string);
     else if (option.substr(7,6) == "cutoff")
-        this->energy.dftbaby.cutoff = std::stof(value_string);
+        m_options.energy.dftbaby.cutoff = std::stof(value_string);
     else if (option.substr(7,7) == "lr_dist")
-        this->energy.dftbaby.lr_dist = std::stof(value_string);
+        m_options.energy.dftbaby.lr_dist = std::stof(value_string);
     else if (option.substr(7,7) == "maxiter")
-        this->energy.dftbaby.maxiter = std::stoi(value_string);
+        m_options.energy.dftbaby.maxiter = std::stoi(value_string);
     else if (option.substr(7,4) == "conv")
-        this->energy.dftbaby.conv_threshold = value_string;
+        m_options.energy.dftbaby.conv_threshold = value_string;
     else if (option.substr(7,6) == "states")
-        this->energy.dftbaby.states = std::stoi(value_string);
+        m_options.energy.dftbaby.states = std::stoi(value_string);
     else if (option.substr(7,7) == "occ_orb")
-        this->energy.dftbaby.orb_occ = std::stoi(value_string);
+        m_options.energy.dftbaby.orb_occ = std::stoi(value_string);
     else if (option.substr(7,8) == "virt_orb")
-        this->energy.dftbaby.orb_virt = std::stoi(value_string);
+        m_options.energy.dftbaby.orb_virt = std::stoi(value_string);
     else if (option.substr(7,9) == "diag_conv")
-        this->energy.dftbaby.diag_conv = value_string;
+        m_options.energy.dftbaby.diag_conv = value_string;
     else if (option.substr(7,12) == "diag_maxiter")
-        this->energy.dftbaby.diag_maxiter = std::stoi(value_string);
+        m_options.energy.dftbaby.diag_maxiter = std::stoi(value_string);
     else if (option.substr(7,6) == "charge")
-        this->energy.dftbaby.charge = std::stoi(value_string);
+        m_options.energy.dftbaby.charge = std::stoi(value_string);
     else if (option.substr(7,7) == "lr_corr")
     {
        if (value_string == "1")
-          this->energy.dftbaby.longrange = true;
+          m_options.energy.dftbaby.longrange = true;
     }
     else if (option.substr(4,3) == "opt")
     {
-      if (value_string == "1") this->energy.dftbaby.opt = true;
+      if (value_string == "1") m_options.energy.dftbaby.opt = true;
     }
   }
 
@@ -766,34 +766,34 @@ void Config::parse_option(std::string const option, std::string const value_stri
   else if (option.substr(0, 5) == "DFTB+")
   {
     if (option.substr(5, 4) == "path"){
-      this->energy.dftb.path = value_string;
+      m_options.energy.dftb.path = value_string;
     }
     else if (option.substr(5, 7) == "skfiles"){
-      this->energy.dftb.sk_files = value_string;
+      m_options.energy.dftb.sk_files = value_string;
     }
     else if (option.substr(5, 7) == "verbose"){
-      this->energy.dftb.verbosity = std::stoi(value_string);
+      m_options.energy.dftb.verbosity = std::stoi(value_string);
     }
     else if (option.substr(5, 6) == "scctol"){
-      this->energy.dftb.scctol = std::stod(value_string);
+      m_options.energy.dftb.scctol = std::stod(value_string);
     }
     else if (option.substr(5, 13) == "max_steps_scc"){
-      this->energy.dftb.max_steps = std::stoi(value_string);
+      m_options.energy.dftb.max_steps = std::stoi(value_string);
     }
     else if (option.substr(5, 6) == "charge"){
-      this->energy.dftb.charge = std::stoi(value_string);
+      m_options.energy.dftb.charge = std::stoi(value_string);
     }
     else if (option.substr(5, 1) == "3"){
-      if (value_string == "1") this->energy.dftb.dftb3 = true;
+      if (value_string == "1") m_options.energy.dftb.dftb3 = true;
     }
     else if (option.substr(5, 9) == "optimizer"){
-      this->energy.dftb.opt = std::stoi(value_string);
+      m_options.energy.dftb.opt = std::stoi(value_string);
     }
     else if (option.substr(5, 13) == "max_steps_opt"){
-      this->energy.dftb.max_steps_opt = std::stoi(value_string);
+      m_options.energy.dftb.max_steps_opt = std::stoi(value_string);
     }
 		else if (option.substr(5, 10) == "fermi_temp") {
-			this->energy.dftb.fermi_temp = std::stod(value_string);
+			m_options.energy.dftb.fermi_temp = std::stod(value_string);
 		}
   }
 
@@ -801,64 +801,64 @@ void Config::parse_option(std::string const option, std::string const value_stri
 	else if (option.substr(0, 4) == "ORCA")
 	{
 		if (option.substr(4, 4) == "path") {
-			this->energy.orca.path = value_string;
+			m_options.energy.orca.path = value_string;
 		}
 		else if (option.substr(4, 5) == "nproc") {
-			this->energy.orca.nproc = std::stoi(value_string);
+			m_options.energy.orca.nproc = std::stoi(value_string);
 		}
     else if (option.substr(4, 7) == "maxcore") {
-      this->energy.orca.maxcore = std::stoi(value_string);
+      m_options.energy.orca.maxcore = std::stoi(value_string);
     }
 		else if (option.substr(4, 6) == "method") {
-			this->energy.orca.method = value_string;
+			m_options.energy.orca.method = value_string;
 		}
 		else if (option.substr(4, 8) == "basisset") {
-			this->energy.orca.basisset = value_string;
+			m_options.energy.orca.basisset = value_string;
 		}
     else if (option.substr(4, 4) == "spec") {
-      this->energy.orca.spec = value_string;
+      m_options.energy.orca.spec = value_string;
     }
 		else if (option.substr(4, 6) == "charge") {
-			this->energy.orca.charge = std::stoi(value_string);
+			m_options.energy.orca.charge = std::stoi(value_string);
 		}
 		else if (option.substr(4, 12) == "multiplicity") {
-			this->energy.orca.multiplicity = std::stoi(value_string);
+			m_options.energy.orca.multiplicity = std::stoi(value_string);
 		}
 		else if (option.substr(4, 3) == "opt") {
-			this->energy.orca.opt = std::stoi(value_string);
+			m_options.energy.orca.opt = std::stoi(value_string);
 		}
     else if (option.substr(4, 7) == "verbose") {
-      this->energy.orca.verbose = std::stoi(value_string);
+      m_options.energy.orca.verbose = std::stoi(value_string);
     }
     else if (option.substr(4, 4) == "cube") {
-      this->energy.orca.cube_orbs = config::sorted_indices_from_cs_string(value_string);
+      m_options.energy.orca.cube_orbs = config::sorted_indices_from_cs_string(value_string);
     }
 		else if (option.substr(4, 6) == "casscf") {
-			if (value_string == "1") this->energy.orca.casscf = true;
+			if (value_string == "1") m_options.energy.orca.casscf = true;
 		}
 		else if (option.substr(4, 5) == "nelec") {
-			this->energy.orca.nelec = std::stoi(value_string);
+			m_options.energy.orca.nelec = std::stoi(value_string);
 		}
 		else if (option.substr(4, 4) == "norb") {
-			this->energy.orca.norb = std::stoi(value_string);
+			m_options.energy.orca.norb = std::stoi(value_string);
 		}
 		else if (option.substr(4, 6) == "nroots") {
-			this->energy.orca.nroots = std::stoi(value_string);
+			m_options.energy.orca.nroots = std::stoi(value_string);
 		}
 		else if (option.substr(4, 2) == "nr") {
-			if (value_string == "1") this->energy.orca.nr = true;
+			if (value_string == "1") m_options.energy.orca.nr = true;
 		}
 		else if (option.substr(4, 5) == "nevpt") {
-			if (value_string == "1") this->energy.orca.nevpt = true;
+			if (value_string == "1") m_options.energy.orca.nevpt = true;
 		}
 		else if (option.substr(4, 4) == "cpcm") {
-			if (value_string == "1") this->energy.orca.cpcm = true;
+			if (value_string == "1") m_options.energy.orca.cpcm = true;
 		}
 		else if (option.substr(4, 3) == "eps") {
-			this->energy.orca.eps = std::stod(value_string);
+			m_options.energy.orca.eps = std::stod(value_string);
 		}
 		else if (option.substr(4, 6) == "refrac") {
-			this->energy.orca.refrac = std::stod(value_string);
+			m_options.energy.orca.refrac = std::stod(value_string);
 		}
 	}
 
@@ -866,156 +866,156 @@ void Config::parse_option(std::string const option, std::string const value_stri
   else if (option.substr(0, 8) == "GAUSSIAN")
   {
     if (option.substr(8, 6) == "method")
-      this->energy.gaussian.method = value_string;
+      m_options.energy.gaussian.method = value_string;
     else if (option.substr(8, 8) == "basisset")
-      this->energy.gaussian.basisset = value_string;
+      m_options.energy.gaussian.basisset = value_string;
     else if (option.substr(8, 14) == "specifications")
-      this->energy.gaussian.spec = value_string;
+      m_options.energy.gaussian.spec = value_string;
     else if (option.substr(8, 3) == "chk")
-      this->energy.gaussian.chk = value_string;
+      m_options.energy.gaussian.chk = value_string;
     else if (option.substr(8, 4) == "link")
-      this->energy.gaussian.link = value_string;
+      m_options.energy.gaussian.link = value_string;
     else if (option.substr(8, 6) == "charge")
-      this->energy.gaussian.charge = value_string;
+      m_options.energy.gaussian.charge = value_string;
     else if (option.substr(8, 12) == "multiplicity")
-      this->energy.gaussian.multipl = value_string;
+      m_options.energy.gaussian.multipl = value_string;
     else if (option.substr(8, 4) == "path")
-      this->energy.gaussian.path = value_string;
+      m_options.energy.gaussian.path = value_string;
     else if (option.substr(8, 3) == "opt")
-      this->energy.gaussian.opt = config::bool_from_iss(cv);
+      m_options.energy.gaussian.opt = config::bool_from_iss(cv);
     else if (option.substr(8, 5) == "steep")
-      this->energy.gaussian.steep = config::bool_from_iss(cv);
+      m_options.energy.gaussian.steep = config::bool_from_iss(cv);
     else if (option.substr(8, 6) == "delete")
-      this->energy.gaussian.delete_input = config::bool_from_iss(cv);
+      m_options.energy.gaussian.delete_input = config::bool_from_iss(cv);
     else if (option.substr(8, 7) == "maxfail")
-      this->energy.gaussian.maxfail = std::stoi(value_string);
+      m_options.energy.gaussian.maxfail = std::stoi(value_string);
 		else if (option.substr(8, 4) == "cpcm") {
-			if (value_string == "1") this->energy.gaussian.cpcm = true;
+			if (value_string == "1") m_options.energy.gaussian.cpcm = true;
 		}
 		else if (option.substr(8, 6) == "epsinf") {
-			this->energy.gaussian.epsinf = std::stod(value_string);
+			m_options.energy.gaussian.epsinf = std::stod(value_string);
 		}
 		else if (option.substr(8, 3) == "eps") {
-			this->energy.gaussian.eps = std::stod(value_string);
+			m_options.energy.gaussian.eps = std::stod(value_string);
 		}
   }
   else if (option.substr(0, 9) == "CHEMSHELL") {
 	  auto sub_option = option.substr(10);
 	  if (sub_option == "path") {
-		  this->energy.chemshell.path = value_string;
+		  m_options.energy.chemshell.path = value_string;
 	  }
       else if (sub_option == "coords") {
-          this->energy.chemshell.coords = value_string;
+          m_options.energy.chemshell.coords = value_string;
       }
 	  else if (sub_option == "pdb") {
-		  this->energy.chemshell.extra_pdb = value_string;
+		  m_options.energy.chemshell.extra_pdb = value_string;
 	  }
 	  else if (sub_option == "inpcrd") {
-		  this->energy.chemshell.optional_inpcrd = value_string;
+		  m_options.energy.chemshell.optional_inpcrd = value_string;
 	  }
 	  else if (sub_option == "prmtop") {
-		  this->energy.chemshell.optional_prmtop = value_string;
+		  m_options.energy.chemshell.optional_prmtop = value_string;
 	  }
 	  else if (sub_option == "babel_path") {
-		  this->energy.chemshell.babel_path = value_string;
+		  m_options.energy.chemshell.babel_path = value_string;
 	  }
 	  else if (sub_option == "scheme") {
-		  this->energy.chemshell.scheme = value_string;
+		  m_options.energy.chemshell.scheme = value_string;
 	  }
 	  else if (sub_option == "qm_theory") {
-		  this->energy.chemshell.qm_theory = value_string;
+		  m_options.energy.chemshell.qm_theory = value_string;
 	  }
 	  else if (sub_option == "qm_hamiltonian") {
-		  this->energy.chemshell.qm_ham = value_string;
+		  m_options.energy.chemshell.qm_ham = value_string;
 	  }
 	  else if (sub_option == "qm_basisset") {
-		  this->energy.chemshell.qm_basis = value_string;
+		  m_options.energy.chemshell.qm_basis = value_string;
 	  }
 	  else if (sub_option == "qm_charge") {
-		  this->energy.chemshell.qm_charge = value_string;
+		  m_options.energy.chemshell.qm_charge = value_string;
 	  }
 	  else if (sub_option == "combine_residues") {
-		  this->energy.chemshell.com_residues = value_string;
+		  m_options.energy.chemshell.com_residues = value_string;
 	  }
 	  else if (sub_option == "qm_atoms") {
-		  this->energy.chemshell.qm_atoms = value_string;
+		  m_options.energy.chemshell.qm_atoms = value_string;
 	  }
 	  else if (sub_option == "delete") {
-		  this->energy.chemshell.delete_input = config::bool_from_iss(cv);
+		  m_options.energy.chemshell.delete_input = config::bool_from_iss(cv);
 	  }
 	  else if (sub_option == "maxcyc") {
-		  this->energy.chemshell.maxcyc = value_string;
+		  m_options.energy.chemshell.maxcyc = value_string;
 	  }
 	  else if (sub_option == "maxcycle") {
-		  this->energy.chemshell.maxcycle = value_string;
+		  m_options.energy.chemshell.maxcycle = value_string;
 	  }
 	  else if (sub_option == "tolerance") {
-		  this->energy.chemshell.tolerance = value_string;
+		  m_options.energy.chemshell.tolerance = value_string;
 	  }
 	  else if (sub_option == "mxlist") {
-		  this->energy.chemshell.mxlist = value_string;
+		  m_options.energy.chemshell.mxlist = value_string;
 	  }
 	  else if (sub_option == "cutoff") {
-		  this->energy.chemshell.cutoff = value_string;
+		  m_options.energy.chemshell.cutoff = value_string;
 	  }
 	  else if (sub_option == "dispersion_correction") {
-		  this->energy.chemshell.dispersion = config::bool_from_iss(cv);
+		  m_options.energy.chemshell.dispersion = config::bool_from_iss(cv);
 	  }
       else if (sub_option == "scale14") {
-        this->energy.chemshell.scale14 = value_string;
+        m_options.energy.chemshell.scale14 = value_string;
       }
       else if (sub_option == "active_radius") {
-        this->energy.chemshell.active_radius = value_string;
+        m_options.energy.chemshell.active_radius = value_string;
       }
   }
   else if (option.substr(0, 5) == "PSI4-") {
     auto sub_option = option.substr(5);
     if(sub_option == "path"){
-      this->energy.psi4.path = value_string;
+      m_options.energy.psi4.path = value_string;
     }
     else if(sub_option == "memory"){
-      this->energy.psi4.memory = value_string;
+      m_options.energy.psi4.memory = value_string;
     }
     else if(sub_option == "basis"){
-      this->energy.psi4.basis = value_string;
+      m_options.energy.psi4.basis = value_string;
     }
     else if(sub_option == "method"){
-      this->energy.psi4.method = value_string;
+      m_options.energy.psi4.method = value_string;
     }
     else if(sub_option == "spin"){
-      this->energy.psi4.spin = value_string;
+      m_options.energy.psi4.spin = value_string;
     }
     else if(sub_option == "charge"){
-      this->energy.psi4.charge = value_string;
+      m_options.energy.psi4.charge = value_string;
     }
     else if(sub_option == "threads"){
-      this->energy.psi4.threads = value_string;
+      m_options.energy.psi4.threads = value_string;
     }
   }
 
   // convergence threshold for bfgs
   // Default 0.001
   else if (option == "BFGSgrad")
-    cv >> this->optimization.local.bfgs.grad;
+    cv >> m_options.optimization.local.bfgs.grad;
 
   // max number of steps for bfgs
   // Default: 10000
   else if (option == "BFGSmaxstep")
-    cv >> this->optimization.local.bfgs.maxstep;
+    cv >> m_options.optimization.local.bfgs.maxstep;
   
   //should trace written into file?
   else if (option == "BFGStrace")
-    this->optimization.local.bfgs.trace = config::bool_from_iss(cv);
+    m_options.optimization.local.bfgs.trace = config::bool_from_iss(cv);
 
   //! STARTOPT
   else if (option == "SOtype")
   {
-    this->startopt.type = static_cast<config::startopt::types::T>(config::from_iss<int>(cv));
+    m_options.startopt.type = static_cast<config::startopt::types::T>(config::from_iss<int>(cv));
   }
   //! STARTOPT
   else if (option == "SOstructures")
   {
-    cv >> this->startopt.number_of_structures;
+    cv >> m_options.startopt.number_of_structures;
   }
 
 
@@ -1026,13 +1026,13 @@ void Config::parse_option(std::string const option, std::string const value_stri
     double T(config::from_iss<double>(cv));
     if (T > 0.0)
     {
-      this->optimization.global.temperature = T;
+      m_options.optimization.global.temperature = T;
     }
   }
 
   else if (option == "Tempscale")
   {
-    this->optimization.global.temp_scale
+    m_options.optimization.global.temp_scale
       = clip<double>(config::from_iss<double>(cv), 0.0, 1.0);
   }
 
@@ -1041,9 +1041,9 @@ void Config::parse_option(std::string const option, std::string const value_stri
     std::size_t const I(config::from_iss<std::size_t>(cv));
     if (I > 0)
     {
-      this->optimization.global.iterations = I;
+      m_options.optimization.global.iterations = I;
     }
-    cv >> this->optimization.global.iterations;
+    cv >> m_options.optimization.global.iterations;
   }
 
   //! SOLVADD
@@ -1052,35 +1052,35 @@ void Config::parse_option(std::string const option, std::string const value_stri
     //! default hydrogen bond length
     if (option.substr(2, 2) == "hb")
     {
-      cv >> this->startopt.solvadd.defaultLenHB;
+      cv >> m_options.startopt.solvadd.defaultLenHB;
     }
     //! maximum number of water atoms
     else if (option.substr(2, 5) == "limit")
     {
-      cv >> this->startopt.solvadd.maxNumWater;
+      cv >> m_options.startopt.solvadd.maxNumWater;
     }
     //! maximum number of water atoms
     else if (option.substr(2, 8) == "boundary")
     {
-      this->startopt.solvadd.boundary = config::enum_from_iss<config::startopt_conf::solvadd::boundary_types::T>(cv);
+      m_options.startopt.solvadd.boundary = config::enum_from_iss<config::startopt_conf::solvadd::boundary_types::T>(cv);
     }
     //! maximum distance of water and initial structure
     else if (option.substr(2, 6) == "radius")
     {
-      cv >> this->startopt.solvadd.maxDistance;
+      cv >> m_options.startopt.solvadd.maxDistance;
     }
     //! forcefield types
     else if (option.substr(2, 5) == "types")
     {
-      cv >> this->startopt.solvadd.ffTypeOxygen >> this->startopt.solvadd.ffTypeHydrogen;
+      cv >> m_options.startopt.solvadd.ffTypeOxygen >> m_options.startopt.solvadd.ffTypeHydrogen;
     }
     else if (option.substr(2, 3) == "opt")
     {
-      this->startopt.solvadd.opt = config::enum_from_iss<config::startopt_conf::solvadd::opt_types::T>(cv);
+      m_options.startopt.solvadd.opt = config::enum_from_iss<config::startopt_conf::solvadd::opt_types::T>(cv);
     }
     else if (option.substr(2, 7) == "go_type")
     {
-      this->startopt.solvadd.go_type =
+      m_options.startopt.solvadd.go_type =
         enum_type_from_string_arr<
         config::globopt_routine_type::T,
         config::NUM_GLOBOPT_ROUTINES
@@ -1088,7 +1088,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     }
     else if (option.substr(2, 7) == "fixinit")
     {
-      this->startopt.solvadd.fix_initial = config::bool_from_iss(cv);
+      m_options.startopt.solvadd.fix_initial = config::bool_from_iss(cv);
     }
   }
   //! md
@@ -1096,104 +1096,104 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
 	  if (option.substr(2, 5) == "steps")
 	  {
-		  cv >> this->md.num_steps;
+		  cv >> m_options.md.num_steps;
 	  }
 	  else if (option.substr(2, 10) == "integrator")
 	  {
-		  this->md.integrator = config::enum_from_iss<config::md_conf::integrators::T>(cv);
+		  m_options.md.integrator = config::enum_from_iss<config::md_conf::integrators::T>(cv);
 	  }
 	  else if (option.substr(2, 11) == "trackoffset")
 	  {
-		  cv >> this->md.trackoffset;
+		  cv >> m_options.md.trackoffset;
 	  }
 	  else if (option.substr(2, 5) == "track")
 	  {
-		  this->md.track = config::bool_from_iss(cv);
+		  m_options.md.track = config::bool_from_iss(cv);
 	  }
 	  else if (option.substr(2, 8) == "snap_opt")
 	  {
-		  this->md.optimize_snapshots = config::bool_from_iss(cv);
+		  m_options.md.optimize_snapshots = config::bool_from_iss(cv);
 	  }
 	  else if (option.substr(2, 11) == "snap_buffer")
 	  {
-		  cv >> this->md.max_snap_buffer;
+		  cv >> m_options.md.max_snap_buffer;
 	  }
 	  else if (option.substr(2, 5) == "snap")
 	  {
-		  cv >> this->md.num_snapShots;
+		  cv >> m_options.md.num_snapShots;
 	  }
 	  else if (option.substr(2, 9) == "veloscale")
 	  {
-		  cv >> this->md.veloScale;
+		  cv >> m_options.md.veloScale;
 	  }
       else if (option.substr(2, 12) == "temp_control")
       {
-        if (cv.str() == "0") this->md.temp_control = false;
+        if (cv.str() == "0") m_options.md.temp_control = false;
       }
 	  else if (option.substr(2, 10) == "thermostat")
 	  {
-		  this->md.hooverHeatBath = config::bool_from_iss(cv);
+		  m_options.md.hooverHeatBath = config::bool_from_iss(cv);
 	  }
 	  else if (option.substr(2, 14) == "restart_offset")
 	  {
-		  cv >> this->md.restart_offset;
+		  cv >> m_options.md.restart_offset;
 	  }
 	  else if (option.substr(2, 13) == "refine_offset")
 	  {
-		  cv >> this->md.refine_offset;
+		  cv >> m_options.md.refine_offset;
 	  }
 	  else if (option.substr(2, 6) == "resume")
 	  {
-		  this->md.resume = config::bool_from_iss(cv);
+		  m_options.md.resume = config::bool_from_iss(cv);
 	  }
 	  else if (option.substr(2, 8) == "timestep")
 	  {
-		  cv >> this->md.timeStep;
+		  cv >> m_options.md.timeStep;
 	  }
 	  else if (option.substr(2, 17) == "restart_if_broken")
 	  {
-		  cv >> this->md.broken_restart;
+		  cv >> m_options.md.broken_restart;
 	  }
 	  else if (option.substr(2, 5) == "press")
 	  {
-		  cv >> this->md.pressure;
+		  cv >> m_options.md.pressure;
 	  }
 	  else if (option.substr(2, 9) == "pcompress")
 	  {
-		  cv >> this->md.pcompress;
+		  cv >> m_options.md.pcompress;
 	  }
 	  else if (option.substr(2, 6) == "pdelay")
 	  {
-		  cv >> this->md.pdelay;
+		  cv >> m_options.md.pdelay;
 	  }
 	  else if (option.substr(2, 7) == "ptarget")
 	  {
-		  cv >> this->md.ptarget;
+		  cv >> m_options.md.ptarget;
 	  }
 	  else if (option.substr(2, 12) == "pre_optimize")
 	  {
-		  this->md.pre_optimize = config::bool_from_iss(cv);
+		  m_options.md.pre_optimize = config::bool_from_iss(cv);
 	  }
 	  else if (option.substr(2, 4) == "heat")
 	  {
 		  config::md_conf::config_heat heatconf;
 		  if (cv >> heatconf.offset && cv >> heatconf.raise)
 		  {
-			  this->md.heat_steps.push_back(heatconf);
-			  this->md.T_init = this->md.heat_steps.front().raise;
-			  this->md.T_final = this->md.heat_steps.back().raise;
+			  m_options.md.heat_steps.push_back(heatconf);
+			  m_options.md.T_init = m_options.md.heat_steps.front().raise;
+			  m_options.md.T_final = m_options.md.heat_steps.back().raise;
 		  }
 	  }
 	  else if (option.substr(2, 9) == "spherical")
 	  {
-		  if (config::bool_from_iss(cv) && cv >> this->md.spherical.r_inner
-			  && cv >> this->md.spherical.r_outer
-			  && cv >> this->md.spherical.f1
-			  && cv >> this->md.spherical.f2
-			  && cv >> this->md.spherical.e1
-			  && cv >> this->md.spherical.e2)
+		  if (config::bool_from_iss(cv) && cv >> m_options.md.spherical.r_inner
+			  && cv >> m_options.md.spherical.r_outer
+			  && cv >> m_options.md.spherical.f1
+			  && cv >> m_options.md.spherical.f2
+			  && cv >> m_options.md.spherical.e1
+			  && cv >> m_options.md.spherical.e2)
 		  {
-			  this->md.spherical.use = true;
+			  m_options.md.spherical.use = true;
 		  }
 	  }
 	  else if (option.substr(2, 10) == "rattlebond")
@@ -1204,44 +1204,44 @@ void Config::parse_option(std::string const option, std::string const value_stri
 		  config::md_conf::config_rattle::rattle_constraint_bond rattlebondBuffer;
 		  rattlebondBuffer.a = a-1;
 		  rattlebondBuffer.b = b-1;
-		  this->md.rattle.specified_rattle.push_back(rattlebondBuffer);
+		  m_options.md.rattle.specified_rattle.push_back(rattlebondBuffer);
 	  }
 		else if (option.substr(2, 10) == "rattledist")
 		{
 			double value;
 			cv >> value;
-			this->md.rattle.dists.push_back(value);
+			m_options.md.rattle.dists.push_back(value);
 		}
 		else if (option.substr(2, 20) == "rattle_use_paramfile")
 		{
-			this->md.rattle.use_paramfile = config::bool_from_iss(cv);
+			m_options.md.rattle.use_paramfile = config::bool_from_iss(cv);
 		}
 	  else if (option.substr(2, 6) == "rattle")
 	  {
 		  int val(0);
 		  if (cv >> val)
 		  {
-			  this->md.rattle.use = (val != 0);
-			  if (val == 2) this->md.rattle.all = false;
+			  m_options.md.rattle.use = (val != 0);
+			  if (val == 2) m_options.md.rattle.all = false;
 		  }
 	  }
 	  else if (option.substr(2, 16) == "biased_potential")
 	  {
-		  cv >> this->md.set_active_center;
+		  cv >> m_options.md.set_active_center;
 	  }
 	  else if (option.substr(2, 11) == "active_site")
 	  {
 		  unsigned act_cent_atom;
 		  if (cv >> act_cent_atom)
 		  {
-			  if (act_cent_atom == 0 && this->general.task == config::tasks::FEP)
+			  if (act_cent_atom == 0 && m_options.general.task == config::tasks::FEP)
 			  {     // for FEP calculation: if active_site is set to zero:
 				    // calculate active site out of all appearing or disappearing atoms
-				  this->md.active_center = FEP_get_inout();
+				  m_options.md.active_center = FEP_get_inout();
 			  }
 			  else
 			  {
-				  this->md.active_center.push_back(act_cent_atom);
+				  m_options.md.active_center.push_back(act_cent_atom);
 			  }
 		  }
 	  }
@@ -1250,29 +1250,29 @@ void Config::parse_option(std::string const option, std::string const value_stri
 		  double inner, outer;
 		  cv >> inner >> outer;
 
-		  this->md.inner_cutoff = inner;
-		  this->md.outer_cutoff = outer;
+		  m_options.md.inner_cutoff = inner;
+		  m_options.md.outer_cutoff = outer;
 	  }
 	  else if (option.substr(2, 18) == "adjust_by_step")
 	  {
-		  cv >> this->md.adjustment_by_step;
+		  cv >> m_options.md.adjustment_by_step;
 	  }
     else if (option.substr(2, 8) == "ana_pair")
     {
       std::vector<size_t> vec = config::sorted_indices_from_cs_string(value_string);
-      this->md.ana_pairs.push_back(vec);
+      m_options.md.ana_pairs.push_back(vec);
     }
     else if (option.substr(2, 13) == "analyze_zones")
     {
-      if (value_string == "1") this->md.analyze_zones = true;
+      if (value_string == "1") m_options.md.analyze_zones = true;
     }
     else if (option.substr(2, 9) == "zonewidth")
     {
-      this->md.zone_width = std::stod(value_string);
+      m_options.md.zone_width = std::stod(value_string);
     }
     else if (option.substr(2, 12) == "nosehoover_Q")
     {
-      this->md.nosehoover_Q = std::stod(value_string);
+      m_options.md.nosehoover_Q = std::stod(value_string);
     }
   }
 
@@ -1282,97 +1282,97 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(5, 14) == "rotconvergence")
     {
-      cv >> this->dimer.rotationConvergence;
+      cv >> m_options.dimer.rotationConvergence;
     }
     else if (option.substr(5, 8) == "distance")
     {
-      cv >> this->dimer.distance;
+      cv >> m_options.dimer.distance;
     }
     else if (option.substr(5, 5) == "maxit")
     {
-      cv >> this->dimer.maxRot >> this->dimer.maxStep;
+      cv >> m_options.dimer.maxRot >> m_options.dimer.maxStep;
     }
     else if (option.substr(5, 8) == "tflimit")
     {
-      cv >> this->dimer.trans_F_rot_limit;
+      cv >> m_options.dimer.trans_F_rot_limit;
     }
     //else if (option.substr(5,10) == "trans_type")
     //{
-    //  this->dimer.trans_type = enum_from_iss<config::dimer::translation_types::T>(cv);
+    //  m_options.dimer.trans_type = enum_from_iss<config::dimer::translation_types::T>(cv);
     //}
   }
 
   else if (option.substr(0, 9) == "Periodics")
   {
-    this->periodics.periodic = config::bool_from_iss(cv, option.substr(0, 9));
-    cv >> this->periodics.pb_box.x() >> this->periodics.pb_box.y() >> this->periodics.pb_box.z();
+    m_options.periodics.periodic = config::bool_from_iss(cv, option.substr(0, 9));
+    cv >> m_options.periodics.pb_box.x() >> m_options.periodics.pb_box.y() >> m_options.periodics.pb_box.z();
   }
   else if (option.substr(0, 9) == "Periodicp")
   {
-    this->periodics.periodic_print = config::bool_from_iss(cv, option.substr(0, 9));
+    m_options.periodics.periodic_print = config::bool_from_iss(cv, option.substr(0, 9));
   }
   else if (option.substr(0, 15) == "PeriodicCutout")
   {
-    this->periodics.periodicCutout = config::bool_from_iss(cv, option.substr(0, 15));
+    m_options.periodics.periodicCutout = config::bool_from_iss(cv, option.substr(0, 15));
   }
   else if (option.substr(0, 23) == "PeriodicCutoutCriterion")
   {
-    cv >> this->periodics.criterion;
+    cv >> m_options.periodics.criterion;
   }
   else if (option.substr(0, 23) == "PeriodicCutoutDistance")
   {
-    cv >> this->periodics.cutout_distance_to_box;
+    cv >> m_options.periodics.cutout_distance_to_box;
   }
 
   else if (option.substr(0, 3) == "FEP")
   {
     if (option.substr(3, 6) == "lambda")
     {
-      cv >> this->fep.lambda;
+      cv >> m_options.fep.lambda;
     }
     else if (option.substr(3, 7) == "dlambda")
     {
-      cv >> this->fep.dlambda;
+      cv >> m_options.fep.dlambda;
     }
     else if (option.substr(3, 9) == "vdwcouple")
     {
-      cv >> this->fep.vdwcouple;
+      cv >> m_options.fep.vdwcouple;
     }
     else if (option.substr(3, 10) == "eleccouple")
     {
-      cv >> this->fep.eleccouple;
+      cv >> m_options.fep.eleccouple;
     }
     else if (option.substr(3, 6) == "vshift")
     {
-      cv >> this->fep.ljshift;
+      cv >> m_options.fep.ljshift;
     }
     else if (option.substr(3, 6) == "cshift")
     {
-      cv >> this->fep.cshift;
+      cv >> m_options.fep.cshift;
     }
     else if (option.substr(3, 5) == "equil")
     {
-      cv >> this->fep.equil;
+      cv >> m_options.fep.equil;
     }
     else if (option.substr(3, 5) == "steps")
     {
-      cv >> this->fep.steps;
+      cv >> m_options.fep.steps;
     }
     else if (option.substr(3, 4) == "freq")
     {
-      cv >> this->fep.freq;
+      cv >> m_options.fep.freq;
     }
     else if (option.substr(3, 7) == "analyze")
     {
       std::string a;
       cv >> a;
-      if (a == "0") this->fep.analyze = false;
+      if (a == "0") m_options.fep.analyze = false;
     }
     else if (option.substr(3, 3) == "bar")
     {
       std::string a;
       cv >> a;
-      if (a == "1") this->fep.bar = true;
+      if (a == "1") m_options.fep.bar = true;
     }
   }
 
@@ -1380,15 +1380,15 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(5, 7) == "eq_main")
     {
-      cv >> this->coords.equals.main;
+      cv >> m_options.coords.equals.main;
     }
     else if (option.substr(5, 6) == "eq_int")
     {
-      cv >> this->coords.equals.intern;
+      cv >> m_options.coords.equals.intern;
     }
     else if (option.substr(5, 6) == "eq_xyz")
     {
-      cv >> this->coords.equals.xyz;
+      cv >> m_options.coords.equals.xyz;
     }
   }
 
@@ -1396,47 +1396,47 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2, 10) == "metrolocal")
     {
-      this->optimization.global.metropolis_local = config::bool_from_iss(cv);
+      m_options.optimization.global.metropolis_local = config::bool_from_iss(cv);
     }
     //! Energy range for global optimization tracking
     else if (option.substr(2, 6) == "erange")
     {
-      this->optimization.global.delta_e = std::abs(config::from_iss<double>(cv));
+      m_options.optimization.global.delta_e = std::abs(config::from_iss<double>(cv));
     }
     else if (option.substr(2, 9) == "main_grid")
     {
-      cv >> this->optimization.global.grid.main_delta;
+      cv >> m_options.optimization.global.grid.main_delta;
     }
     else if (option.substr(2, 9) == "precision")
     {
-      this->optimization.global.precision
+      m_options.optimization.global.precision
         = clip<std::size_t>(config::from_iss<std::size_t>(cv), 4, 30);
     }
     else if (option.substr(2, 8) == "startopt")
     {
-      this->optimization.global.pre_optimize = config::bool_from_iss(cv);
+      m_options.optimization.global.pre_optimize = config::bool_from_iss(cv);
     }
     else if (option.substr(2, 10) == "move_dehyd")
     {
-      this->optimization.global.move_dehydrated = config::bool_from_iss(cv);
+      m_options.optimization.global.move_dehydrated = config::bool_from_iss(cv);
     }
     else if (option.substr(2, 14) == "fallback_limit")
     {
-      cv >> this->optimization.global.fallback_limit;
+      cv >> m_options.optimization.global.fallback_limit;
     }
     else if (option.substr(2, 18) == "fallback_fr_minima")
     {
-      this->optimization.global.selection.included_minima
+      m_options.optimization.global.selection.included_minima
         = clip<std::size_t>(config::from_iss<std::size_t>(cv), 1, 50);
     }
     else if (option.substr(2, 18) == "fallback_fr_bounds")
     {
-      if (cv >> this->optimization.global.selection.low_rank_fitness)
-        cv >> this->optimization.global.selection.high_rank_fitness;
+      if (cv >> m_options.optimization.global.selection.low_rank_fitness)
+        cv >> m_options.optimization.global.selection.high_rank_fitness;
     }
     else if (option.substr(2, 15) == "fallback_fr_fit")
     {
-      this->optimization.global.selection.fit_type =
+      m_options.optimization.global.selection.fit_type =
         enum_type_from_string_arr<
         config::optimization_conf::sel::fitness_types::T,
         config::optimization_conf::NUM_FITNESS
@@ -1444,7 +1444,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     }
     else if (option.substr(2, 8) == "fallback")
     {
-      this->optimization.global.fallback =
+      m_options.optimization.global.fallback =
         enum_type_from_string_arr<
         config::optimization_conf::global::fallback_types::T,
         config::optimization_conf::NUM_FALLBACKS
@@ -1457,19 +1457,19 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2, 10) == "bias_force")
     {
-      cv >> this->startopt.ringsearch.bias_force;
+      cv >> m_options.startopt.ringsearch.bias_force;
     }
     else if (option.substr(2, 12) == "chance_close")
     {
-      cv >> this->startopt.ringsearch.chance_close;
+      cv >> m_options.startopt.ringsearch.chance_close;
     }
     else if (option.substr(2, 10) == "population")
     {
-      cv >> this->startopt.ringsearch.population;
+      cv >> m_options.startopt.ringsearch.population;
     }
     else if (option.substr(2, 11) == "generations")
     {
-      cv >> this->startopt.ringsearch.generations;
+      cv >> m_options.startopt.ringsearch.generations;
     }
   }
 
@@ -1479,19 +1479,19 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2, 8) == "mc_first")
     {
-      this->optimization.global.tabusearch.mcm_first = config::bool_from_iss(cv);
+      m_options.optimization.global.tabusearch.mcm_first = config::bool_from_iss(cv);
     }
     else if (option.substr(2, 16) == "divers_threshold")
     {
-      cv >> this->optimization.global.tabusearch.divers_threshold;
+      cv >> m_options.optimization.global.tabusearch.divers_threshold;
     }
     else if (option.substr(2, 12) == "divers_limit")
     {
-      cv >> this->optimization.global.tabusearch.divers_limit;
+      cv >> m_options.optimization.global.tabusearch.divers_limit;
     }
     else if (option.substr(2, 11) == "divers_iter")
     {
-      cv >> this->optimization.global.tabusearch.divers_iterations;
+      cv >> m_options.optimization.global.tabusearch.divers_iterations;
     }
   }
 
@@ -1501,24 +1501,24 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2, 9) == "step_size")
     {
-      cv >> this->optimization.global.montecarlo.cartesian_stepsize;
+      cv >> m_options.optimization.global.montecarlo.cartesian_stepsize;
     }
     else if (option.substr(2, 12) == "max_dihedral")
     {
-      cv >> this->optimization.global.montecarlo.dihedral_max_rot;
+      cv >> m_options.optimization.global.montecarlo.dihedral_max_rot;
     }
     else if (option.substr(2, 12) == "minimization")
     {
-      this->optimization.global.montecarlo.minimization = config::bool_from_iss(cv);
+      m_options.optimization.global.montecarlo.minimization = config::bool_from_iss(cv);
     }
     else if (option.substr(2, 8) == "movetype")
     {
-      this->optimization.global.montecarlo.move
+      m_options.optimization.global.montecarlo.move
         = config::enum_from_iss<config::optimization_conf::mc::move_types::T>(cv);
     }
     else if (option.substr(2, 5) == "scale")
     {
-      cv >> this->optimization.global.temp_scale;
+      cv >> m_options.optimization.global.temp_scale;
     }
   }
 
@@ -1526,15 +1526,15 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2, 3) == "use")
     {
-      this->coords.umbrella.use_comb = config::bool_from_iss(cv);
+      m_options.coords.umbrella.use_comb = config::bool_from_iss(cv);
     }
     if (option.substr(2, 5) == "equil")
     {
-      cv >> this->md.usequil;
+      cv >> m_options.md.usequil;
     }
     if (option.substr(2, 4) == "snap")
     {
-      cv >> this->md.usoffset;
+      cv >> m_options.md.usoffset;
     }
     if (option.substr(2, 7) == "torsion")
     {
@@ -1547,7 +1547,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
         --ustorBuffer.index[1];
         --ustorBuffer.index[2];
         --ustorBuffer.index[3];
-        this->coords.bias.utors.push_back(ustorBuffer);
+        m_options.coords.bias.utors.push_back(ustorBuffer);
       }
     }
     if (option.substr(2, 5) == "angle")
@@ -1560,7 +1560,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
         --usangleBuffer.index[0];
         --usangleBuffer.index[1];
         --usangleBuffer.index[2];
-        this->coords.bias.uangles.push_back(usangleBuffer);
+        m_options.coords.bias.uangles.push_back(usangleBuffer);
       }
     }
     if (option.substr(2, 4) == "dist")
@@ -1571,7 +1571,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       {
         --usdistBuffer.index[0];
         --usdistBuffer.index[1];
-        this->coords.bias.udist.push_back(usdistBuffer);
+        m_options.coords.bias.udist.push_back(usdistBuffer);
       }
     }
     if (option.substr(2, 4) == "comb")
@@ -1589,30 +1589,30 @@ void Config::parse_option(std::string const option, std::string const value_stri
         dist.index2 -= 1;
         uscombBuffer.dists.emplace_back(dist);
       }
-      this->coords.bias.ucombs.push_back(uscombBuffer);
+      m_options.coords.bias.ucombs.push_back(uscombBuffer);
     }
   }
 
   //! Fixation excluding
   else if (option.substr(0, 10) == "FIXexclude")
   {
-    this->energy.remove_fixed = config::bool_from_iss(cv, option.substr(0, 10));
+    m_options.energy.remove_fixed = config::bool_from_iss(cv, option.substr(0, 10));
   }
   //! Fixation
   else if (option.substr(0, 8) == "FIXrange")
   {
     std::vector<size_t> indicesFromString = config::sorted_indices_from_cs_string(value_string);
     for (auto &i : indicesFromString) i = i - 1;  // convert atom indizes from tinker numbering (starting with 1) to numbering starting with 0
-    this->coords.fixed = indicesFromString;
+    m_options.coords.fixed = indicesFromString;
   }
 	else if (option.substr(0, 9) == "FIXsphere")
 	{
 		int atom_number;
 		double radius;
 		cv >> atom_number >> radius;
-		this->coords.fix_sphere.radius = radius;
-		this->coords.fix_sphere.central_atom = atom_number - 1; // convert atom indizes from tinker numbering (starting with 1) to numbering starting with 0
-		this->coords.fix_sphere.use = true;
+		m_options.coords.fix_sphere.radius = radius;
+		m_options.coords.fix_sphere.central_atom = atom_number - 1; // convert atom indizes from tinker numbering (starting with 1) to numbering starting with 0
+		m_options.coords.fix_sphere.use = true;
 	}
 
   //! Connect two atoms internally
@@ -1621,8 +1621,8 @@ void Config::parse_option(std::string const option, std::string const value_stri
     std::size_t a, b;
     if (cv >> a && cv >> b)
     {
-      this->coords.internal.connect[a] = b;
-      this->coords.internal.connect[b] = a;
+      m_options.coords.internal.connect[a] = b;
+      m_options.coords.internal.connect[b] = a;
     }
   }
   else if (option.substr(0u, 4u) == "MAIN")
@@ -1634,7 +1634,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       {
         --p.first;
         --p.second;
-        scon::sorted::insert_unique(this->coords.internal.main_blacklist, p);
+        scon::sorted::insert_unique(m_options.coords.internal.main_blacklist, p);
       }
 
     }
@@ -1645,14 +1645,14 @@ void Config::parse_option(std::string const option, std::string const value_stri
       {
         --p.first;
         --p.second;
-        scon::sorted::insert_unique(this->coords.internal.main_whitelist, p);
+        scon::sorted::insert_unique(m_options.coords.internal.main_whitelist, p);
       }
     }
   }
 
   else if (option.substr(0, 10) == "REMOVEHROT")
   {
-    this->coords.remove_hydrogen_rot = config::bool_from_iss(cv, option.substr(0, 10));
+    m_options.coords.remove_hydrogen_rot = config::bool_from_iss(cv, option.substr(0, 10));
   }
 
   else if (option.substr(0, 4) == "BIAS")
@@ -1666,7 +1666,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
         && cv >> buffer.exponent)
       {
 
-        this->coords.bias.spherical.push_back(buffer);
+        m_options.coords.bias.spherical.push_back(buffer);
       }
     }
 
@@ -1679,7 +1679,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
         && cv >> buffer.exponent)
       {
 
-        this->coords.bias.cubic.push_back(buffer);
+        m_options.coords.bias.cubic.push_back(buffer);
       }
     }
 
@@ -1696,7 +1696,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
         --biasBuffer.b;
         --biasBuffer.c;
         --biasBuffer.d;
-        this->coords.bias.dihedral.push_back(biasBuffer);
+        m_options.coords.bias.dihedral.push_back(biasBuffer);
       }
     }
 
@@ -1709,7 +1709,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
 				--biasBuffer.a;
 				--biasBuffer.b;
 				--biasBuffer.c;
-				this->coords.bias.angle.push_back(biasBuffer);
+				m_options.coords.bias.angle.push_back(biasBuffer);
 			}
 		}
 
@@ -1722,7 +1722,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       {
         --biasBuffer.a;
         --biasBuffer.b;
-        this->coords.bias.distance.push_back(biasBuffer);
+        m_options.coords.bias.distance.push_back(biasBuffer);
       }
     }
   } // BIAS
@@ -1732,7 +1732,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     config::biases::thresholdstr thrBuffer;
     if (cv >> thrBuffer.th_dist && cv >> thrBuffer.forceconstant)
     {
-      this->coords.bias.threshold.push_back(thrBuffer);
+      m_options.coords.bias.threshold.push_back(thrBuffer);
     }
   }
 
@@ -1742,7 +1742,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     std::vector<size_t> ssi = config::sorted_indices_from_cs_string(value_string);
     // check whether one of the atoms in that subsystem
     // is contained in any already given one
-    for (auto & susy : this->coords.subsystems)
+    for (auto & susy : m_options.coords.subsystems)
     { // cycle present subsystems
       for (auto ssa : susy)
       { // cycle atoms of that subsystem
@@ -1755,22 +1755,22 @@ void Config::parse_option(std::string const option, std::string const value_stri
       }
     }
     // push if valid
-    this->coords.subsystems.push_back(std::move(ssi));
+    m_options.coords.subsystems.push_back(std::move(ssi));
   }
 
   else if (option.substr(0, 7) == "2DSCAN-")
   {
     auto const command = option.substr(7);
     if (command == "bond" || command == "angle" || command == "dihedral") {
-      this->scan2d.AXES.emplace_back(option.substr(7) + " " + value_string);
+      m_options.scan2d.AXES.emplace_back(option.substr(7) + " " + value_string);
     }
     else if (command.substr(0,7) == "PREDEF-") {
       auto const predef_command = command.substr(7);
       if (predef_command == "change_from_atom_to_atom") {
-        this->scan2d.change_from_atom_to_atom = std::stod(value_string);
+        m_options.scan2d.change_from_atom_to_atom = std::stod(value_string);
       }
       else if (predef_command == "max_change_to_rotate_whole_molecule") {
-        this->scan2d.max_change_to_rotate_whole_molecule = std::stod(value_string);
+        m_options.scan2d.max_change_to_rotate_whole_molecule = std::stod(value_string);
       }
     }
   }
@@ -1778,19 +1778,19 @@ void Config::parse_option(std::string const option, std::string const value_stri
   //Trajectory Alignment and Analasys options
   else if (option == "dist_unit")
   {
-    cv >> this->alignment.dist_unit;
+    cv >> m_options.alignment.dist_unit;
   }
   else if (option == "holm_sand_r0")
   {
-    cv >> this->alignment.holm_sand_r0;
+    cv >> m_options.alignment.holm_sand_r0;
   }
   else if (option == "ref_frame_num")
   {
-    cv >> this->alignment.reference_frame_num;
+    cv >> m_options.alignment.reference_frame_num;
   }
   else if (option == "align_external_file")
   {
-    cv >> this->alignment.align_external_file;
+    cv >> m_options.alignment.align_external_file;
   }
   else if (option == "traj_align_translational")
   {
@@ -1798,11 +1798,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE" || holder == "t" || holder == "T" || holder == "1")
     {
-      this->alignment.traj_align_translational = true;
+      m_options.alignment.traj_align_translational = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE" || holder == "f" || holder == "F" || holder == "0")
     {
-      this->alignment.traj_align_translational = false;
+      m_options.alignment.traj_align_translational = false;
     }
   }
   else if (option == "traj_align_rotational")
@@ -1811,11 +1811,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE" || holder == "t" || holder == "T" || holder == "1")
     {
-      this->alignment.traj_align_rotational = true;
+      m_options.alignment.traj_align_rotational = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE" || holder == "f" || holder == "F" || holder == "0")
     {
-      this->alignment.traj_align_rotational = false;
+      m_options.alignment.traj_align_rotational = false;
     }
   }
   else if (option == "traj_print_bool")
@@ -1824,11 +1824,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE" || holder == "t" || holder == "T" || holder == "1")
     {
-      this->alignment.traj_print_bool = true;
+      m_options.alignment.traj_print_bool = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE" || holder == "f" || holder == "F" || holder == "0")
     {
-      this->alignment.traj_print_bool = false;
+      m_options.alignment.traj_print_bool = false;
     }
   }
   // PCA Options
@@ -1838,11 +1838,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_alignment = true;
+      m_options.PCA.pca_alignment = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_alignment = false;
+      m_options.PCA.pca_alignment = false;
     }
   }
   else if (option == "pca_read_modes")
@@ -1851,11 +1851,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_read_modes = true;
+      m_options.PCA.pca_read_modes = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_read_modes = false;
+      m_options.PCA.pca_read_modes = false;
     }
   }
   else if (option == "pca_read_vectors")
@@ -1864,11 +1864,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_read_vectors = true;
+      m_options.PCA.pca_read_vectors = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_read_vectors = false;
+      m_options.PCA.pca_read_vectors = false;
     }
   }
   else if (option == "pca_use_internal")
@@ -1877,11 +1877,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_use_internal = true;
+      m_options.PCA.pca_use_internal = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_use_internal = false;
+      m_options.PCA.pca_use_internal = false;
     }
   }
 
@@ -1891,12 +1891,12 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_trunc_atoms_bool = true;
+      m_options.PCA.pca_trunc_atoms_bool = true;
 
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_trunc_atoms_bool = false;
+      m_options.PCA.pca_trunc_atoms_bool = false;
     }
   }
   else if (option == "pca_trunc_atoms_num")
@@ -1909,21 +1909,21 @@ void Config::parse_option(std::string const option, std::string const value_stri
       holder.push_back(temp2);
     }
     holder.pop_back();
-    this->PCA.pca_trunc_atoms_num = config::configuration_range_int<size_t>(holder);
+    m_options.PCA.pca_trunc_atoms_num = config::configuration_range_int<size_t>(holder);
   }
   else if (option == "pca_start_frame_num")
   {
-    cv >> this->PCA.pca_start_frame_num;
+    cv >> m_options.PCA.pca_start_frame_num;
   }
   else if (option == "pca_offset")
   {
-    cv >> this->PCA.pca_offset;
+    cv >> m_options.PCA.pca_offset;
   }
   else if (option == "pca_ref_frame_num")
   {
-    cv >> this->PCA.pca_ref_frame_num;
+    cv >> m_options.PCA.pca_ref_frame_num;
   }
-  else if (option == "pca_internal_dih" && this->PCA.pca_use_internal)
+  else if (option == "pca_internal_dih" && m_options.PCA.pca_use_internal)
   {
     std::vector<std::string> holder;
     while (cv)
@@ -1933,7 +1933,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       holder.push_back(temp2);
     }
     holder.pop_back();
-    this->PCA.pca_internal_dih = config::configuration_range_int<size_t>(holder);
+    m_options.PCA.pca_internal_dih = config::configuration_range_int<size_t>(holder);
   }
   else if (option == "pca_ignore_hydrogen")
   {
@@ -1941,11 +1941,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_ignore_hydrogen = true;
+      m_options.PCA.pca_ignore_hydrogen = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_ignore_hydrogen = false;
+      m_options.PCA.pca_ignore_hydrogen = false;
     }
   }
   else if (option == "pca_print_probability_density")
@@ -1954,20 +1954,20 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->PCA.pca_print_probability_density = true;
+      m_options.PCA.pca_print_probability_density = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->PCA.pca_print_probability_density = false;
+      m_options.PCA.pca_print_probability_density = false;
     }
   }
   else if (option == "pca_histogram_width")
   {
-    cv >> this->PCA.pca_histogram_width;
+    cv >> m_options.PCA.pca_histogram_width;
   }
   else if (option == "pca_histogram_number_of_bins")
   {
-    cv >> this->PCA.pca_histogram_number_of_bins;
+    cv >> m_options.PCA.pca_histogram_number_of_bins;
   }
   else if (option == "pca_dimensions_for_histogramming")
   {
@@ -1980,17 +1980,17 @@ void Config::parse_option(std::string const option, std::string const value_stri
     }
     holder.pop_back();
     if (holder.at(0u) != "all")
-      this->PCA.pca_dimensions_for_histogramming = config::configuration_range_int<size_t>(holder);
+      m_options.PCA.pca_dimensions_for_histogramming = config::configuration_range_int<size_t>(holder);
     else
-      this->PCA.pca_histogram_all_marginal_degrees_of_freedom = true;
+      m_options.PCA.pca_histogram_all_marginal_degrees_of_freedom = true;
   }
   else if (option == "proc_desired_start")
   {
-    this->PCA.proc_desired_start = config::configuration_range_float<double>(cv);
+    m_options.PCA.proc_desired_start = config::configuration_range_float<double>(cv);
   }
   else if (option == "proc_desired_stop")
   {
-    this->PCA.proc_desired_stop = config::configuration_range_float<double>(cv);
+    m_options.PCA.proc_desired_stop = config::configuration_range_float<double>(cv);
   }
 
   // entropy Options
@@ -2001,11 +2001,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->entropy.entropy_alignment = true;
+      m_options.entropy.entropy_alignment = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->entropy.entropy_alignment = false;
+      m_options.entropy.entropy_alignment = false;
     }
   }
   else if (option == "entropy_use_internal")
@@ -2014,11 +2014,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->entropy.entropy_use_internal = true;
+      m_options.entropy.entropy_use_internal = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->entropy.entropy_use_internal = false;
+      m_options.entropy.entropy_use_internal = false;
     }
   }
   else if (option == "entropy_trunc_atoms_bool")
@@ -2027,14 +2027,14 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->entropy.entropy_trunc_atoms_bool = true;
+      m_options.entropy.entropy_trunc_atoms_bool = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->entropy.entropy_trunc_atoms_bool = false;
+      m_options.entropy.entropy_trunc_atoms_bool = false;
     }
   }
-  else if (option == "entropy_trunc_atoms_num" && this->entropy.entropy_trunc_atoms_bool)
+  else if (option == "entropy_trunc_atoms_num" && m_options.entropy.entropy_trunc_atoms_bool)
   {
     std::vector<std::string> holder;
     while (cv)
@@ -2044,9 +2044,9 @@ void Config::parse_option(std::string const option, std::string const value_stri
       holder.push_back(temp2);
     }
     holder.pop_back();
-    this->entropy.entropy_trunc_atoms_num = config::configuration_range_int<size_t>(holder);
+    m_options.entropy.entropy_trunc_atoms_num = config::configuration_range_int<size_t>(holder);
   }
-  else if (option == "entropy_internal_dih" && this->entropy.entropy_use_internal)
+  else if (option == "entropy_internal_dih" && m_options.entropy.entropy_use_internal)
   {
     std::vector<std::string> holder;
     while (cv)
@@ -2056,7 +2056,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
       holder.push_back(temp2);
     }
     holder.pop_back();
-    this->entropy.entropy_internal_dih = config::configuration_range_int<size_t>(holder);
+    m_options.entropy.entropy_internal_dih = config::configuration_range_int<size_t>(holder);
   }
   else if (option == "entropy_method")
   {
@@ -2068,27 +2068,27 @@ void Config::parse_option(std::string const option, std::string const value_stri
       holder.push_back(temp2);
     }
     holder.pop_back();
-    this->entropy.entropy_method = config::configuration_range_int<size_t>(holder);
+    m_options.entropy.entropy_method = config::configuration_range_int<size_t>(holder);
   }
   else if (option == "entropy_method_knn_k")
   {
-    cv >> this->entropy.entropy_method_knn_k;
+    cv >> m_options.entropy.entropy_method_knn_k;
   }
   else if (option == "entropy_offset")
   {
-    cv >> this->entropy.entropy_offset;
+    cv >> m_options.entropy.entropy_offset;
   }
   else if (option == "entropy_start_frame_num")
   {
-    cv >> this->entropy.entropy_start_frame_num;
+    cv >> m_options.entropy.entropy_start_frame_num;
   }
   else if (option == "entropy_ref_frame_num")
   {
-    cv >> this->entropy.entropy_ref_frame_num;
+    cv >> m_options.entropy.entropy_ref_frame_num;
   }
   else if (option == "entropy_temp")
   {
-    cv >> this->entropy.entropy_temp;
+    cv >> m_options.entropy.entropy_temp;
   }
   else if (option == "entropy_knn_func")
   {
@@ -2096,11 +2096,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "goria" || holder == "Goria" || holder == "GORIA")
     {
-      this->entropy.knnfunc = 0;
+      m_options.entropy.knnfunc = 0;
     }
     else if (holder == "lombardi" || holder == "Lombardi" || holder == "LOMBARDI")
     {
-      this->entropy.knnfunc = 1;
+      m_options.entropy.knnfunc = 1;
     }
   }
   else if (option == "entropy_knn_norm")
@@ -2109,7 +2109,7 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "maximum" || holder == "Maximum" || holder == "MAXIMUM")
     {
-      this->entropy.knnnorm = 1;
+      m_options.entropy.knnnorm = 1;
     }
   }
   else if (option == "entropy_remove_dof")
@@ -2118,38 +2118,38 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->entropy.entropy_remove_dof = true;
+      m_options.entropy.entropy_remove_dof = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->entropy.entropy_remove_dof = false;
+      m_options.entropy.entropy_remove_dof = false;
     }
   }
   // NOT IMPLEMENTED AS OF NOW!
   // I/O Atoms index options
   //else if (option == "atomexclude")
   //{
-    //this->general.bool_atomsexclude = true;
-    //this->general.atomexclude = configuration_makearray<unsigned int>(cv);
+    //m_options.general.bool_atomsexclude = true;
+    //m_options.general.atomexclude = configuration_makearray<unsigned int>(cv);
   //}
   //
 
   //IO Options
   else if (option == "amber_mdcrd")
   {
-    cv >> this->io.amber_mdcrd;
+    cv >> m_options.io.amber_mdcrd;
   }
   else if (option == "amber_mdvel")
   {
-    cv >> this->io.amber_mdvel;
+    cv >> m_options.io.amber_mdvel;
   }
   else if (option == "amber_inpcrd")
   {
-    cv >> this->io.amber_inpcrd;
+    cv >> m_options.io.amber_inpcrd;
   }
   else if (option == "amber_restrt")
   {
-    cv >> this->io.amber_restrt;
+    cv >> m_options.io.amber_restrt;
   }
   else if (option == "amber_trajectory_at_constant_pressure")
   {
@@ -2157,11 +2157,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     cv >> holder;
     if (holder == "true" || holder == "True" || holder == "TRUE")
     {
-      this->io.amber_trajectory_at_constant_pressure = true;
+      m_options.io.amber_trajectory_at_constant_pressure = true;
     }
     else if (holder == "false" || holder == "False" || holder == "FALSE")
     {
-      this->io.amber_trajectory_at_constant_pressure = false;
+      m_options.io.amber_trajectory_at_constant_pressure = false;
     }
   }
 
@@ -2171,71 +2171,71 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
 	  if (option.substr(2u,11u) == "masscenters")
 	  {
-		  this->exbreak.masscenters = value_string;
+		  m_options.exbreak.masscenters = value_string;
 	  }
 	  else if (option.substr(2u,7u) == "numbern")
 	  {
-		  cv >> this->exbreak.nscnumber;
+		  cv >> m_options.exbreak.nscnumber;
 	  }
 	  else if (option.substr(2u,7u) == "numberp")
 	  {
-		  cv >> this->exbreak.pscnumber;
+		  cv >> m_options.exbreak.pscnumber;
 	  }
 	  else if (option.substr(2u, 11u) == "planeinterf")
 	  {
-		  cv >> this->exbreak.interfaceorientation;
+		  cv >> m_options.exbreak.interfaceorientation;
 	  }
 	  else if (option.substr(2u, 12u) == "nscpairrates")
 	  {
-		  this->exbreak.nscpairrates = value_string;
+		  m_options.exbreak.nscpairrates = value_string;
 	  }
 	  else if (option.substr(2u, 14u) == "pscpairexrates")
 	  {
-		  this->exbreak.pscpairexrates = value_string;
+		  m_options.exbreak.pscpairexrates = value_string;
 	  }
 	  else if (option.substr(2u, 14u) == "pscpairchrates")
 	  {
-		  this->exbreak.pscpairchrates = value_string;
+		  m_options.exbreak.pscpairchrates = value_string;
 	  }
 	  else if (option.substr(2u, 13u) == "pnscpairrates")
 	  {
-		  this->exbreak.pnscpairrates = value_string;
+		  m_options.exbreak.pnscpairrates = value_string;
 	  }
     else if (option.substr(2u, 10u) == "ReorgE_exc")
     {
-      cv >> this->exbreak.ReorgE_exc;
+      cv >> m_options.exbreak.ReorgE_exc;
     }
     else if (option.substr(2u, 9u) == "ReorgE_ch")
     {
-      cv >> this->exbreak.ReorgE_ch;
+      cv >> m_options.exbreak.ReorgE_ch;
     }
     else if (option.substr(2u, 10u) == "ReorgE_nSC")
     {
-      cv >> this->exbreak.ReorgE_nSC;
+      cv >> m_options.exbreak.ReorgE_nSC;
     }
     else if (option.substr(2u, 9u) == "ReorgE_ct")
     {
-      cv >> this->exbreak.ReorgE_ct;
+      cv >> m_options.exbreak.ReorgE_ct;
     }
    else if (option.substr(2u, 10u) == "ReorgE_rek")
     {
-     cv >> this->exbreak.ReorgE_rek;
+     cv >> m_options.exbreak.ReorgE_rek;
     }
     else if (option.substr(2u, 13u) == "ct_triebkraft")
     {
-      cv >> this->exbreak.ct_triebkraft;
+      cv >> m_options.exbreak.ct_triebkraft;
     }
     else if (option.substr(2u, 14u) == "rek_triebkraft")
     {
-      cv >> this->exbreak.rek_triebkraft;
+      cv >> m_options.exbreak.rek_triebkraft;
     }
     else if (option.substr(2u, 18u) == "oscillatorstrength")
     {
-      cv >> this->exbreak.oscillatorstrength;
+      cv >> m_options.exbreak.oscillatorstrength;
     }
     else if (option.substr(2u, 10u) == "wellenzahl")
     {
-      cv >> this->exbreak.wellenzahl;
+      cv >> m_options.exbreak.wellenzahl;
     }
   }
 
@@ -2245,19 +2245,19 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(2u, 4u) == "name")
     {
-      this->interfcrea.icfilename = value_string;
+      m_options.interfcrea.icfilename = value_string;
     }
     else if (option.substr(2u, 9u) == "inputtype")
     {
-      this->interfcrea.icfiletype = config::enum_from_string<config::input_types::T, config::NUM_INPUT>(config::input_strings, value_string);
+      m_options.interfcrea.icfiletype = config::enum_from_string<config::input_types::T, config::NUM_INPUT>(config::input_strings, value_string);
     }
     else if (option.substr(2u, 4u) == "axis")
     {
-      cv >> this->interfcrea.icaxis;
+      cv >> m_options.interfcrea.icaxis;
     }
     else if (option.substr(2u, 8u) == "distance")
     {
-      cv >> this->interfcrea.icdist;
+      cv >> m_options.interfcrea.icdist;
     }
   }
 
@@ -2267,11 +2267,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(6u, 5u) == "dimer")
     {
-      this->center.dimer = config::bool_from_iss(cv);
+      m_options.center.dimer = config::bool_from_iss(cv);
     }
     else if (option.substr(6u, 8u) == "distance")
     {
-      cv >> this->center.distance;
+      cv >> m_options.center.distance;
     }
   }
 
@@ -2281,29 +2281,29 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(9u, 11u) == "dimernumber")
     {
-      cv >> this->couplings.nbr_dimPairs;
+      cv >> m_options.couplings.nbr_dimPairs;
     }
     else if (option.substr(9u, 9u) == "nSCnumber")
     {
-      cv >> this->couplings.nbr_nSC;
+      cv >> m_options.couplings.nbr_nSC;
     }
     else if (option.substr(9u, 9u) == "pSCnumber")
     {
-      cv >> this->couplings.nbr_pSC;
+      cv >> m_options.couplings.nbr_pSC;
     }
     else if (option.substr(9u, 13u) == "CTcharastates")
     {
-      cv >> this->couplings.ct_chara_all;
+      cv >> m_options.couplings.ct_chara_all;
     }
     else if (option.substr(9u, 6u) == "pSCdim")
     {
       if (option.substr(15u, 12u) == "Multiplicity")
       {
-        cv >> this->couplings.pSCmultipl;
+        cv >> m_options.couplings.pSCmultipl;
       }
       else if (option.substr(15u, 6u) == "Charge")
       {
-        cv >> this->couplings.pSCcharge;
+        cv >> m_options.couplings.pSCcharge;
       }
       else if (option.substr(15u, 12u) == "ElCalcmethod")
       {
@@ -2311,8 +2311,8 @@ void Config::parse_option(std::string const option, std::string const value_stri
         {
           std::string tmp;
           cv >> tmp;
-          this->couplings.pSCmethod_el.append(tmp);
-          this->couplings.pSCmethod_el.append(" ");
+          m_options.couplings.pSCmethod_el.append(tmp);
+          m_options.couplings.pSCmethod_el.append(" ");
         }
       }
       else if (option.substr(15u, 14u) == "ExciCalcmethod")
@@ -2321,8 +2321,8 @@ void Config::parse_option(std::string const option, std::string const value_stri
         {
           std::string tmp;
           cv >> tmp;
-          this->couplings.pSCmethod_ex.append(tmp);
-          this->couplings.pSCmethod_ex.append(" ");
+          m_options.couplings.pSCmethod_ex.append(tmp);
+          m_options.couplings.pSCmethod_ex.append(" ");
         }
       }
     }
@@ -2330,11 +2330,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     {
       if (option.substr(15u, 12u) == "Multiplicity")
       {
-        cv >> this->couplings.nSCmultipl;
+        cv >> m_options.couplings.nSCmultipl;
       }
       else if (option.substr(15u, 6u) == "Charge")
       {
-        cv >> this->couplings.nSCcharge;
+        cv >> m_options.couplings.nSCcharge;
       }
       else if (option.substr(15u, 13u) == "holCalcmethod")
       {
@@ -2342,8 +2342,8 @@ void Config::parse_option(std::string const option, std::string const value_stri
         {
           std::string tmp;
           cv >> tmp;
-          this->couplings.nSCmethod.append(tmp);
-          this->couplings.nSCmethod.append(" ");
+          m_options.couplings.nSCmethod.append(tmp);
+          m_options.couplings.nSCmethod.append(" ");
         }
       }
     }
@@ -2351,11 +2351,11 @@ void Config::parse_option(std::string const option, std::string const value_stri
     {
       if (option.substr(18u, 12u) == "Multiplicity")
       {
-        cv >> this->couplings.hetmultipl;
+        cv >> m_options.couplings.hetmultipl;
       }
       else if (option.substr(18u, 6u) == "Charge")
       {
-        cv >> this->couplings.hetcharge;
+        cv >> m_options.couplings.hetcharge;
       }
       else if (option.substr(18u, 10u) == "Calcmethod")
       {
@@ -2363,8 +2363,8 @@ void Config::parse_option(std::string const option, std::string const value_stri
         {
           std::string tmp;
           cv >> tmp;
-          this->couplings.hetmethod.append(tmp);
-          this->couplings.hetmethod.append(" ");
+          m_options.couplings.hetmethod.append(tmp);
+          m_options.couplings.hetmethod.append(" ");
         }
       }
     }
@@ -2376,51 +2376,51 @@ void Config::parse_option(std::string const option, std::string const value_stri
   {
     if (option.substr(4u, 6u) == "layers")
     {
-      cv >> this->layd.amount;
+      cv >> m_options.layd.amount;
     }
     else if (option.substr(4u, 10u) == "del_number")
     {
-      cv >> this->layd.del_amount;
+      cv >> m_options.layd.del_amount;
     }
     else if (option.substr(4u, 4u) == "axis")
     {
-      cv >> this->layd.laydaxis;
+      cv >> m_options.layd.laydaxis;
     }
     else if (option.substr(4u, 8u) == "distance")
     {
-      cv >> this->layd.layddist;
+      cv >> m_options.layd.layddist;
     }
     else if (option.substr(4u, 9u) == "het_struc")
     {
-      this->layd.hetero_option = config::bool_from_iss(cv);
+      m_options.layd.hetero_option = config::bool_from_iss(cv);
     }
     else if (option.substr(4u, 8u) == "het_dist")
     {
-      cv >> this->layd.sec_layddist;
+      cv >> m_options.layd.sec_layddist;
     }
     else if (option.substr(4u, 10u) == "het_layers")
     {
-      cv >> this->layd.sec_amount;
+      cv >> m_options.layd.sec_amount;
     }
     else if (option.substr(4u, 14u) == "het_del_number")
     {
-      cv >> this->layd.sec_del_amount;
+      cv >> m_options.layd.sec_del_amount;
     }
     else if (option.substr(4u, 8u) == "het_name")
     {
-      this->layd.layd_secname = value_string;
+      m_options.layd.layd_secname = value_string;
     }
     else if (option.substr(4u, 7u) == "replace")
     {
-      this->layd.replace = config::bool_from_iss(cv);
+      m_options.layd.replace = config::bool_from_iss(cv);
     }
     else if (option.substr(4u, 10u) == "reference1")
     {
-      this->layd.reference1 = value_string;
+      m_options.layd.reference1 = value_string;
     }
     else if (option.substr(4u, 10u) == "reference2")
     {
-      this->layd.reference2 = value_string;
+      m_options.layd.reference2 = value_string;
     }
   }
   
@@ -2437,31 +2437,31 @@ void Config::parse_option(std::string const option, std::string const value_stri
 
     if (option.substr(11u, 12u) == "bond_lengths")
     {
-      this->constrained_internals.constrain_bond_lengths = isConstraint();
+      m_options.constrained_internals.constrain_bond_lengths = isConstraint();
     }
     else if (option.substr(11u, 11u) == "bond_angles")
     {
-      this->constrained_internals.constrain_bond_angles = isConstraint();
+      m_options.constrained_internals.constrain_bond_angles = isConstraint();
     }
     else if (option.substr(11u, 9u) == "dihedrals")
     {
-      this->constrained_internals.constrain_dihedrals = isConstraint();
+      m_options.constrained_internals.constrain_dihedrals = isConstraint();
     }
     else if (option.substr(11u, 18u) == "out_of_plane_bends")
     {
-      this->constrained_internals.constrain_out_of_plane_bends = isConstraint();
+      m_options.constrained_internals.constrain_out_of_plane_bends = isConstraint();
     }
     else if (option.substr(11u, 12u) == "translations")
     {
-      this->constrained_internals.constrain_translations = isConstraint();
+      m_options.constrained_internals.constrain_translations = isConstraint();
     }
     else if (option.substr(11u, 9u) == "rotations")
     {
-      this->constrained_internals.constrain_rotations = isConstraint();
+      m_options.constrained_internals.constrain_rotations = isConstraint();
     }
 	else if (option.substr(11u, 10u) == "coordinate")
 	{
-		this->constrained_internals.handleConstraintInput(cv);
+		m_options.constrained_internals.handleConstraintInput(cv);
 	}
   }
 }
