@@ -7,12 +7,12 @@
 #include "../../configuration.h"
 
 class ConfigurationTest : public testing::Test{
-public:
-  ConfigurationTest():
-      m_config("../../CAST.txt")
-  {}
+protected:
+  static void SetUpTestCase() {
+    m_config = Config("../../CAST.txt");
+  }
 
-  Config m_config;
+  static Config m_config;
 };
 
 #endif // CONFIGURATION_TEST_H

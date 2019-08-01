@@ -1892,6 +1892,11 @@ public:
     config::stuff stuff;
   };
 
+  /*! We need this constructor to initialize the static Config object
+   *  used in the unit tests.
+   */
+  Config() = default;
+
   /*! Constructor of Config object
    *
    * During construction the configuration-file

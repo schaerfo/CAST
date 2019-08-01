@@ -132,7 +132,8 @@ config::interface_types::T Config::getInterface(std::string const & S)
 {
   for (std::size_t i = 0; i < config::NUM_INTERFACES; ++i)
   {
-    if (S.find(config::interface_strings[i]) != S.npos)
+    auto curr_iface = config::interface_strings[i];
+    if (S == curr_iface)
       return static_cast<config::interface_types::T>(i);
   }
   return config::interface_types::ILLEGAL;
