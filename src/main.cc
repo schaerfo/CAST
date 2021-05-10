@@ -63,6 +63,7 @@
 #include "optimization.h"
 #include "find_as.h"
 #include "pmf_ic_prep.h"
+#include "gpr.h"
 
 //////////////////////////
 //                      //
@@ -283,7 +284,7 @@ int main(int argc, char** argv)
     {
     case config::tasks::DEVTEST:
     {
-      // DEVTEST: Room for Development Testing
+      gpr::run_gpr_test();
       break;
     }
     case config::tasks::SP:
