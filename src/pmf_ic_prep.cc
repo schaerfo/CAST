@@ -2,8 +2,20 @@
 
 #include "gpr.h"
 
-pmf_ic_prep::pmf_ic_prep(coords::Coordinates& c, coords::input::format& ci, std::string const& outfile, std::string const& splinefile) :
-  coordobj(c), coord_input(&ci), outfilename(outfile), splinefilename(splinefile), dimension(Config::get().coords.umbrella.pmf_ic.indices_xi.size()) {}
+#ifdef _OPENMP
+ #include <mutex>
+ #include <omp.h>
+#endif
+
+pmf_ic_prep::pmf_ic_prep(coords::Coordinates const& c, coords::input::format& ci, std::string const& outfile, std::string const& splinefile) :
+  coord_objects(1), coord_input(&ci), outfilename(outfile), splinefilename(splinefile), dimension(Config::get().coords.umbrella.pmf_ic.indices_xi.size())
+{
+#ifdef _OPENMP
+  coord_objects.resize(omp_get_max_threads());
+#endif
+  for (auto& curr_coord_obj: coord_objects)
+    curr_coord_obj = c;
+}
 
 void pmf_ic_prep::run()
 {
@@ -17,8 +29,27 @@ void pmf_ic_prep::run()
 
 void pmf_ic_prep::calc_xis_zs_and_E_HLs()
 {
-  for (auto const& pes : *coord_input)   // for every structure
+  auto& pes_points = coord_input->PES();
+  E_HLs.resize(pes_points.size());
+
+  if (dimension == 1) {
+    xis.resize(pes_points.size());
+    zs.resize(pes_points.size());
+  }
+  if (dimension > 1) {
+    xi_2d.resize(pes_points.size());
+    z_2d.resize(pes_points.size());
+  }
+
+#ifdef _OPENMP
+  std::mutex print_mutex;
+
+  #pragma omp parallel for default(none) shared(pes_points, print_mutex, std::cout)
+#endif
+  for (std::size_t i=0; i<pes_points.size(); ++i)   // for every structure
   {
+    auto& pes = pes_points[i];
+    auto& coordobj = coord_objects[omp_get_thread_num()];
     coordobj.set_xyz(pes.structure.cartesian, true);
 
     // calulate xi and z
@@ -28,25 +59,30 @@ void pmf_ic_prep::calc_xis_zs_and_E_HLs()
 
     if (dimension == 1)  // in case of 1D
     {
-      xis.emplace_back(xi);
-      zs.emplace_back(z);
+      xis[i] = xi;
+      zs[i] = z;
     }
     if (dimension > 1)    // in case of 2D
     {
       xi_2 = coords::bias::Potentials::calc_xi(coordobj.xyz(), Config::get().coords.umbrella.pmf_ic.indices_xi[1]);
-      xi_2d.emplace_back(std::make_pair( xi, xi_2 ));
+      xi_2d[i] = std::make_pair( xi, xi_2 );
       auto z2 = mapping::xi_to_z(xi_2, Config::get().coords.umbrella.pmf_ic.xi0[1], Config::get().coords.umbrella.pmf_ic.L[1]);
-      z_2d.emplace_back(std::make_pair(z, z2));
+      z_2d[i] = std::make_pair(z, z2);
     }
 
     // calculate high level energy
     auto E = coordobj.e();
-    E_HLs.emplace_back(E);
+    E_HLs[i] = E;
     if (Config::get().general.verbosity > 3)
     {
-      std::cout << xi << " , ";
+#ifdef _OPENMP
+      std::lock_guard l(print_mutex);
+#endif
+      std::cout << i << " , " << xi << " , ";
       if (dimension > 1) std::cout << xi_2 << " , ";
-      std::cout << E << "\n";
+      // Print the energy with higher precision and reset afterwards
+      auto prec = std::cout.precision();
+      std::cout << std::setprecision(10) << E << std::setprecision(prec) << ' ' << &coordobj << "\n";
     }
   }
   if (Config::get().general.verbosity > 1) std::cout << "finished high level calculation\n";

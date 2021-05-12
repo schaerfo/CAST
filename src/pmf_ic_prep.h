@@ -20,7 +20,7 @@ public:
   @param ci: pointer to input format that contains all given structures
   @param outfilename: name of the outputfile
   @param splinefilename: name of the file where spline is written to*/
-  pmf_ic_prep(coords::Coordinates& coords, coords::input::format& ci, std::string const& outfilename, std::string const& splinefilename);
+  pmf_ic_prep(coords::Coordinates const& coords, coords::input::format& ci, std::string const& outfilename, std::string const& splinefilename);
 
   /**function that performs PMF-IC preparation*/
   void run();
@@ -28,7 +28,7 @@ public:
 private:
 
   // input variables
-  coords::Coordinates coordobj;
+  std::vector<coords::Coordinates> coord_objects; // We need separate coord objects for parallel calculation
   coords::input::format* coord_input;
   std::string outfilename;
   std::string splinefilename;
