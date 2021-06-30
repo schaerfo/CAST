@@ -10,11 +10,12 @@
 pmf_ic_prep::pmf_ic_prep(coords::Coordinates const& c, coords::input::format& ci, std::string const& outfile, std::string const& splinefile) :
   coord_objects(1), coord_input(&ci), outfilename(outfile), splinefilename(splinefile), dimension(Config::get().coords.umbrella.pmf_ic.indices_xi.size())
 {
+  coord_objects[0] = c;
 #ifdef _OPENMP
-  coord_objects.resize(omp_get_max_threads());
+  for (int i=1; i<omp_get_max_threads(); ++i) {
+    coord_objects.emplace_back(coords::Coordinates(c));
+  }
 #endif
-  for (auto& curr_coord_obj: coord_objects)
-    curr_coord_obj = c;
 }
 
 void pmf_ic_prep::run()
@@ -49,7 +50,11 @@ void pmf_ic_prep::calc_xis_zs_and_E_HLs()
   for (std::size_t i=0; i<pes_points.size(); ++i)   // for every structure
   {
     auto& pes = pes_points[i];
+#ifdef _OPENMP
     auto& coordobj = coord_objects[omp_get_thread_num()];
+#else
+    auto &coordobj = coord_objects[0];
+#endif
     coordobj.set_xyz(pes.structure.cartesian, true);
 
     // calulate xi and z
